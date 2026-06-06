@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:AvaloniaAppCrypto.Models"
+             x:Class="AvaloniaAppCrypto.Views.NewsView">
+    <ScrollViewer>
+        <StackPanel Spacing="16">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Haberler" FontSize="22" FontWeight="700" Foreground="White"/>
+                <Button Grid.Column="1" Content="Yenile" Background="#1E2233" Foreground="#8B8FA3" 
+                        BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="Tümü" Background="#3B82F6" Foreground="White" BorderThickness="0" 
+                        CornerRadius="20" Padding="14,7" FontSize="13" FontWeight="600"/>
+                <Button Content="BTC" Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0" 
+                        CornerRadius="20" Padding="14,7" FontSize="13"/>
+                <Button Content="ETH" Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0" 
+                        CornerRadius="20" Padding="14,7" FontSize="13"/>
+                <Button Content="DeFi" Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0" 
+                        CornerRadius="20" Padding="14,7" FontSize="13"/>
+                <Button Content="Altcoin" Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0" 
+                        CornerRadius="20" Padding="14,7" FontSize="13"/>
+            </StackPanel>
+
+            <ItemsControl ItemsSource="{Binding NewsArticles}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="models:NewsArticle">
+                        <Border Background="#1C1F2A" CornerRadius="12" Padding="16" Width="420" Margin="4">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border CornerRadius="8" Width="60" Height="60" Background="#141724">
+                                    <TextBlock Text="📰" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="600" Foreground="White" 
+                                               TextWrapping="Wrap" MaxHeight="40"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding Source}" FontSize="12" Foreground="#8B8FA3"/>
+                                        <TextBlock Text="·" FontSize="12" Foreground="#5A5D6E"/>
+                                        <TextBlock Text="{Binding PublishedOn}" FontSize="12" Foreground="#5A5D6E"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

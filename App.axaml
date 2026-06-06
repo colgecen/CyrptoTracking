@@ -1,0 +1,24 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="using:AvaloniaAppCrypto.Converters"
+             x:Class="AvaloniaAppCrypto.App"
+             RequestedThemeVariant="Dark">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://AvaloniaAppCrypto/Styles/LightTheme.axaml"/>
+                <ResourceInclude Source="avares://AvaloniaAppCrypto/Styles/DarkTheme.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <conv:StringEqualsConverter x:Key="StringEqualsConverter"/>
+            <conv:BoolToStarConverter x:Key="BoolToStar"/>
+            <conv:PriceChangeToColorConverter x:Key="PriceChangeToColor"/>
+            <conv:NumberFormatConverter x:Key="NumberFormat"/>
+            <conv:PercentageFormatConverter x:Key="PercentageFormat"/>
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://AvaloniaAppCrypto/Styles/BaseStyles.axaml"/>
+    </Application.Styles>
+</Application>

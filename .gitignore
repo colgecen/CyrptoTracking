@@ -1,0 +1,32 @@
+## .NET
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.log
+*.user
+*.suo
+*.userprefs
+*.DotSettings.user
+
+## Visual Studio
+.vs/
+*.sln.docstates
+Debug/
+Release/
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## VS Code
+.vscode/
+
+## OS
+Thumbs.db
+.DS_Store
+
+## App data (user-specific)
+# Uncomment if you want to exclude user app data:
+# %AppData%/CryptoTrack/

@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:AvaloniaAppCrypto.Models"
+             x:Class="AvaloniaAppCrypto.Views.PortfolioView">
+    <ScrollViewer>
+        <StackPanel Spacing="16">
+            <TextBlock Text="Portföy" FontSize="22" FontWeight="700" Foreground="White"/>
+
+            <!-- Summary -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Toplam Değer" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="{Binding PortfolioTotalValue}" FontSize="24" FontWeight="700" Foreground="White"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="6">
+                        <TextBlock Text="Kar/Zarar" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="{Binding PortfolioProfitLoss}" FontSize="20" FontWeight="700" Foreground="#22C55E"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="6">
+                        <TextBlock Text="Getiri %" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="{Binding PortfolioProfitLossPercent}" FontSize="20" FontWeight="700" Foreground="#22C55E"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Empty State -->
+            <Border IsVisible="{Binding PortfolioEntries.Count, Converter={StaticResource InverseBoolConverter}}" 
+                    Background="#1C1F2A" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,24">
+                <StackPanel Spacing="16" HorizontalAlignment="Center">
+                    <TextBlock Text="💼" FontSize="64" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Henüz portföy girişi eklemediniz" FontSize="16" Foreground="#8B8FA3"/>
+                    <TextBlock Text="Coin detay sayfasından satın aldığınız coinleri ekleyin" FontSize="13" Foreground="#5A5D6E" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Entries -->
+            <ItemsControl ItemsSource="{Binding PortfolioEntries}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="models:PortfolioEntry">
+                        <Border Background="#1C1F2A" CornerRadius="12" Padding="16,12" Margin="0,3">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="20">
+                                <TextBlock Text="{Binding CoinSymbol}" FontSize="15" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:F4}'}" 
+                                           FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding AverageBuyPrice, StringFormat='${0:N2}'}" 
+                                           FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding DateAdded}" 
+                                           FontSize="12" Foreground="#5A5D6E" VerticalAlignment="Center"/>
+                                <Button Grid.Column="4" Background="Transparent" BorderThickness="0" Content="🗑" 
+                                        FontSize="14" Foreground="#EF4444"
+                                        Command="{Binding $parent[UserControl].DataContext.RemovePortfolioEntryCommand}"
+                                        CommandParameter="{Binding Id}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

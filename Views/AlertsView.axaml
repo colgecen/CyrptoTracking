@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:AvaloniaAppCrypto.Models"
+             x:Class="AvaloniaAppCrypto.Views.AlertsView">
+    <ScrollViewer>
+        <StackPanel Spacing="16">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Alarmlar" FontSize="22" FontWeight="700" Foreground="White"/>
+                <Button Grid.Column="1" Content="+ Alarm Ekle" Background="#3B82F6" Foreground="White" 
+                        BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
+            </Grid>
+
+            <!-- Empty -->
+            <Border IsVisible="{Binding Alerts.Count, Converter={StaticResource InverseBoolConverter}}" 
+                    Background="#1C1F2A" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,24">
+                <StackPanel Spacing="16" HorizontalAlignment="Center">
+                    <TextBlock Text="🔔" FontSize="64" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Henüz alarm eklemediniz" FontSize="16" Foreground="#8B8FA3" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Fiyat alarmı eklemek için + butonuna tıklayın" FontSize="13" Foreground="#5A5D6E" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Active Alerts -->
+            <TextBlock Text="{Binding Alerts.Count, StringFormat='{}Aktif Alarmlar ({0})'}" FontSize="16" FontWeight="600" Foreground="White" Margin="0,8,0,0"/>
+            <ItemsControl ItemsSource="{Binding Alerts}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="models:PriceAlert">
+                        <Border Background="#1C1F2A" CornerRadius="12" Padding="16" Margin="0,4">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding CoinName}" FontSize="14" FontWeight="600" Foreground="White"/>
+                                    <TextBlock Text="{Binding CoinSymbol}" FontSize="12" Foreground="#8B8FA3"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Margin="16,0" VerticalAlignment="Center" Foreground="#8B8FA3" FontSize="13">
+                                    <Run Text="{Binding Condition}"/> <Run Text="{Binding TargetPrice, StringFormat='${0:N2}'}"/>
+                                </TextBlock>
+                                <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Content="🔕"
+                                        Foreground="#8B8FA3" FontSize="14"
+                                        Command="{Binding $parent[UserControl].DataContext.ToggleAlertCommand}" 
+                                        CommandParameter="{Binding .}"/>
+                                <Button Grid.Column="3" Background="Transparent" BorderThickness="0" Content="🗑"
+                                        Foreground="#EF4444" FontSize="14"
+                                        Command="{Binding $parent[UserControl].DataContext.RemoveAlertCommand}" 
+                                        CommandParameter="{Binding Id}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+
+            <!-- Triggered Alerts -->
+            <TextBlock Text="{Binding TriggeredAlerts.Count, StringFormat='{}Geçmiş Alarmlar ({0})'}" FontSize="16" FontWeight="600" Foreground="White" Margin="0,12,0,0"/>
+            <ItemsControl ItemsSource="{Binding TriggeredAlerts}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="models:PriceAlert">
+                        <Border Background="#1C1F2A" CornerRadius="12" Padding="16" Margin="0,4" Opacity="0.5">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <TextBlock Text="✅" FontSize="14" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Margin="8,0" Text="{Binding CoinName}" FontSize="14" FontWeight="500" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Content="✕"
+                                        Foreground="#5A5D6E" FontSize="12"
+                                        Command="{Binding $parent[UserControl].DataContext.RemoveAlertCommand}" 
+                                        CommandParameter="{Binding Id}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

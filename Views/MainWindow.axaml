@@ -1,0 +1,136 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaAppCrypto.ViewModels"
+        xmlns:views="using:AvaloniaAppCrypto.Views"
+        xmlns:controls="using:AvaloniaAppCrypto.Controls"
+        x:Class="AvaloniaAppCrypto.Views.MainWindow"
+        Title="CryptoTrack"
+        Width="1440" Height="900"
+        Background="#0F1117"
+        WindowStartupLocation="CenterScreen"
+        WindowDecorations="Full">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Toolbar -->
+        <Border Grid.Row="0" Background="#141724" BorderBrush="#1E2233" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="12,0" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}" 
+                            FontSize="18" Foreground="#8B8FA3" Content="☰" Width="36" Height="36"/>
+                    <Border Background="LinearGradient(180deg, #3B82F6, #2563EB)" CornerRadius="10" 
+                            Width="32" Height="32" VerticalAlignment="Center">
+                        <TextBlock Text="₿" FontSize="18" FontWeight="800" 
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="CryptoTrack" FontSize="18" FontWeight="700" 
+                               Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBox Grid.Column="1" Text="{Binding SearchQuery}" 
+                         PlaceholderText="Coin ara..." 
+                         Width="320" HorizontalAlignment="Center"
+                         Background="#1E2233"
+                         BorderBrush="#2D3041"
+                         Foreground="White"
+                         PlaceholderForeground="#5A5D6E"
+                         FontSize="13"/>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <Button Background="#1E2233" BorderThickness="0" CornerRadius="8" 
+                            FontSize="16" Foreground="#8B8FA3" Content="{Binding CurrentThemeIcon}" 
+                            Command="{Binding ToggleThemeCommand}" Width="36" Height="36" Padding="0"/>
+                    <Border CornerRadius="4" Width="8" Height="8"
+                            Background="{Binding ConnectionStatusColor}"/>
+                    <TextBlock Text="{Binding ConnectionStatusText}" FontSize="12" 
+                               Foreground="#8B8FA3"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Content Area -->
+        <Grid Grid.Row="1" ColumnDefinitions="220,*">
+            <!-- Sidebar -->
+            <Border Background="#141724" BorderBrush="#1E2233" BorderThickness="0,0,1,0"
+                    IsVisible="{Binding IsSidebarCollapsed, Converter={StaticResource InverseBoolConverter}}">
+                <StackPanel Margin="0,12,0,0">
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="Dashboard"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="📊" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Dashboard" FontSize="14" 
+                                       Foreground="#60A5FA" FontWeight="600" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="Favorites"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="⭐" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Favoriler" FontSize="14" 
+                                       Foreground="#8B8FA3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="Portfolio"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="💼" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Portföy" FontSize="14" 
+                                       Foreground="#8B8FA3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="Alerts"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="🔔" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Alarmlar" FontSize="14" 
+                                       Foreground="#8B8FA3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="News"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="📰" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Haberler" FontSize="14" 
+                                       Foreground="#8B8FA3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" 
+                            Command="{Binding NavigateToCommand}" CommandParameter="Settings"
+                            HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
+                            CornerRadius="8">
+                        <Grid ColumnDefinitions="28,*">
+                            <TextBlock Text="⚙️" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="Ayarlar" FontSize="14" 
+                                       Foreground="#8B8FA3" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Page Content -->
+            <Border Grid.Column="1" Background="#0F1117" Padding="24">
+                <Grid>
+                    <views:DashboardView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Dashboard}"/>
+                    <views:FavoritesView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Favorites}"/>
+                    <views:PortfolioView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Portfolio}"/>
+                    <views:AlertsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Alerts}"/>
+                    <views:NewsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=News}"/>
+                    <views:SettingsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Settings}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
