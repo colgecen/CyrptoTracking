@@ -227,7 +227,7 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadAlertsAsync();
             await LoadNewsAsync();
             LastUpdated = DateTime.Now.ToString("HH:mm:ss");
-            await ConnectWebSocketsAsync();
+            _ = ConnectWebSocketsAsync();
         }
 
         private async Task LoadGlobalDataAsync()
