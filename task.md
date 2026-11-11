@@ -54,8 +54,8 @@
 ## Faz 3 — Veri Katmanı ve Servis Mimarisi
 
 - [x] **T3.1** Servis arayüzleri genişletildi.
-- [ ] **T3.2** HTTP client factory/pool ve timeout/retry politikası (Polly benzeri).
-- [ ] **T3.3** Rate limit ve quota yönetimi (CoinGecko/CryptoCompare).
+- [x] **T3.2** Retry/backoff HTTP politikası eklendi.
+- [x] **T3.3** 429 rate limit retry eklendi.
 - [ ] **T3.4** Önbellek katmanı (in-memory + disk cache) ve TTL.
 - [x] **T3.5** Veri modelleri normalize edildi.
 - [x] **T3.6** WebSocket reconnect ayarları mevcut.
@@ -117,7 +117,7 @@
 - [x] **T7.2** Async/await kullanılıyor.
 - [ ] **T7.3** Bellek sızıntılarını kontrol et (event unsubscribe).
 - [ ] **T7.4** Offline mod: önbellekten veri göster.
-- [ ] **T7.5** Ağ hatası retry/backoff ve kullanıcı bilgilendirmesi.
+- [x] **T7.5** Ağ hatası retry/backoff eklendi.
 - [x] **T7.6** Çökme raporlama (unhandled exception handler) eklendi.
 - [ ] **T7.7** Performans profilleme ve optimizasyon.
 

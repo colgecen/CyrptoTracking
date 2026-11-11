@@ -39,6 +39,31 @@ namespace AvaloniaAppCrypto.Services
                 _httpClient.Timeout = TimeSpan.FromSeconds(settings.ApiTimeoutSeconds);
         }
 
+        private async Task<System.Net.Http.HttpResponseMessage> GetWithRetryAsync(string url, System.Threading.CancellationToken ct)
+        {
+            var maxAttempts = 3;
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            {
+                try
+                {
+                    ApplyApiKey();
+                    var response = await _httpClient.GetAsync(url, ct);
+                    if ((int)response.StatusCode == 429 && attempt < maxAttempts - 1)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct);
+                        continue;
+                    }
+                    return response;
+                }
+                catch (Exception) when (attempt < maxAttempts - 1)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct);
+                }
+            }
+            ApplyApiKey();
+            return await _httpClient.GetAsync(url, ct);
+        }
+
         public async Task<List<NewsArticle>> GetLatestNewsAsync(string categories = "", CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/v2/news/?lang=EN";
@@ -48,8 +73,7 @@ namespace AvaloniaAppCrypto.Services
 
             try
             {
-                ApplyApiKey();
-            var response = await _httpClient.GetAsync(url, ct);
+                var response = await GetWithRetryAsync(url, ct);
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync(ct);
                 return ParseNews(json);
