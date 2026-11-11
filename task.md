@@ -131,14 +131,14 @@
 - [ ] **T8.4** UI smoke testleri (mümkünse).
 - [x] **T8.5** GitHub Actions build workflow eklendi.
 - [ ] **T8.6** Kod analizi/lint (Roslyn analyzers).
-- [ ] **T8.7** Release pipeline (publish artifacts).
+- [x] **T8.7** Release pipeline eklendi.
 
 ---
 
 ## Faz 9 — Dokümantasyon ve Yayın
 
-- [ ] **T9.1** Kullanıcı rehberi (TR/EN).
-- [ ] **T9.2** Geliştirici rehberi ve mimari doküman.
+- [x] **T9.1** Kullanıcı rehberi eklendi.
+- [x] **T9.2** Geliştirici rehberi eklendi.
 - [ ] **T9.3** Ekran görüntüleri/GIF'ler.
 - [x] **T9.4** CHANGELOG eklendi.
 - [ ] **T9.5** Lisans ve katkı rehberi güncellemesi.
