@@ -141,6 +141,33 @@ namespace AvaloniaAppCrypto.Services
             return result;
         }
 
+        public async Task<List<Models.OhlcPoint>> GetOhlcAsync(string coinId, int days = 7, CancellationToken ct = default)
+        {
+            var result = new List<Models.OhlcPoint>();
+            try
+            {
+                var url = $"{BaseUrl}/coins/{coinId}/ohlc?vs_currency=usd&days={days}";
+                ApplyApiKey();
+                var response = await _httpClient.GetAsync(url, ct);
+                response.EnsureSuccessStatusCode();
+                var json = await response.Content.ReadAsStringAsync(ct);
+                using var doc = JsonDocument.Parse(json);
+                foreach (var item in doc.RootElement.EnumerateArray())
+                {
+                    result.Add(new Models.OhlcPoint
+                    {
+                        Time = DateTimeOffset.FromUnixTimeMilliseconds(item[0].GetInt64()).DateTime,
+                        Open = item[1].GetDouble(),
+                        High = item[2].GetDouble(),
+                        Low = item[3].GetDouble(),
+                        Close = item[4].GetDouble()
+                    });
+                }
+            }
+            catch { }
+            return result;
+        }
+
         public async Task<(int value, string label)> GetFearGreedIndexAsync(CancellationToken ct = default)
         {
             try

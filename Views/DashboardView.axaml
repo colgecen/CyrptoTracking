@@ -65,6 +65,24 @@
                 </StackPanel>
             </Border>
 
+            <!-- Candlestick Chart -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="16">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <TextBlock Text="Bitcoin Mum Grafiği" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                            <Button Content="1H" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="7"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                            <Button Content="1Ay" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="30"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                    <Border Background="#141724" CornerRadius="12" Height="260" HorizontalAlignment="Stretch" Padding="8">
+                        <controls:CandlestickChart Candles="{Binding BtcCandleData}"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
             <!-- Coin Table -->
             <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">

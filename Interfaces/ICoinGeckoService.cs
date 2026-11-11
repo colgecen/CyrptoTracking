@@ -12,6 +12,7 @@ namespace AvaloniaAppCrypto.Interfaces
         Task<Coin?> GetCoinDetailAsync(string coinId, CancellationToken ct = default);
         Task<Dictionary<string, Dictionary<string, decimal>>> GetSimplePriceAsync(List<string> coinIds, CancellationToken ct = default);
         Task<List<Dictionary<string, object>>> GetMarketChartAsync(string coinId, int days = 7, CancellationToken ct = default);
+        Task<List<Models.OhlcPoint>> GetOhlcAsync(string coinId, int days = 7, CancellationToken ct = default);
         Task<List<Coin>> SearchCoinsAsync(string query, CancellationToken ct = default);
         Task<Dictionary<string, object>> GetGlobalDataAsync(CancellationToken ct = default);
         Task<(int value, string label)> GetFearGreedIndexAsync(CancellationToken ct = default);

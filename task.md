@@ -83,7 +83,7 @@
 
 - [x] **T5.1** Sparkline gradient fill ile geliştirildi.
 - [x] **T5.2** BTC grafik zaman aralığı seçimi eklendi (1G/1H/1Ay/3Ay/1Y).
-- [ ] **T5.3** Mum grafiği (candlestick) ekle (OHLC).
+- [x] **T5.3** BTC mum grafiği (candlestick) eklendi.
 - [ ] **T5.4** Çizgi grafiği (line) + çoklu seri (BTC, ETH karşılaştırma).
 - [ ] **T5.5** Bar/sütun grafikleri (hacim, top gainers/losers).
 - [x] **T5.6** Portföy dağılımı için donut chart eklendi.

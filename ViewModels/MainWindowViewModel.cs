@@ -53,6 +53,24 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty]
         private int _btcChartDays = 7;
 
+        [ObservableProperty]
+        private List<Models.OhlcPoint> _btcCandleData = new();
+
+        [RelayCommand]
+        private async Task LoadBtcCandles(int days)
+        {
+            if (days <= 0) days = 7;
+            try
+            {
+                var data = await _coinGeckoService.GetOhlcAsync("bitcoin", days);
+                BtcCandleData = data;
+            }
+            catch (Exception ex)
+            {
+                _toastService.Show($"Mum grafiği yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+            }
+        }
+
         [RelayCommand]
         private async Task LoadBtcChart(int days)
         {
