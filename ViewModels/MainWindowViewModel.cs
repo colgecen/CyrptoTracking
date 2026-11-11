@@ -263,6 +263,22 @@ namespace AvaloniaAppCrypto.ViewModels
             _ = LoadBtcChart(BtcChartDays);
         }
 
+        [ObservableProperty] private string _sortColumn = "Rank";
+        [ObservableProperty] private bool _sortAscending = true;
+
+        [RelayCommand]
+        private void SortCoins(string column)
+        {
+            if (SortColumn == column)
+                SortAscending = !SortAscending;
+            else
+            {
+                SortColumn = column;
+                SortAscending = true;
+            }
+            ApplyFilter();
+        }
+
         [RelayCommand]
         private void ApplyFilter()
         {
@@ -272,7 +288,19 @@ namespace AvaloniaAppCrypto.ViewModels
                 string.IsNullOrEmpty(query) ||
                 c.Name.ToLower().Contains(query) ||
                 c.Symbol.ToLower().Contains(query));
-            foreach (var coin in filtered)
+
+            IOrderedEnumerable<Coin> sorted = SortColumn switch
+            {
+                "Name" => SortAscending ? filtered.OrderBy(c => c.Name) : filtered.OrderByDescending(c => c.Name),
+                "Price" => SortAscending ? filtered.OrderBy(c => c.CurrentPrice) : filtered.OrderByDescending(c => c.CurrentPrice),
+                "Change1h" => SortAscending ? filtered.OrderBy(c => c.PriceChangePercentage1H) : filtered.OrderByDescending(c => c.PriceChangePercentage1H),
+                "Change24h" => SortAscending ? filtered.OrderBy(c => c.PriceChangePercentage24H) : filtered.OrderByDescending(c => c.PriceChangePercentage24H),
+                "Change7d" => SortAscending ? filtered.OrderBy(c => c.PriceChangePercentage7D) : filtered.OrderByDescending(c => c.PriceChangePercentage7D),
+                "Volume" => SortAscending ? filtered.OrderBy(c => c.TotalVolume) : filtered.OrderByDescending(c => c.TotalVolume),
+                _ => SortAscending ? filtered.OrderBy(c => c.MarketCapRank) : filtered.OrderByDescending(c => c.MarketCapRank)
+            };
+
+            foreach (var coin in sorted)
                 FilteredCoins.Add(coin);
         }
 

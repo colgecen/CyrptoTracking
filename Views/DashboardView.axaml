@@ -76,6 +76,17 @@
                         </StackPanel>
                     </Grid>
 
+                    <!-- Table Header -->
+                    <Grid ColumnDefinitions="40,200,*,120,100,100,100,60" Margin="16,4">
+                        <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
+                        <Button Grid.Column="1" Content="Coin" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
+                        <Button Grid.Column="2" Content="Fiyat" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="6" Content="Hacim" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                    </Grid>
+
                     <!-- Coin Rows -->
                     <ItemsControl ItemsSource="{Binding FilteredCoins}">
                         <ItemsControl.DataTemplates>

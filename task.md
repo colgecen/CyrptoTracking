@@ -41,7 +41,7 @@
 - [ ] **T2.3** Sidebar daraltma/genişletme animasyonu ve ikonlu menü.
 - [ ] **T2.4** Responsive davranış: küçük ekranlarda sidebar overlay, kartlar wrap.
 - [ ] **T2.5** Dashboard kartlarını grid ile hizala; boşluk/typography tutarlılığı.
-- [ ] **T2.6** Coin tablosunu gerçek tablo gibi yap (sıralama, hizalama, zebra, hover).
+- [x] **T2.6** Coin tablosuna sıralama başlıkları eklendi.
 - [ ] **T2.7** Formlar (portföy, alarm) için modal/dialog ve validasyon.
 - [ ] **T2.8** Toast/notification sistemi tutarlı ve erişilebilir yap.
 - [ ] **T2.9** Dark/Light tema geçişini anında ve kusursuz yap.
