@@ -29,6 +29,12 @@ namespace AvaloniaAppCrypto.Controls
             base.Render(context);
             var data = Values;
             if (data == null || data.Count < 2) return;
+            if (data.Count > 200)
+            {
+                int step = (int)Math.Ceiling(data.Count / 200.0);
+                data = data.Where((_, i) => i % step == 0).ToList();
+                if (data.Count < 2) return;
+            }
 
             var w = Bounds.Width;
             var h = Bounds.Height;

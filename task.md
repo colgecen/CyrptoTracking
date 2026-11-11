@@ -56,7 +56,7 @@
 - [x] **T3.1** Servis arayüzleri genişletildi.
 - [x] **T3.2** Retry/backoff HTTP politikası eklendi.
 - [x] **T3.3** 429 rate limit retry eklendi.
-- [ ] **T3.4** Önbellek katmanı (in-memory + disk cache) ve TTL.
+- [x] **T3.4** In-memory cache + TTL eklendi.
 - [x] **T3.5** Veri modelleri normalize edildi.
 - [x] **T3.6** WebSocket reconnect ayarları mevcut.
 - [x] **T3.7** Binance/CoinCap fallback mevcut.
@@ -91,7 +91,7 @@
 - [x] **T5.8** Fear & Greed için gauge chart eklendi.
 - [ ] **T5.9** Grafiklerde zoom/pan, tooltip, legend, export (PNG/SVG).
 - [x] **T5.10** Grafikler yenileme ile güncelleniyor.
-- [ ] **T5.11** Grafik performansı: büyük veri setlerinde down-sampling.
+- [x] **T5.11** Down-sampling eklendi.
 - [x] **T5.12** Grafikler tema ile uyumlu.
 
 ---

@@ -14,6 +14,8 @@ namespace AvaloniaAppCrypto.Services
         private readonly HttpClient _httpClient;
         private readonly ISettingsService _settingsService;
         private const string BaseUrl = "https://api.coingecko.com/api/v3";
+        private List<Coin>? _cachedTopCoins;
+        private DateTime _cacheTime = DateTime.MinValue;
 
         public CoinGeckoService(HttpClient httpClient, ISettingsService settingsService)
         {
@@ -66,12 +68,18 @@ namespace AvaloniaAppCrypto.Services
 
         public async Task<List<Coin>> GetTopCoinsAsync(int perPage = 100, CancellationToken ct = default)
         {
+            if (_cachedTopCoins != null && (DateTime.Now - _cacheTime).TotalSeconds < 30)
+                return new List<Coin>(_cachedTopCoins);
+
             var url = $"{BaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page={perPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d";
             ApplyApiKey();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
-            return ParseCoinList(json);
+            var coins = ParseCoinList(json);
+            _cachedTopCoins = new List<Coin>(coins);
+            _cacheTime = DateTime.Now;
+            return coins;
         }
 
         public async Task<Coin?> GetCoinDetailAsync(string coinId, CancellationToken ct = default)
