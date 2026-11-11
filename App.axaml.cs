@@ -57,10 +57,13 @@ namespace AvaloniaAppCrypto
             {
                 var mainVm = Services.GetRequiredService<MainWindowViewModel>();
 
-                desktop.MainWindow = new MainWindow
+                var mainWindow = new MainWindow
                 {
                     DataContext = mainVm
                 };
+                desktop.MainWindow = mainWindow;
+                mainWindow.Show();
+                mainWindow.Activate();
             }
 
             base.OnFrameworkInitializationCompleted();
