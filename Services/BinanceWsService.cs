@@ -23,7 +23,7 @@ namespace AvaloniaAppCrypto.Services
                 "shibusdt", "uniusdt", "atomusdt", "xlmusdt", "trousdt",
                 "bchusdt", "ltcusdt", "algousdt", "vetusdt", "filusdt",
                 "sandusdt", "manausdt", "aaveusdt", "axsusdt", "nearusdt",
-                "ftmusdt", "cro", "apeusdt", "grtusdt", "rendusdt" };
+                "ftmusdt", "crousdt", "apeusdt", "grtusdt", "renderusdt" };
             var streamNames = string.Join("/", Array.ConvertAll(symbols, s => $"{s}@miniTicker"));
             var url = BinanceUrl + streamNames;
 

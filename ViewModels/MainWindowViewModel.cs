@@ -640,11 +640,15 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private void OnPriceUpdated(string coinId, decimal price, decimal changePct)
         {
-            var coin = Coins.FirstOrDefault(c => c.Id == coinId);
+            var coin = Coins.FirstOrDefault(c =>
+                string.Equals(c.Id, coinId, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(c.Symbol, coinId, StringComparison.OrdinalIgnoreCase));
             if (coin == null) return;
+
             coin.PriceDirection = price > coin.CurrentPrice ? 1 : price < coin.CurrentPrice ? -1 : 0;
             coin.CurrentPrice = price;
             coin.PriceChangePercentage24H = (double)changePct;
+            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
             _ = CheckPriceAlertsAsync();
         }
 
@@ -668,10 +672,14 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private void OnCoinCapPriceUpdated(string coinId, decimal price)
         {
-            var coin = Coins.FirstOrDefault(c => c.Id == coinId);
+            var coin = Coins.FirstOrDefault(c =>
+                string.Equals(c.Id, coinId, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(c.Symbol, coinId, StringComparison.OrdinalIgnoreCase));
             if (coin == null) return;
+
             coin.PriceDirection = price > coin.CurrentPrice ? 1 : price < coin.CurrentPrice ? -1 : 0;
             coin.CurrentPrice = price;
+            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void OnConnectivityChanged(bool isOnline)
