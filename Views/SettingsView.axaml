@@ -9,19 +9,9 @@
                 <StackPanel Spacing="20">
                     <TextBlock Text="Görünüm" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="160,*">
-                        <TextBlock Text="Tema" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                            <Button Content="☀️ Açık" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}"
-                                    BorderBrush="#2D3041" CornerRadius="8" Padding="16,8" FontSize="13"
-                                    Command="{Binding ToggleThemeCommand}"/>
-                            <Button Content="🌙 Koyu" Background="#3B82F6" Foreground="{DynamicResource TextPrimaryBrush}"
-                                    BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
-                        </StackPanel>
-                    </Grid>
-                    <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="Para Birimi" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" Width="120" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}" 
-                                  BorderBrush="#2D3041" CornerRadius="8">
+                                  BorderBrush="#1F2532" CornerRadius="8">
                             <ComboBoxItem>USD</ComboBoxItem>
                             <ComboBoxItem>EUR</ComboBoxItem>
                             <ComboBoxItem>TRY</ComboBoxItem>
@@ -37,13 +27,13 @@
                         <TextBlock Text="CoinGecko" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{Binding CoinGeckoApiKey}" PasswordChar="•"
                                  PlaceholderText="CoinGecko API anahtarı" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
-                                 BorderBrush="#2D3041" CornerRadius="8"/>
+                                 BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="CryptoCompare" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{Binding CryptoCompareApiKey}" PasswordChar="•"
                                  PlaceholderText="CryptoCompare API anahtarı" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
-                                 BorderBrush="#2D3041" CornerRadius="8"/>
+                                 BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Content="API Anahtarlarını Test Et" Command="{Binding TestApiKeysCommand}"
@@ -59,7 +49,7 @@
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="WebSocket" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" Width="160" SelectedIndex="0" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}" 
-                                  BorderBrush="#2D3041" CornerRadius="8">
+                                  BorderBrush="#1F2532" CornerRadius="8">
                             <ComboBoxItem>Otomatik</ComboBoxItem>
                             <ComboBoxItem>Binance</ComboBoxItem>
                             <ComboBoxItem>CoinCap</ComboBoxItem>
@@ -77,7 +67,7 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="Ayarları Kaydet" Background="#3B82F6" Foreground="{DynamicResource TextPrimaryBrush}" 
+            <Button Content="Ayarları Kaydet" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" 
                     BorderThickness="0" CornerRadius="8" Padding="16,10" FontSize="14" FontWeight="600"
                     HorizontalAlignment="Left" Command="{Binding SaveSettingsCommand}"/>
         </StackPanel>

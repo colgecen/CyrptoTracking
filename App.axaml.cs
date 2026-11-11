@@ -46,7 +46,6 @@ namespace AvaloniaAppCrypto
             services.AddSingleton<IPortfolioService, PortfolioService>();
             services.AddSingleton<IAlertService, AlertService>();
             services.AddSingleton<IToastService, ToastService>();
-            services.AddSingleton<IThemeService, ThemeService>();
 
             // ViewModels
             services.AddTransient<MainWindowViewModel>();

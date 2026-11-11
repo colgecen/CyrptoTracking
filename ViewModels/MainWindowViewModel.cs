@@ -38,7 +38,6 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _lastUpdated = "-";
         [ObservableProperty] private string _connectionStatusColor = "#10B981";
         [ObservableProperty] private string _searchQuery = string.Empty;
-        [ObservableProperty] private string _currentThemeIcon = "🌙";
 
         // API keys (settings UI)
         [ObservableProperty] private string _coinGeckoApiKey = string.Empty;
@@ -203,7 +202,6 @@ namespace AvaloniaAppCrypto.ViewModels
             ICoinCapWsService coinCapWsService,
             IConnectivityService connectivityService,
             IToastService toastService,
-            IThemeService themeService,
             IFavoriteService favoriteService,
             IAlertService alertService,
             IPortfolioService portfolioService,
@@ -215,7 +213,6 @@ namespace AvaloniaAppCrypto.ViewModels
             _coinCapWsService = coinCapWsService;
             _connectivityService = connectivityService;
             _toastService = toastService;
-            _themeService = themeService;
             _favoriteService = favoriteService;
             _alertService = alertService;
             _portfolioService = portfolioService;
@@ -231,8 +228,6 @@ namespace AvaloniaAppCrypto.ViewModels
         private async Task InitializeAsync()
         {
             _settings = await _settingsService.GetSettingsAsync();
-            _themeService.SetTheme(_settings.Theme);
-            CurrentThemeIcon = _settings.Theme == "Light" ? "☀️" : "🌙";
             CoinGeckoApiKey = _settings.CoinGeckoApiKey ?? string.Empty;
             CryptoCompareApiKey = _settings.CryptoCompareApiKey ?? string.Empty;
 
@@ -568,19 +563,8 @@ namespace AvaloniaAppCrypto.ViewModels
         private void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
 
         [RelayCommand]
-        private void ToggleTheme()
-        {
-            var newTheme = _settings.Theme == "Light" ? "Dark" : "Light";
-            _settings.Theme = newTheme;
-            _themeService.SetTheme(newTheme);
-            CurrentThemeIcon = newTheme == "Light" ? "☀️" : "🌙";
-            _ = _settingsService.SaveSettingsAsync(_settings);
-        }
-
-        [RelayCommand]
         private async Task SaveSettings()
         {
-            _settings.Theme = _themeService.CurrentTheme;
             _settings.CoinGeckoApiKey = CoinGeckoApiKey;
             _settings.CryptoCompareApiKey = CryptoCompareApiKey;
             await _settingsService.SaveSettingsAsync(_settings);

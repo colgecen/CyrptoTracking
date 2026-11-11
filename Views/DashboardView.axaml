@@ -5,7 +5,7 @@
              x:Class="AvaloniaAppCrypto.Views.DashboardView">
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Spacing="20" Margin="0,0,0,24">
+        <StackPanel Spacing="24" Margin="28,24,28,32">
 
             <!-- Page Header -->
             <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,4">
@@ -28,21 +28,21 @@
                 <Border CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                            <GradientStop Color="#1E2A40" Offset="0"/>
-                            <GradientStop Color="#1A1D23" Offset="1"/>
+                            <GradientStop Color="#14202E" Offset="0"/>
+                            <GradientStop Color="#12161F" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="Piyasa Değeri" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#1F2A44" CornerRadius="8" Padding="6,4">
+                            <Border Grid.Column="1" Background="#1A2A3A" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="🌍" FontSize="12"/>
                             </Border>
                         </Grid>
                         <TextBlock Text="{Binding TotalMarketCap}" FontSize="24" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Border Background="#0F2A1F" CornerRadius="6" Padding="6,2">
-                                <TextBlock Text="{Binding MarketCapChange, StringFormat='{}▲ {0}'}" FontSize="11" FontWeight="600" Foreground="#34D399"/>
+                            <Border Background="#0F2A1A" CornerRadius="6" Padding="6,2">
+                                <TextBlock Text="{Binding MarketCapChange, StringFormat='{}▲ {0}'}" FontSize="11" FontWeight="600" Foreground="#0ECB81"/>
                             </Border>
                             <TextBlock Text="son 24s" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
@@ -54,20 +54,20 @@
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                             <GradientStop Color="#1E2A2E" Offset="0"/>
-                            <GradientStop Color="#1A1D23" Offset="1"/>
+                            <GradientStop Color="#12161F" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="24s Hacim" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#1F2A2E" CornerRadius="8" Padding="6,4">
+                            <Border Grid.Column="1" Background="#1A2A2E" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="📈" FontSize="12"/>
                             </Border>
                         </Grid>
                         <TextBlock Text="{Binding TotalVolume24h}" FontSize="24" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Border Background="#0F2A1F" CornerRadius="6" Padding="6,2">
-                                <TextBlock Text="▲ 12%" FontSize="11" FontWeight="600" Foreground="#34D399"/>
+                            <Border Background="#0F2A1A" CornerRadius="6" Padding="6,2">
+                                <TextBlock Text="▲ 12%" FontSize="11" FontWeight="600" Foreground="#0ECB81"/>
                             </Border>
                             <TextBlock Text="artış" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
@@ -78,21 +78,21 @@
                 <Border Grid.Column="2" CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                            <GradientStop Color="#2A261E" Offset="0"/>
-                            <GradientStop Color="#1A1D23" Offset="1"/>
+                            <GradientStop Color="#2A241A" Offset="0"/>
+                            <GradientStop Color="#12161F" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="BTC Dominance" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#2A241E" CornerRadius="8" Padding="6,4">
-                                <TextBlock Text="₿" FontSize="12" Foreground="#FCD34D"/>
+                            <Border Grid.Column="1" Background="#2A241A" CornerRadius="8" Padding="6,4">
+                                <TextBlock Text="₿" FontSize="12" Foreground="#F7D354"/>
                             </Border>
                         </Grid>
                         <TextBlock Text="{Binding BtcDominance}" FontSize="24" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Border Background="#2A1F1F" CornerRadius="6" Padding="6,2">
-                                <TextBlock Text="▼ 0.3%" FontSize="11" FontWeight="600" Foreground="#F87171"/>
+                            <Border Background="#2A1A1A" CornerRadius="6" Padding="6,2">
+                                <TextBlock Text="▼ 0.3%" FontSize="11" FontWeight="600" Foreground="#F6465D"/>
                             </Border>
                             <TextBlock Text="son 7g" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
@@ -103,20 +103,20 @@
                 <Border Grid.Column="3" CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                            <GradientStop Color="#2A1E2A" Offset="0"/>
-                            <GradientStop Color="#1A1D23" Offset="1"/>
+                            <GradientStop Color="#241A2A" Offset="0"/>
+                            <GradientStop Color="#12161F" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="Korku &amp; Açgözlülük" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#2A1E2A" CornerRadius="8" Padding="6,4">
+                            <Border Grid.Column="1" Background="#241A2A" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="😱" FontSize="12"/>
                             </Border>
                         </Grid>
-                        <TextBlock Text="{Binding FearGreedIndex}" FontSize="24" FontWeight="700" Foreground="#F59E0B"/>
-                        <Border Background="#F59E0B" CornerRadius="20" Padding="10,4" HorizontalAlignment="Left" Opacity="0.9">
-                            <TextBlock Text="Açgözlü" FontSize="11" FontWeight="600" Foreground="#1C1F2A"/>
+                        <TextBlock Text="{Binding FearGreedIndex}" FontSize="24" FontWeight="700" Foreground="#F7D354"/>
+                        <Border Background="#F7D354" CornerRadius="20" Padding="10,4" HorizontalAlignment="Left" Opacity="0.9">
+                            <TextBlock Text="Açgözlü" FontSize="11" FontWeight="600" Foreground="#0B0E14"/>
                         </Border>
                     </StackPanel>
                 </Border>
@@ -128,8 +128,8 @@
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                            <Border Background="#1E2A40" CornerRadius="8" Padding="8,6">
-                                <TextBlock Text="₿" FontSize="14" Foreground="#60A5FA" FontWeight="700"/>
+                            <Border Background="#14202E" CornerRadius="8" Padding="8,6">
+                                <TextBlock Text="₿" FontSize="14" Foreground="#00D1FF" FontWeight="700"/>
                             </Border>
                             <StackPanel Spacing="0">
                                 <TextBlock Text="Bitcoin" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -163,7 +163,7 @@
                     <StackPanel Spacing="16">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                                <Border Background="#2A241E" CornerRadius="8" Padding="8,6">
+                                <Border Background="#2A241A" CornerRadius="8" Padding="8,6">
                                     <TextBlock Text="📊" FontSize="14"/>
                                 </Border>
                                 <StackPanel Spacing="0">
@@ -222,7 +222,7 @@
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                            <Border Background="#1E2A40" CornerRadius="8" Padding="8,6">
+                            <Border Background="#14202E" CornerRadius="8" Padding="8,6">
                                 <TextBlock Text="⚡" FontSize="14"/>
                             </Border>
                             <StackPanel Spacing="0">
@@ -251,7 +251,7 @@
                         <TextBlock Text="Korku &amp; Açgözlülük Endeksi" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
                         <controls:GaugeChart Value="{Binding FearGreedValue}" Height="150" Width="240" Margin="0,4,0,0"/>
                         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding FearGreedIndex}" FontSize="13" FontWeight="600" Foreground="#F59E0B"/>
+                            <TextBlock Text="{Binding FearGreedIndex}" FontSize="13" FontWeight="600" Foreground="#F7D354"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -271,7 +271,7 @@
                 <StackPanel Spacing="14">
                     <Grid ColumnDefinitions="*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                            <Border Background="#1E2A40" CornerRadius="8" Padding="8,6">
+                            <Border Background="#14202E" CornerRadius="8" Padding="8,6">
                                 <TextBlock Text="📋" FontSize="14"/>
                             </Border>
                             <StackPanel Spacing="0">
