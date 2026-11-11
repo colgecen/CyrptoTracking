@@ -6,7 +6,8 @@
         x:Class="AvaloniaAppCrypto.Views.MainWindow"
         Title="CryptoTrack"
         Width="1440" Height="900"
-        Background="#0F1117"
+        Background="#FF0F1117"
+        TransparencyLevelHint="None"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="Full">
     <Window.KeyBindings>
