@@ -20,7 +20,6 @@ namespace AvaloniaAppCrypto.ViewModels
         private readonly ICoinCapWsService _coinCapWsService;
         private readonly IConnectivityService _connectivityService;
         private readonly IToastService _toastService;
-        private readonly IThemeService _themeService;
         private readonly IFavoriteService _favoriteService;
         private readonly IAlertService _alertService;
         private readonly IPortfolioService _portfolioService;

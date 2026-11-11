@@ -358,12 +358,12 @@
                     <ItemsControl ItemsSource="{Binding FilteredCoins}" IsVisible="{Binding IsGridView}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
+                                <UniformGrid Columns="4"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.DataTemplates>
                             <DataTemplate DataType="models:Coin">
-                                <Border Width="220" CornerRadius="14" Padding="16" Margin="6" Background="{DynamicResource BackgroundPrimaryBrush}">
+                                <Border CornerRadius="14" Padding="16" Margin="6" Background="{DynamicResource BackgroundPrimaryBrush}" HorizontalAlignment="Stretch">
                                     <StackPanel Spacing="10">
                                         <Grid ColumnDefinitions="*,Auto">
                                             <StackPanel Orientation="Horizontal" Spacing="8">
