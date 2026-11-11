@@ -182,10 +182,15 @@ namespace AvaloniaAppCrypto.ViewModels
                     BtcDominance = $"{Convert.ToDecimal(btc):F1}%";
                 if (data.TryGetValue("market_cap_change_24h", out var chg))
                     MarketCapChange = $"{Convert.ToDecimal(chg):F1}%";
+
+                var (fgValue, fgLabel) = await _coinGeckoService.GetFearGreedIndexAsync();
+                if (fgValue > 0)
+                    FearGreedIndex = $"{fgValue} ({fgLabel})";
             }
             catch { }
         }
 
+        // update fear greed inside LoadGlobalData? We'll add after market data block maybe. Actually LoadGlobalDataAsync already above. Let's patch separately.
         public async Task LoadPortfolioAsync()
         {
             try

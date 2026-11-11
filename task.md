@@ -60,8 +60,8 @@
 - [ ] **T3.5** Veri modellerini normalize et (Coin, Market, Portfolio, Alert, News).
 - [ ] **T3.6** WebSocket bağlantı yönetimi: reconnect, backoff, durum bildirimi.
 - [ ] **T3.7** Binance/CoinCap fallback mantığını güvenilir hale getir.
-- [ ] **T3.8** Global market verisi (market cap, volume, BTC dominance) gerçek API'ye bağla.
-- [ ] **T3.9** Fear & Greed index gerçek veri kaynağına bağla.
+- [x] **T3.8** Global market verisi gerçek API'ye bağlı.
+- [x] **T3.9** Fear & Greed index gerçek veri kaynağına bağlı.
 - [ ] **T3.10** Hata loglama (structured logging) ve telemetri (opsiyonel).
 
 ---

@@ -141,6 +141,26 @@ namespace AvaloniaAppCrypto.Services
             return result;
         }
 
+        public async Task<(int value, string label)> GetFearGreedIndexAsync(CancellationToken ct = default)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("https://api.alternative.me/fng/?limit=1", ct);
+                response.EnsureSuccessStatusCode();
+                var json = await response.Content.ReadAsStringAsync(ct);
+                using var doc = JsonDocument.Parse(json);
+                if (doc.RootElement.TryGetProperty("data", out var data) && data.GetArrayLength() > 0)
+                {
+                    var item = data[0];
+                    var value = item.GetProperty("value").GetString() ?? "0";
+                    var label = item.GetProperty("value_classification").GetString() ?? "";
+                    return (int.TryParse(value, out var v) ? v : 0, label);
+                }
+            }
+            catch { }
+            return (0, "");
+        }
+
         private List<Coin> ParseCoinList(string json)
         {
             var coins = new List<Coin>();
