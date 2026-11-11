@@ -278,65 +278,120 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
-                            <Button Content="Liste" Background="{DynamicResource AccentBlueBrush}" Foreground="White" BorderThickness="0" CornerRadius="8" Padding="14,6" FontSize="12" FontWeight="600"/>
-                            <Button Content="Grid" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="8" Padding="14,6" FontSize="12"/>
+                            <Button Content="Liste" Command="{Binding SetCoinViewModeCommand}" CommandParameter="List"
+                                    BorderThickness="0" CornerRadius="8" Padding="14,6" FontSize="12" FontWeight="600"
+                                    Classes.active="{Binding IsListView}">
+                                <Button.Styles>
+                                    <Style Selector="Button"><Setter Property="Background" Value="{DynamicResource BackgroundTertiaryBrush}"/><Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/></Style>
+                                    <Style Selector="Button.active"><Setter Property="Background" Value="{DynamicResource AccentBlueBrush}"/><Setter Property="Foreground" Value="White"/></Style>
+                                </Button.Styles>
+                            </Button>
+                            <Button Content="Grid" Command="{Binding SetCoinViewModeCommand}" CommandParameter="Grid"
+                                    BorderThickness="0" CornerRadius="8" Padding="14,6" FontSize="12" FontWeight="600"
+                                    Classes.active="{Binding IsGridView}">
+                                <Button.Styles>
+                                    <Style Selector="Button"><Setter Property="Background" Value="{DynamicResource BackgroundTertiaryBrush}"/><Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/></Style>
+                                    <Style Selector="Button.active"><Setter Property="Background" Value="{DynamicResource AccentBlueBrush}"/><Setter Property="Foreground" Value="White"/></Style>
+                                </Button.Styles>
+                            </Button>
                         </StackPanel>
                     </Grid>
 
-                    <!-- Table Header -->
-                    <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="8" Padding="16,10">
-                        <Grid ColumnDefinitions="40,200,*,100,90,90,100,60">
-                            <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
-                            <Button Grid.Column="1" Content="COIN" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
-                            <Button Grid.Column="2" Content="FİYAT" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                            <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                            <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                            <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                            <Button Grid.Column="6" Content="HACİM" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                        </Grid>
-                    </Border>
+                    <!-- List View -->
+                    <StackPanel Spacing="8" IsVisible="{Binding IsListView}">
+                        <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="8" Padding="16,10">
+                            <Grid ColumnDefinitions="40,220,*,110,90,90,110,50">
+                                <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
+                                <Button Grid.Column="1" Content="COIN" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
+                                <Button Grid.Column="2" Content="FİYAT" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="6" Content="HACİM" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
 
-                    <!-- Coin Rows -->
-                    <ItemsControl ItemsSource="{Binding FilteredCoins}">
+                        <ItemsControl ItemsSource="{Binding FilteredCoins}">
+                            <ItemsControl.DataTemplates>
+                                <DataTemplate DataType="models:Coin">
+                                    <Border CornerRadius="10" Padding="16,10" Margin="0,2" Background="{DynamicResource BackgroundPrimaryBrush}">
+                                        <Grid ColumnDefinitions="40,220,*,110,90,90,110,50">
+                                            <TextBlock Text="{Binding MarketCapRank}" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                                <Border CornerRadius="12" Width="28" Height="28" Background="{DynamicResource BackgroundTertiaryBrush}">
+                                                    <Image Source="{Binding Image}" Width="22" Height="22"/>
+                                                </Border>
+                                                <StackPanel Spacing="0">
+                                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                    <TextBlock Text="{Binding Symbol}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="2" Text="{Binding CurrentPrice, StringFormat='${0:N2}'}"
+                                                       FontSize="14" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"
+                                                       TextAlignment="End" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding PriceChangePercentage1H, StringFormat='{}{0:F2}%'}"
+                                                       FontSize="12" FontWeight="500"
+                                                       Foreground="{Binding PriceChangePercentage1H, Converter={StaticResource PriceChangeToColor}}"
+                                                       TextAlignment="End" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding PriceChangePercentage24H, StringFormat='{}{0:F2}%'}"
+                                                       FontSize="12" FontWeight="500"
+                                                       Foreground="{Binding PriceChangePercentage24H, Converter={StaticResource PriceChangeToColor}}"
+                                                       TextAlignment="End" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="5" Text="{Binding PriceChangePercentage7D, StringFormat='{}{0:F2}%'}"
+                                                       FontSize="12" FontWeight="500"
+                                                       Foreground="{Binding PriceChangePercentage7D, Converter={StaticResource PriceChangeToColor}}"
+                                                       TextAlignment="End" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="6" Text="{Binding TotalVolume, Converter={StaticResource NumberFormat}}"
+                                                       FontSize="11" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="End" VerticalAlignment="Center"/>
+                                            <Button Grid.Column="7" Background="Transparent" BorderThickness="0"
+                                                    Content="{Binding IsFavorite, Converter={StaticResource BoolToStar}}" FontSize="15"
+                                                    Command="{Binding $parent[UserControl].DataContext.ToggleFavoriteCommand}"
+                                                    CommandParameter="{Binding Id}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.DataTemplates>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <!-- Grid View -->
+                    <ItemsControl ItemsSource="{Binding FilteredCoins}" IsVisible="{Binding IsGridView}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
                         <ItemsControl.DataTemplates>
                             <DataTemplate DataType="models:Coin">
-                                <Border CornerRadius="10" Padding="16,10" Margin="0,2">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="{DynamicResource BackgroundPrimary}"/>
-                                    </Border.Background>
-                                    <Grid ColumnDefinitions="40,200,*,100,90,90,100,60">
-                                        <TextBlock Text="{Binding MarketCapRank}" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center"/>
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                                            <Border CornerRadius="12" Width="26" Height="26" Background="{DynamicResource BackgroundTertiaryBrush}">
-                                                <Image Source="{Binding Image}" Width="22" Height="22"/>
-                                            </Border>
-                                            <StackPanel Spacing="0">
-                                                <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                                <TextBlock Text="{Binding Symbol}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                <Border Width="220" CornerRadius="14" Padding="16" Margin="6" Background="{DynamicResource BackgroundPrimaryBrush}">
+                                    <StackPanel Spacing="10">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <Border CornerRadius="12" Width="30" Height="30" Background="{DynamicResource BackgroundTertiaryBrush}">
+                                                    <Image Source="{Binding Image}" Width="22" Height="22"/>
+                                                </Border>
+                                                <StackPanel Spacing="0">
+                                                    <TextBlock Text="{Binding Symbol}" FontSize="13" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                    <TextBlock Text="{Binding Name}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                        <TextBlock Grid.Column="2" Text="{Binding CurrentPrice, StringFormat='${0:N2}'}"
-                                                   FontSize="14" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"
-                                                   TextAlignment="End" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="3" Text="{Binding PriceChangePercentage1H, StringFormat='{}{0:F2}%'}"
-                                                   FontSize="12" FontWeight="500"
-                                                   Foreground="{Binding PriceChangePercentage1H, Converter={StaticResource PriceChangeToColor}}"
-                                                   TextAlignment="End" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="4" Text="{Binding PriceChangePercentage24H, StringFormat='{}{0:F2}%'}"
-                                                   FontSize="12" FontWeight="500"
-                                                   Foreground="{Binding PriceChangePercentage24H, Converter={StaticResource PriceChangeToColor}}"
-                                                   TextAlignment="End" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="5" Text="{Binding PriceChangePercentage7D, StringFormat='{}{0:F2}%'}"
-                                                   FontSize="12" FontWeight="500"
-                                                   Foreground="{Binding PriceChangePercentage7D, Converter={StaticResource PriceChangeToColor}}"
-                                                   TextAlignment="End" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="6" Text="{Binding TotalVolume, Converter={StaticResource NumberFormat}}"
-                                                   FontSize="11" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="End" VerticalAlignment="Center"/>
-                                        <Button Grid.Column="7" Background="Transparent" BorderThickness="0"
-                                                Content="{Binding IsFavorite, Converter={StaticResource BoolToStar}}" FontSize="15"
-                                                Command="{Binding $parent[UserControl].DataContext.ToggleFavoriteCommand}"
-                                                CommandParameter="{Binding Id}"/>
-                                    </Grid>
+                                            <TextBlock Grid.Column="1" Text="{Binding MarketCapRank, StringFormat='#{0}'}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding CurrentPrice, StringFormat='${0:N2}'}" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                            <StackPanel>
+                                                <TextBlock Text="24s" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                <TextBlock Text="{Binding PriceChangePercentage24H, StringFormat='{}{0:F2}%'}"
+                                                           FontSize="12" FontWeight="600"
+                                                           Foreground="{Binding PriceChangePercentage24H, Converter={StaticResource PriceChangeToColor}}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="Hacim" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                <TextBlock Text="{Binding TotalVolume, Converter={StaticResource NumberFormat}}"
+                                                           FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.DataTemplates>

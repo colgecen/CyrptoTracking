@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using Avalonia;
@@ -25,8 +26,24 @@ namespace AvaloniaAppCrypto.Controls
 
         static DonutChart()
         {
-            SegmentsProperty.Changed.AddClassHandler<DonutChart>((s, _) => { s._hoverIndex = -1; s.InvalidateVisual(); });
+            SegmentsProperty.Changed.AddClassHandler<DonutChart>((s, e) => s.OnSegmentsChanged(e));
             AffectsRender<DonutChart>(SegmentsProperty);
+        }
+
+        private void OnSegmentsChanged(AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is INotifyCollectionChanged oldIncc)
+                oldIncc.CollectionChanged -= OnCollectionChanged;
+            if (e.NewValue is INotifyCollectionChanged newIncc)
+                newIncc.CollectionChanged += OnCollectionChanged;
+            _hoverIndex = -1;
+            InvalidateVisual();
+        }
+
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            _hoverIndex = -1;
+            InvalidateVisual();
         }
 
         protected override void OnPointerMoved(PointerEventArgs e)

@@ -29,6 +29,7 @@ namespace AvaloniaAppCrypto.ViewModels
         private DispatcherTimer? _autoRefreshTimer;
         private bool _isRefreshing;
         private DateTime _lastNewsRefresh = DateTime.MinValue;
+        private DateTime _lastBtcChartRefresh = DateTime.MinValue;
         private DateTime _lastAlertCheck = DateTime.MinValue;
 
         [ObservableProperty] private bool _isSidebarCollapsed;
@@ -38,6 +39,8 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _lastUpdated = "-";
         [ObservableProperty] private string _connectionStatusColor = "#10B981";
         [ObservableProperty] private string _searchQuery = string.Empty;
+        [ObservableProperty] private bool _isGridView;
+        [ObservableProperty] private bool _isListView = true;
 
         // API keys (settings UI)
         [ObservableProperty] private string _coinGeckoApiKey = string.Empty;
@@ -399,14 +402,19 @@ namespace AvaloniaAppCrypto.ViewModels
                     listChanged = true;
                 }
 
+                // Always refresh derived views: prices/percentages change even
+                // when the coin set itself hasn't changed.
                 if (listChanged)
                 {
                     ApplyFilter();
                     RefreshFavorites();
-                    BuildMarketSegments();
-                    BuildTopGainers();
-                    UpdateBtcChart();
                 }
+                BuildMarketSegments();
+                BuildTopGainers();
+
+                // Refresh the sparkline periodically or on structural change.
+                if (listChanged || (DateTime.UtcNow - _lastBtcChartRefresh) > TimeSpan.FromMinutes(5))
+                    UpdateBtcChart();
             }
             catch (Exception ex)
             {
@@ -416,6 +424,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private void UpdateBtcChart()
         {
+            _lastBtcChartRefresh = DateTime.UtcNow;
             _ = LoadBtcChart(BtcChartDays.ToString());
         }
 
@@ -561,6 +570,13 @@ namespace AvaloniaAppCrypto.ViewModels
 
         [RelayCommand]
         private void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
+
+        [RelayCommand]
+        private void SetCoinViewMode(string? mode)
+        {
+            IsGridView = string.Equals(mode, "Grid", StringComparison.OrdinalIgnoreCase);
+            IsListView = !IsGridView;
+        }
 
         [RelayCommand]
         private async Task SaveSettings()
