@@ -21,43 +21,46 @@ namespace AvaloniaAppCrypto.Services
         {
             _httpClient = httpClient;
             _settingsService = settingsService;
-            _httpClient.Timeout = TimeSpan.FromSeconds(10);
+            _httpClient.Timeout = Timeout.InfiniteTimeSpan;
         }
 
-        private async Task ApplyApiKeyAsync()
+        private async Task<HttpResponseMessage> SendAsync(string url, CancellationToken ct)
         {
             var settings = await _settingsService.GetSettingsAsync().ConfigureAwait(false);
-            _httpClient.DefaultRequestHeaders.Remove("x-cg-demo-api-key");
+            var timeoutSeconds = settings.ApiTimeoutSeconds > 0 ? settings.ApiTimeoutSeconds : 10;
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
             var key = settings.CoinGeckoApiKey ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
-                _httpClient.DefaultRequestHeaders.Add("x-cg-demo-api-key", key);
-            if (settings.ApiTimeoutSeconds > 0)
-                _httpClient.Timeout = TimeSpan.FromSeconds(settings.ApiTimeoutSeconds);
+                request.Headers.TryAddWithoutValidation("x-cg-demo-api-key", key);
+
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            cts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
+            return await _httpClient.SendAsync(request, cts.Token).ConfigureAwait(false);
         }
 
-        private async Task<System.Net.Http.HttpResponseMessage> GetWithRetryAsync(string url, System.Threading.CancellationToken ct)
+        private async Task<HttpResponseMessage> GetWithRetryAsync(string url, CancellationToken ct)
         {
-            var maxAttempts = 3;
-            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            const int maxAttempts = 3;
+            for (var attempt = 0; attempt < maxAttempts; attempt++)
             {
                 try
                 {
-                    await ApplyApiKeyAsync();
-                    var response = await _httpClient.GetAsync(url, ct);
+                    var response = await SendAsync(url, ct).ConfigureAwait(false);
                     if ((int)response.StatusCode == 429 && attempt < maxAttempts - 1)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct);
+                        response.Dispose();
+                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct).ConfigureAwait(false);
                         continue;
                     }
                     return response;
                 }
                 catch (Exception) when (attempt < maxAttempts - 1)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct);
+                    await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct).ConfigureAwait(false);
                 }
             }
-            await ApplyApiKeyAsync();
-            return await _httpClient.GetAsync(url, ct);
+            return await SendAsync(url, ct).ConfigureAwait(false);
         }
 
         public async Task<List<Coin>> GetTopCoinsAsync(int perPage = 100, CancellationToken ct = default)
@@ -66,7 +69,6 @@ namespace AvaloniaAppCrypto.Services
                 return new List<Coin>(_cachedTopCoins);
 
             var url = $"{BaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page={perPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -79,7 +81,6 @@ namespace AvaloniaAppCrypto.Services
         public async Task<Coin?> GetCoinDetailAsync(string coinId, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/coins/{coinId}?localization=false&tickers=false&market_data=true&community_data=false";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -90,7 +91,6 @@ namespace AvaloniaAppCrypto.Services
         {
             var ids = string.Join(",", coinIds);
             var url = $"{BaseUrl}/simple/price?vs_currencies=usd&ids={ids}";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -100,7 +100,6 @@ namespace AvaloniaAppCrypto.Services
         public async Task<List<Dictionary<string, object>>> GetMarketChartAsync(string coinId, int days = 7, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/coins/{coinId}/market_chart?vs_currency=usd&days={days}";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -124,7 +123,6 @@ namespace AvaloniaAppCrypto.Services
         public async Task<List<Coin>> SearchCoinsAsync(string query, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/search?query={Uri.EscapeDataString(query)}";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -151,7 +149,6 @@ namespace AvaloniaAppCrypto.Services
         public async Task<Dictionary<string, object>> GetGlobalDataAsync(CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/global";
-            await ApplyApiKeyAsync();
             var response = await GetWithRetryAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -177,7 +174,6 @@ namespace AvaloniaAppCrypto.Services
             try
             {
                 var url = $"{BaseUrl}/coins/{coinId}/ohlc?vs_currency=usd&days={days}";
-                await ApplyApiKeyAsync();
                 var response = await GetWithRetryAsync(url, ct);
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync(ct);

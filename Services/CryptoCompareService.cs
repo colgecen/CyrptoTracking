@@ -19,43 +19,46 @@ namespace AvaloniaAppCrypto.Services
         {
             _httpClient = httpClient;
             _settingsService = settingsService;
-            _httpClient.Timeout = TimeSpan.FromSeconds(10);
+            _httpClient.Timeout = Timeout.InfiniteTimeSpan;
         }
 
-        private async Task ApplyApiKeyAsync()
+        private async Task<HttpResponseMessage> SendAsync(string url, CancellationToken ct)
         {
             var settings = await _settingsService.GetSettingsAsync().ConfigureAwait(false);
-            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            var timeoutSeconds = settings.ApiTimeoutSeconds > 0 ? settings.ApiTimeoutSeconds : 10;
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
             var key = settings.CryptoCompareApiKey ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Apikey {key}");
-            if (settings.ApiTimeoutSeconds > 0)
-                _httpClient.Timeout = TimeSpan.FromSeconds(settings.ApiTimeoutSeconds);
+                request.Headers.TryAddWithoutValidation("Authorization", $"Apikey {key}");
+
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            cts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
+            return await _httpClient.SendAsync(request, cts.Token).ConfigureAwait(false);
         }
 
-        private async Task<System.Net.Http.HttpResponseMessage> GetWithRetryAsync(string url, System.Threading.CancellationToken ct)
+        private async Task<HttpResponseMessage> GetWithRetryAsync(string url, CancellationToken ct)
         {
-            var maxAttempts = 3;
-            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            const int maxAttempts = 3;
+            for (var attempt = 0; attempt < maxAttempts; attempt++)
             {
                 try
                 {
-                    await ApplyApiKeyAsync();
-                    var response = await _httpClient.GetAsync(url, ct);
+                    var response = await SendAsync(url, ct).ConfigureAwait(false);
                     if ((int)response.StatusCode == 429 && attempt < maxAttempts - 1)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct);
+                        response.Dispose();
+                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct).ConfigureAwait(false);
                         continue;
                     }
                     return response;
                 }
                 catch (Exception) when (attempt < maxAttempts - 1)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct);
+                    await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct).ConfigureAwait(false);
                 }
             }
-            await ApplyApiKeyAsync();
-            return await _httpClient.GetAsync(url, ct);
+            return await SendAsync(url, ct).ConfigureAwait(false);
         }
 
         public async Task<List<NewsArticle>> GetLatestNewsAsync(string categories = "", CancellationToken ct = default)

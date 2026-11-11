@@ -27,6 +27,8 @@ namespace AvaloniaAppCrypto.ViewModels
         private readonly ISettingsService _settingsService;
         private AppSettings _settings = new();
         private DispatcherTimer? _autoRefreshTimer;
+        private bool _isRefreshing;
+        private DateTime _lastNewsRefresh = DateTime.MinValue;
         private DateTime _lastAlertCheck = DateTime.MinValue;
 
         [ObservableProperty] private bool _isSidebarCollapsed;
@@ -60,13 +62,22 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty]
         private List<Models.OhlcPoint> _btcCandleData = new();
 
-        [RelayCommand]
-        private async Task LoadBtcCandles(int days)
+        private static int ParseDays(string? value)
         {
-            if (days <= 0) days = 7;
+            if (int.TryParse(value, out var days) && days > 0)
+                return days;
+            return 0;
+        }
+
+        [RelayCommand]
+        private async Task LoadBtcCandles(string? days)
+        {
+            var parsed = ParseDays(days);
+            if (parsed <= 0) parsed = 7;
+            days = null;
             try
             {
-                var data = await _coinGeckoService.GetOhlcAsync("bitcoin", days);
+                var data = await _coinGeckoService.GetOhlcAsync("bitcoin", parsed);
                 BtcCandleData = data;
             }
             catch (Exception ex)
@@ -76,14 +87,15 @@ namespace AvaloniaAppCrypto.ViewModels
         }
 
         [RelayCommand]
-        private async Task LoadComparisonChart(int days)
+        private async Task LoadComparisonChart(string? days)
         {
-            if (days <= 0) days = 7;
+            var parsed = ParseDays(days);
+            if (parsed <= 0) parsed = 7;
             try
             {
                 ComparisonSeries.Clear();
-                var btcData = await _coinGeckoService.GetMarketChartAsync("bitcoin", days);
-                var ethData = await _coinGeckoService.GetMarketChartAsync("ethereum", days);
+                var btcData = await _coinGeckoService.GetMarketChartAsync("bitcoin", parsed);
+                var ethData = await _coinGeckoService.GetMarketChartAsync("ethereum", parsed);
 
                 ComparisonSeries.Add(new Models.ChartSeries
                 {
@@ -105,9 +117,10 @@ namespace AvaloniaAppCrypto.ViewModels
         }
 
         [RelayCommand]
-        private async Task LoadBtcChart(int days)
+        private async Task LoadBtcChart(string? days)
         {
-            BtcChartDays = days <= 0 ? 7 : days;
+            var parsed = ParseDays(days);
+            BtcChartDays = parsed <= 0 ? 7 : parsed;
             try
             {
                 var data = await _coinGeckoService.GetMarketChartAsync("bitcoin", BtcChartDays);
@@ -123,6 +136,16 @@ namespace AvaloniaAppCrypto.ViewModels
 
         // Favorited Coins (filtered)
         public ObservableCollection<Coin> FavoritedCoins { get; } = new();
+
+        public ObservableCollection<Models.NavigationItem> NavigationItems { get; } = new()
+        {
+            new Models.NavigationItem { Page = "Dashboard", Icon = "📊", Title = "Dashboard", IsActive = true },
+            new Models.NavigationItem { Page = "Favorites", Icon = "⭐", Title = "Favoriler" },
+            new Models.NavigationItem { Page = "Portfolio", Icon = "💼", Title = "Portföy" },
+            new Models.NavigationItem { Page = "Alerts", Icon = "🔔", Title = "Alarmlar" },
+            new Models.NavigationItem { Page = "News", Icon = "📰", Title = "Haberler" },
+            new Models.NavigationItem { Page = "Settings", Icon = "⚙️", Title = "Ayarlar" }
+        };
 
         private void RefreshFavorites()
         {
@@ -226,6 +249,8 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadPortfolioAsync();
             await LoadAlertsAsync();
             await LoadNewsAsync();
+            await LoadBtcCandles("7");
+            await LoadComparisonChart("7");
             LastUpdated = DateTime.Now.ToString("HH:mm:ss");
             _ = ConnectWebSocketsAsync();
         }
@@ -297,15 +322,33 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private async Task RefreshDataAsync(bool showToast = false)
         {
-            await LoadCoinsAsync();
-            await LoadGlobalDataAsync();
-            await LoadPortfolioAsync();
-            await LoadAlertsAsync();
-            await LoadNewsAsync();
-            _ = LoadComparisonChart(BtcChartDays);
-            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
-            if (showToast)
-                _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
+            // Auto-refresh can fire again before the previous round finished;
+            // overlapping full reloads hammer the API and make the UI stutter.
+            if (_isRefreshing) return;
+            _isRefreshing = true;
+            try
+            {
+                await LoadCoinsAsync();
+                await LoadGlobalDataAsync();
+                await LoadPortfolioAsync();
+                await LoadAlertsAsync();
+
+                // News changes slowly; refreshing it on every price tick only
+                // adds latency and rebuilds ~100 list rows for nothing.
+                if (showToast || (DateTime.UtcNow - _lastNewsRefresh) > TimeSpan.FromMinutes(5))
+                    await LoadNewsAsync();
+
+                if (showToast)
+                    _ = LoadComparisonChart(BtcChartDays.ToString());
+
+                LastUpdated = DateTime.Now.ToString("HH:mm:ss");
+                if (showToast)
+                    _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
+            }
+            finally
+            {
+                _isRefreshing = false;
+            }
         }
 
         [RelayCommand]
@@ -314,17 +357,61 @@ namespace AvaloniaAppCrypto.ViewModels
             try
             {
                 var coins = await _coinGeckoService.GetTopCoinsAsync(50);
-                Coins.Clear();
-                foreach (var coin in coins)
+
+                // Update coins in place so the list is not torn down and
+                // rebuilt on every refresh (rebuilding 50 rows ~every tick is
+                // what made the UI stutter and lose scroll position).
+                var existing = Coins.ToDictionary(c => c.Id, StringComparer.OrdinalIgnoreCase);
+                var incoming = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var listChanged = false;
+
+                for (var i = 0; i < coins.Count; i++)
                 {
-                    coin.IsFavorite = FavoriteIds.Contains(coin.Id);
-                    Coins.Add(coin);
+                    var fresh = coins[i];
+                    incoming.Add(fresh.Id);
+                    if (existing.TryGetValue(fresh.Id, out var target))
+                    {
+                        target.Symbol = fresh.Symbol;
+                        target.Name = fresh.Name;
+                        target.Image = fresh.Image;
+                        target.CurrentPrice = fresh.CurrentPrice;
+                        target.MarketCap = fresh.MarketCap;
+                        target.MarketCapRank = fresh.MarketCapRank;
+                        target.TotalVolume = fresh.TotalVolume;
+                        target.High24H = fresh.High24H;
+                        target.Low24H = fresh.Low24H;
+                        target.PriceChangePercentage24H = fresh.PriceChangePercentage24H;
+                        target.PriceChangePercentage1H = fresh.PriceChangePercentage1H;
+                        target.PriceChangePercentage7D = fresh.PriceChangePercentage7D;
+                        target.CirculatingSupply = fresh.CirculatingSupply;
+                        target.TotalSupply = fresh.TotalSupply;
+                        target.MaxSupply = fresh.MaxSupply;
+                        target.Ath = fresh.Ath;
+                        target.AthDate = fresh.AthDate;
+                        target.IsFavorite = FavoriteIds.Contains(fresh.Id);
+                    }
+                    else
+                    {
+                        fresh.IsFavorite = FavoriteIds.Contains(fresh.Id);
+                        Coins.Add(fresh);
+                        listChanged = true;
+                    }
                 }
-                ApplyFilter();
-                RefreshFavorites();
-                UpdateBtcChart();
-                BuildMarketSegments();
-                BuildTopGainers();
+
+                foreach (var stale in Coins.Where(c => !incoming.Contains(c.Id)).ToList())
+                {
+                    Coins.Remove(stale);
+                    listChanged = true;
+                }
+
+                if (listChanged)
+                {
+                    ApplyFilter();
+                    RefreshFavorites();
+                    BuildMarketSegments();
+                    BuildTopGainers();
+                    UpdateBtcChart();
+                }
             }
             catch (Exception ex)
             {
@@ -334,7 +421,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private void UpdateBtcChart()
         {
-            _ = LoadBtcChart(BtcChartDays);
+            _ = LoadBtcChart(BtcChartDays.ToString());
         }
 
         private void BuildMarketSegments()
@@ -470,7 +557,12 @@ namespace AvaloniaAppCrypto.ViewModels
         }
 
         [RelayCommand]
-        private void NavigateTo(string page) => CurrentPage = page;
+        private void NavigateTo(string page)
+        {
+            CurrentPage = page;
+            foreach (var item in NavigationItems)
+                item.IsActive = string.Equals(item.Page, page, StringComparison.Ordinal);
+        }
 
         [RelayCommand]
         private void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
@@ -499,8 +591,11 @@ namespace AvaloniaAppCrypto.ViewModels
         private void StartAutoRefresh()
         {
             _autoRefreshTimer?.Stop();
+            // Keep a sane floor: a full reload every few seconds both stutters
+            // the UI and quickly hits CoinGecko's rate limit.
             var seconds = _settings.RefreshIntervalSeconds;
-            if (seconds <= 0) return;
+            if (seconds <= 0) return; // 0 means auto-refresh disabled
+            seconds = Math.Max(seconds, 15);
             _autoRefreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(seconds) };
             _autoRefreshTimer.Tick += async (_, _) => await RefreshDataAsync(false);
             _autoRefreshTimer.Start();
@@ -617,6 +712,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 foreach (var article in articles)
                     NewsArticles.Add(article);
                 NewsLastUpdate = DateTime.Now.ToString("HH:mm");
+                _lastNewsRefresh = DateTime.UtcNow;
             }
             catch { }
         }

@@ -29,12 +29,30 @@ namespace AvaloniaAppCrypto
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+        {
+            var builder = AppBuilder.Configure<App>()
                 .UsePlatformDetect()
 #if DEBUG
                 .WithDeveloperTools()
 #endif
                 .WithInterFont()
                 .LogToTrace();
+
+            // On XWayland the GLX swap chain can present stale frames on some
+            // Intel/Mesa setups (the window shows outdated or blank content).
+            // Avalonia's built-in CPU renderer is fast enough for this UI and
+            // is consistent, so use it by default on Linux.
+            // Set CRYPTOTRACK_GLX=1 to force hardware GLX rendering.
+            if (OperatingSystem.IsLinux()
+                && Environment.GetEnvironmentVariable("CRYPTOTRACK_GLX") != "1")
+            {
+                builder = builder.With(new Avalonia.X11PlatformOptions
+                {
+                    RenderingMode = new[] { Avalonia.X11RenderingMode.Software }
+                });
+            }
+
+            return builder;
+        }
     }
 }
