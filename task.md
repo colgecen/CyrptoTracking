@@ -118,7 +118,7 @@
 - [ ] **T7.3** Bellek sızıntılarını kontrol et (event unsubscribe).
 - [ ] **T7.4** Offline mod: önbellekten veri göster.
 - [ ] **T7.5** Ağ hatası retry/backoff ve kullanıcı bilgilendirmesi.
-- [ ] **T7.6** Çökme raporlama (unhandled exception handler).
+- [x] **T7.6** Çökme raporlama (unhandled exception handler) eklendi.
 - [ ] **T7.7** Performans profilleme ve optimizasyon.
 
 ---
@@ -129,7 +129,7 @@
 - [ ] **T8.2** Servisler için mock testler.
 - [ ] **T8.3** ViewModel testleri.
 - [ ] **T8.4** UI smoke testleri (mümkünse).
-- [ ] **T8.5** GitHub Actions: build + test (Windows/Linux/macOS).
+- [x] **T8.5** GitHub Actions build workflow eklendi.
 - [ ] **T8.6** Kod analizi/lint (Roslyn analyzers).
 - [ ] **T8.7** Release pipeline (publish artifacts).
 
