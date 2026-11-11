@@ -591,11 +591,10 @@ namespace AvaloniaAppCrypto.ViewModels
         private void StartAutoRefresh()
         {
             _autoRefreshTimer?.Stop();
-            // Keep a sane floor: a full reload every few seconds both stutters
-            // the UI and quickly hits CoinGecko's rate limit.
             var seconds = _settings.RefreshIntervalSeconds;
             if (seconds <= 0) return; // 0 means auto-refresh disabled
-            seconds = Math.Max(seconds, 15);
+            // Respect user setting but keep a small floor to avoid hammering the API.
+            seconds = Math.Max(seconds, 5);
             _autoRefreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(seconds) };
             _autoRefreshTimer.Tick += async (_, _) => await RefreshDataAsync(false);
             _autoRefreshTimer.Start();
