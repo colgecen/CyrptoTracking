@@ -9,7 +9,7 @@ namespace AvaloniaAppCrypto.Views
         {
             InitializeComponent();
             Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#0F1117"));
-            TransparencyLevelHint = WindowTransparencyLevel.None;
+            TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
         }
     }
 }
