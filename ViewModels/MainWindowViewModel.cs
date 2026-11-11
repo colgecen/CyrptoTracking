@@ -108,6 +108,7 @@ namespace AvaloniaAppCrypto.ViewModels
         // Portfolio
         public ObservableCollection<PortfolioEntry> PortfolioEntries { get; } = new();
         public ObservableCollection<Models.ChartSegment> PortfolioSegments { get; } = new();
+        public ObservableCollection<Models.ChartSegment> MarketSegments { get; } = new();
         public ObservableCollection<PriceAlert> Alerts { get; } = new();
         public ObservableCollection<PriceAlert> TriggeredAlerts { get; } = new();
         public ObservableCollection<NewsArticle> NewsArticles { get; } = new();
@@ -274,6 +275,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 ApplyFilter();
                 RefreshFavorites();
                 UpdateBtcChart();
+                BuildMarketSegments();
             }
             catch (Exception ex)
             {
@@ -284,6 +286,34 @@ namespace AvaloniaAppCrypto.ViewModels
         private void UpdateBtcChart()
         {
             _ = LoadBtcChart(BtcChartDays);
+        }
+
+        private void BuildMarketSegments()
+        {
+            MarketSegments.Clear();
+            var palette = new[] { "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899", "#14B8A6", "#64748B" };
+            var top = Coins.OrderByDescending(c => c.MarketCap).Take(6).ToList();
+            var other = Coins.Skip(6).Sum(c => (double)c.MarketCap);
+            int i = 0;
+            foreach (var c in top)
+            {
+                MarketSegments.Add(new Models.ChartSegment
+                {
+                    Label = c.Symbol.ToUpper(),
+                    Value = (double)c.MarketCap,
+                    Color = palette[i % palette.Length]
+                });
+                i++;
+            }
+            if (other > 0)
+            {
+                MarketSegments.Add(new Models.ChartSegment
+                {
+                    Label = "Diğer",
+                    Value = other,
+                    Color = "#64748B"
+                });
+            }
         }
 
         [ObservableProperty] private string _sortColumn = "Rank";

@@ -83,6 +83,14 @@
                 </StackPanel>
             </Border>
 
+            <!-- Market Dominance -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Piyasa Dominansı (Top 6)" FontSize="18" FontWeight="700" Foreground="White"/>
+                    <controls:DonutChart Segments="{Binding MarketSegments}" Height="200" Width="200" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
             <!-- Coin Table -->
             <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
