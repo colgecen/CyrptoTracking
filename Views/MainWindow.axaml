@@ -9,6 +9,9 @@
         Background="#0F1117"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="Full">
+    <Window.KeyBindings>
+        <KeyBinding Gesture="F5" Command="{Binding RefreshCommand}"/>
+    </Window.KeyBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="56"/>
