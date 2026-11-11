@@ -8,30 +8,30 @@
         <StackPanel Spacing="24">
             <!-- Summary Cards -->
             <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
-                <Border Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="Piyasa Değeri" FontSize="12" Foreground="#8B8FA3"/>
-                        <TextBlock Text="{Binding TotalMarketCap}" FontSize="22" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="Piyasa Değeri" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{Binding TotalMarketCap}" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="{Binding MarketCapChange, StringFormat='{}▲ {0} son 24s'}" FontSize="12" Foreground="#22C55E"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="1" Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <Border Grid.Column="1" Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="24s Hacim" FontSize="12" Foreground="#8B8FA3"/>
-                        <TextBlock Text="{Binding TotalVolume24h}" FontSize="22" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="24s Hacim" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{Binding TotalVolume24h}" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="▲ 12% artış" FontSize="12" Foreground="#22C55E"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <Border Grid.Column="2" Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="BTC Dominance" FontSize="12" Foreground="#8B8FA3"/>
-                        <TextBlock Text="{Binding BtcDominance}" FontSize="22" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="BTC Dominance" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{Binding BtcDominance}" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <TextBlock Text="▼ 0.3% son 7g" FontSize="12" Foreground="#EF4444"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="3" Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <Border Grid.Column="3" Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="Korku &amp; Açgözlük" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="Korku &amp; Açgözlük" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                         <TextBlock Text="{Binding FearGreedIndex}" FontSize="22" FontWeight="700" Foreground="#F59E0B"/>
                         <Border Background="#F59E0B" CornerRadius="20" Padding="10,4" HorizontalAlignment="Left" Opacity="0.9">
                             <TextBlock Text="Açgözlü" FontSize="11" FontWeight="600" Foreground="#1C1F2A"/>
@@ -41,131 +41,131 @@
             </Grid>
 
             <!-- Chart Section -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
-                        <TextBlock Text="Bitcoin" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center" Margin="8,0,0,0">BTC / 7 Günlük Grafik</TextBlock>
+                        <TextBlock Text="Bitcoin" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="8,0,0,0">BTC / 7 Günlük Grafik</TextBlock>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
                             <Button Content="1G" Command="{Binding LoadBtcChartCommand}" CommandParameter="1"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                             <Button Content="1H" Command="{Binding LoadBtcChartCommand}" CommandParameter="7"
-                                    Background="#2D3041" Foreground="#60A5FA" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12" FontWeight="600"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="#60A5FA" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12" FontWeight="600"/>
                             <Button Content="1Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="30"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                             <Button Content="3Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="90"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                             <Button Content="1Y" Command="{Binding LoadBtcChartCommand}" CommandParameter="365"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                         </StackPanel>
                     </Grid>
-                    <Border Background="#141724" CornerRadius="12" Height="280" HorizontalAlignment="Stretch" Padding="8">
+                    <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="12" Height="280" HorizontalAlignment="Stretch" Padding="8">
                         <controls:SparklineChart Values="{Binding BtcChartData}"/>
                     </Border>
                 </StackPanel>
             </Border>
 
             <!-- Candlestick Chart -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
-                        <TextBlock Text="Bitcoin Mum Grafiği" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="Bitcoin Mum Grafiği" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
                             <Button Content="1H" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="7"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                             <Button Content="1Ay" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="30"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                         </StackPanel>
                     </Grid>
-                    <Border Background="#141724" CornerRadius="12" Height="260" HorizontalAlignment="Stretch" Padding="8">
+                    <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="12" Height="260" HorizontalAlignment="Stretch" Padding="8">
                         <controls:CandlestickChart Candles="{Binding BtcCandleData}"/>
                     </Border>
                 </StackPanel>
             </Border>
 
             <!-- Market Dominance -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Piyasa Dominansı (Top 6)" FontSize="18" FontWeight="700" Foreground="White"/>
+                    <TextBlock Text="Piyasa Dominansı (Top 6)" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <controls:DonutChart Segments="{Binding MarketSegments}" Height="200" Width="200" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 
             <!-- Comparison Chart -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
-                        <TextBlock Text="BTC vs ETH" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="BTC vs ETH" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
                             <Button Content="7G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="7"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                             <Button Content="30G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="30"
-                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                                    Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
                         </StackPanel>
                     </Grid>
-                    <Border Background="#141724" CornerRadius="12" Height="220" HorizontalAlignment="Stretch" Padding="8">
+                    <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="12" Height="220" HorizontalAlignment="Stretch" Padding="8">
                         <controls:MultiLineChart Series="{Binding ComparisonSeries}"/>
                     </Border>
                 </StackPanel>
             </Border>
 
             <!-- Fear & Greed -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="8" HorizontalAlignment="Center">
-                    <TextBlock Text="Korku &amp; Açgözlülük" FontSize="18" FontWeight="700" Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Korku &amp; Açgözlülük" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
                     <controls:GaugeChart Value="{Binding FearGreedValue}" Height="160" Width="240"/>
-                    <TextBlock Text="{Binding FearGreedIndex}" FontSize="14" Foreground="#8B8FA3" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding FearGreedIndex}" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 
             <!-- Top Gainers -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="En Çok Yükselenler (24s)" FontSize="18" FontWeight="700" Foreground="White"/>
+                    <TextBlock Text="En Çok Yükselenler (24s)" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <controls:BarChart Segments="{Binding TopGainers}" Height="180"/>
                 </StackPanel>
             </Border>
 
             <!-- Coin Table -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="*,Auto">
-                        <TextBlock Text="Coin Listesi" FontSize="18" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="Coin Listesi" FontSize="18" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                            <Button Content="Liste" Background="#2D3041" Foreground="White" BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
-                            <Button Content="Grid" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
+                            <Button Content="Liste" Background="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
+                            <Button Content="Grid" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
                         </StackPanel>
                     </Grid>
 
                     <!-- Table Header -->
                     <Grid ColumnDefinitions="40,200,*,120,100,100,100,60" Margin="16,4">
-                        <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="1" Content="Coin" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="2" Content="Fiyat" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
-                        <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
-                        <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
-                        <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
-                        <Button Grid.Column="6" Content="Hacim" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="#8B8FA3" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
+                        <Button Grid.Column="1" Content="Coin" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Left"/>
+                        <Button Grid.Column="2" Content="Fiyat" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="6" Content="Hacim" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" FontSize="12" HorizontalAlignment="Right"/>
                     </Grid>
 
                     <!-- Coin Rows -->
                     <ItemsControl ItemsSource="{Binding FilteredCoins}">
                         <ItemsControl.DataTemplates>
                             <DataTemplate DataType="models:Coin">
-                                <Border Background="#141724" CornerRadius="12" Padding="16,12" Margin="0,3">
+                                <Border Background="{DynamicResource BackgroundPrimaryBrush}" CornerRadius="12" Padding="16,12" Margin="0,3">
                                     <Grid ColumnDefinitions="40,200,*,120,100,100,100,60">
-                                        <TextBlock Text="{Binding MarketCapRank}" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding MarketCapRank}" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                                            <Border CornerRadius="14" Width="28" Height="28" Background="#1C1F2A">
+                                            <Border CornerRadius="14" Width="28" Height="28" Background="{DynamicResource BackgroundSecondaryBrush}">
                                                 <Image Source="{Binding Image}" Width="24" Height="24"/>
                                             </Border>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="600" Foreground="White"/>
-                                                <TextBlock Text="{Binding Symbol}" FontSize="11" Foreground="#8B8FA3"/>
+                                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="{Binding Symbol}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                             </StackPanel>
                                         </StackPanel>
                                         <TextBlock Grid.Column="2" Text="{Binding CurrentPrice, StringFormat='${0:N2}'}" 
-                                                   FontSize="15" FontWeight="600" Foreground="White" 
+                                                   FontSize="15" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" 
                                                    TextAlignment="End" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Column="3" Text="{Binding PriceChangePercentage1H, StringFormat='{}{0:F2}%'}" 
                                                    FontSize="13" FontWeight="500"
@@ -180,7 +180,7 @@
                                                    Foreground="{Binding PriceChangePercentage7D, Converter={StaticResource PriceChangeToColor}}" 
                                                    TextAlignment="End" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Column="6" Text="{Binding TotalVolume, Converter={StaticResource NumberFormat}}" 
-                                                   FontSize="12" Foreground="#8B8FA3" TextAlignment="End" VerticalAlignment="Center"/>
+                                                   FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" TextAlignment="End" VerticalAlignment="Center"/>
                                         <Button Grid.Column="7" Background="Transparent" BorderThickness="0" 
                                                 Content="{Binding IsFavorite, Converter={StaticResource BoolToStar}}" FontSize="16"
                                                 Command="{Binding $parent[UserControl].DataContext.ToggleFavoriteCommand}" 
@@ -194,9 +194,9 @@
             </Border>
 
             <!-- Loading -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="48" IsVisible="{Binding Coins.Count, Converter={StaticResource InverseBoolConverter}}">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="48" IsVisible="{Binding Coins.Count, Converter={StaticResource InverseBoolConverter}}">
                 <StackPanel Spacing="16" HorizontalAlignment="Center">
-                    <TextBlock Text="Veriler yükleniyor..." FontSize="16" Foreground="#8B8FA3" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Veriler yükleniyor..." FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </StackPanel>

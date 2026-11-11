@@ -36,7 +36,7 @@
 
 ## Faz 2 — UI/UX ve Düzen (En Büyük Sorun Alanı)
 
-- [ ] **T2.1** Tüm ekranlarda hardcoded renkleri tema kaynaklarına (`DynamicResource`) geçir.
+- [x] **T2.1** Hardcoded renkler tema kaynaklarına geçirildi.
 - [ ] **T2.2** Ana pencere düzenini yeniden tasarla: header, sidebar, content, status bar.
 - [ ] **T2.3** Sidebar daraltma/genişletme animasyonu ve ikonlu menü.
 - [ ] **T2.4** Responsive davranış: küçük ekranlarda sidebar overlay, kartlar wrap.

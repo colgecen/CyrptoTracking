@@ -6,74 +6,74 @@
     <ScrollViewer>
         <StackPanel Spacing="16">
             <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Text="Portföy" FontSize="22" FontWeight="700" Foreground="White"/>
-                <Button Grid.Column="1" Content="+ Giriş Ekle" Background="#3B82F6" Foreground="White"
+                <TextBlock Text="Portföy" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                <Button Grid.Column="1" Content="+ Giriş Ekle" Background="#3B82F6" Foreground="{DynamicResource TextPrimaryBrush}"
                         BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"
                         Command="{Binding OpenAddPortfolioCommand}"/>
             </Grid>
 
             <!-- Summary -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Spacing="6">
-                        <TextBlock Text="Toplam Değer" FontSize="12" Foreground="#8B8FA3"/>
-                        <TextBlock Text="{Binding PortfolioTotalValue}" FontSize="24" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="Toplam Değer" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock Text="{Binding PortfolioTotalValue}" FontSize="24" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="6">
-                        <TextBlock Text="Kar/Zarar" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="Kar/Zarar" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                         <TextBlock Text="{Binding PortfolioProfitLoss}" FontSize="20" FontWeight="700" Foreground="#22C55E"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="6">
-                        <TextBlock Text="Getiri %" FontSize="12" Foreground="#8B8FA3"/>
+                        <TextBlock Text="Getiri %" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                         <TextBlock Text="{Binding PortfolioProfitLossPercent}" FontSize="20" FontWeight="700" Foreground="#22C55E"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Add Portfolio Form -->
-            <Border IsVisible="{Binding IsAddPortfolioOpen}" Background="#1C1F2A" CornerRadius="16" Padding="20">
+            <Border IsVisible="{Binding IsAddPortfolioOpen}" Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Yeni Portföy Girişi" FontSize="16" FontWeight="600" Foreground="White"/>
+                    <TextBlock Text="Yeni Portföy Girişi" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Coin" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <TextBlock Text="Coin" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding Coins}" SelectedItem="{Binding NewPortfolioCoin}"
-                                  DisplayMemberBinding="{Binding Name}" Background="#1E2233" Foreground="White"
+                                  DisplayMemberBinding="{Binding Name}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                   BorderBrush="#2D3041" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Miktar" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Text="{Binding NewPortfolioAmount}" Background="#1E2233" Foreground="White"
+                        <TextBlock Text="Miktar" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding NewPortfolioAmount}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                  BorderBrush="#2D3041" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Ort. Alış Fiyatı" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Text="{Binding NewPortfolioBuyPrice}" Background="#1E2233" Foreground="White"
+                        <TextBlock Text="Ort. Alış Fiyatı" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding NewPortfolioBuyPrice}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                  BorderBrush="#2D3041" CornerRadius="8"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Ekle" Command="{Binding AddPortfolioEntryCommand}" Background="#3B82F6" Foreground="White"
+                        <Button Content="Ekle" Command="{Binding AddPortfolioEntryCommand}" Background="#3B82F6" Foreground="{DynamicResource TextPrimaryBrush}"
                                 BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
-                        <Button Content="İptal" Command="{Binding CloseAddPortfolioCommand}" Background="#1E2233" Foreground="#8B8FA3"
+                        <Button Content="İptal" Command="{Binding CloseAddPortfolioCommand}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}"
                                 BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- Allocation Chart -->
-            <Border Background="#1C1F2A" CornerRadius="16" Padding="20">
+            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Portföy Dağılımı" FontSize="16" FontWeight="600" Foreground="White"/>
+                    <TextBlock Text="Portföy Dağılımı" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <controls:DonutChart Segments="{Binding PortfolioSegments}" Height="200" Width="200" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 
             <!-- Empty State -->
             <Border IsVisible="{Binding PortfolioEntries.Count, Converter={StaticResource InverseBoolConverter}}" 
-                    Background="#1C1F2A" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,24">
+                    Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,24">
                 <StackPanel Spacing="16" HorizontalAlignment="Center">
                     <TextBlock Text="💼" FontSize="64" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Henüz portföy girişi eklemediniz" FontSize="16" Foreground="#8B8FA3"/>
-                    <TextBlock Text="Coin detay sayfasından satın aldığınız coinleri ekleyin" FontSize="13" Foreground="#5A5D6E" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Henüz portföy girişi eklemediniz" FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                    <TextBlock Text="Coin detay sayfasından satın aldığınız coinleri ekleyin" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 
@@ -81,15 +81,15 @@
             <ItemsControl ItemsSource="{Binding PortfolioEntries}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="models:PortfolioEntry">
-                        <Border Background="#1C1F2A" CornerRadius="12" Padding="16,12" Margin="0,3">
+                        <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="12" Padding="16,12" Margin="0,3">
                             <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="20">
-                                <TextBlock Text="{Binding CoinSymbol}" FontSize="15" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding CoinSymbol}" FontSize="15" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:F4}'}" 
-                                           FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                           FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="2" Text="{Binding AverageBuyPrice, StringFormat='${0:N2}'}" 
-                                           FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                                           FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="3" Text="{Binding DateAdded}" 
-                                           FontSize="12" Foreground="#5A5D6E" VerticalAlignment="Center"/>
+                                           FontSize="12" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center"/>
                                 <Button Grid.Column="4" Background="Transparent" BorderThickness="0" Content="🗑" 
                                         FontSize="14" Foreground="#EF4444"
                                         Command="{Binding $parent[UserControl].DataContext.RemovePortfolioEntryCommand}"
