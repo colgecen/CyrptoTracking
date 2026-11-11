@@ -73,6 +73,12 @@ namespace AvaloniaAppCrypto.ViewModels
         public ObservableCollection<PriceAlert> TriggeredAlerts { get; } = new();
         public ObservableCollection<NewsArticle> NewsArticles { get; } = new();
 
+        // Portfolio add form
+        [ObservableProperty] private bool _isAddPortfolioOpen;
+        [ObservableProperty] private Coin? _newPortfolioCoin;
+        [ObservableProperty] private decimal _newPortfolioAmount;
+        [ObservableProperty] private decimal _newPortfolioBuyPrice;
+
         // Portfolio summary
         [ObservableProperty] private string _portfolioTotalValue = "$0";
         [ObservableProperty] private string _portfolioProfitLoss = "$0";
@@ -251,6 +257,12 @@ namespace AvaloniaAppCrypto.ViewModels
             NewAlertTargetPrice = value.CurrentPrice;
         }
 
+        partial void OnNewPortfolioCoinChanged(Coin? value)
+        {
+            if (value == null) return;
+            NewPortfolioBuyPrice = value.CurrentPrice;
+        }
+
         [RelayCommand]
         private async Task ToggleFavorite(string coinId)
         {
@@ -396,6 +408,32 @@ namespace AvaloniaAppCrypto.ViewModels
         {
             await _portfolioService.RemoveEntryAsync(id);
             await LoadPortfolioAsync();
+        }
+
+        [RelayCommand]
+        private void OpenAddPortfolio() => IsAddPortfolioOpen = true;
+
+        [RelayCommand]
+        private void CloseAddPortfolio() => IsAddPortfolioOpen = false;
+
+        [RelayCommand]
+        private async Task AddPortfolioEntry()
+        {
+            if (NewPortfolioCoin == null) { _toastService.Show("Coin seçin", ToastType.Error, 2000); return; }
+            if (NewPortfolioAmount <= 0) { _toastService.Show("Miktar girin", ToastType.Error, 2000); return; }
+            var entry = new PortfolioEntry
+            {
+                CoinId = NewPortfolioCoin.Id,
+                CoinSymbol = NewPortfolioCoin.Symbol,
+                CoinName = NewPortfolioCoin.Name,
+                CoinImage = NewPortfolioCoin.Image,
+                Amount = NewPortfolioAmount,
+                AverageBuyPrice = NewPortfolioBuyPrice > 0 ? NewPortfolioBuyPrice : NewPortfolioCoin.CurrentPrice
+            };
+            await _portfolioService.AddEntryAsync(entry);
+            await LoadPortfolioAsync();
+            IsAddPortfolioOpen = false;
+            _toastService.Show("Portföy girişi eklendi", ToastType.Success, 2000);
         }
 
         // Alert commands

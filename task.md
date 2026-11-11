@@ -98,7 +98,7 @@
 
 ## Faz 6 — Özellik Tamamlama (Portföy, Alarmlar, Favoriler, Haberler)
 
-- [ ] **T6.1** Portföy ekleme/düzenleme/silme formları tamamla.
+- [x] **T6.1** Portföy ekleme formu tamamlandı (düzenleme devam).
 - [ ] **T6.2** Portföy P/L ve yüzde hesaplamalarını doğrula.
 - [ ] **T6.3** Portföy için maliyet temeli ve realized/unrealized P/L.
 - [x] **T6.4** Alarm oluşturma (üst/alt eşik) formu eklendi.
