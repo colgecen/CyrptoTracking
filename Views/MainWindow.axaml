@@ -21,8 +21,14 @@
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}" 
                             FontSize="18" Foreground="#8B8FA3" Content="☰" Width="36" Height="36"/>
-                    <Border Background="LinearGradient(180deg, #3B82F6, #2563EB)" CornerRadius="10" 
+                    <Border CornerRadius="10" 
                             Width="32" Height="32" VerticalAlignment="Center">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                <GradientStop Color="#3B82F6" Offset="0"/>
+                                <GradientStop Color="#2563EB" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
                         <TextBlock Text="₿" FontSize="18" FontWeight="800" 
                                    Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
