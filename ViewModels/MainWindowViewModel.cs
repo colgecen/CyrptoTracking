@@ -510,12 +510,16 @@ namespace AvaloniaAppCrypto.ViewModels
         [RelayCommand]
         private void ApplyFilter()
         {
-            var query = SearchQuery?.ToLower() ?? "";
-            FilteredCoins.Clear();
-            var filtered = Coins.Where(c =>
-                string.IsNullOrEmpty(query) ||
-                c.Name.ToLower().Contains(query) ||
-                c.Symbol.ToLower().Contains(query));
+            var query = SearchQuery?.Trim().ToLowerInvariant() ?? string.Empty;
+            bool matches(string? value) => value is not null &&
+                                           value.Contains(query, StringComparison.OrdinalIgnoreCase);
+
+            var filtered = string.IsNullOrEmpty(query)
+                ? Coins.ToList()
+                : Coins.Where(c =>
+                        matches(c.Name) ||
+                        matches(c.Symbol))
+                    .ToList();
 
             IOrderedEnumerable<Coin> sorted = SortColumn switch
             {
@@ -529,6 +533,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 _ => SortAscending ? filtered.OrderBy(c => c.MarketCapRank) : filtered.OrderByDescending(c => c.MarketCapRank)
             };
 
+            FilteredCoins.Clear();
             foreach (var coin in sorted)
                 FilteredCoins.Add(coin);
         }

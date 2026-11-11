@@ -16,7 +16,8 @@
             <conv:NumberFormatConverter x:Key="NumberFormat"/>
             <conv:PercentageFormatConverter x:Key="PercentageFormat"/>
             <conv:ActiveNavForegroundConverter x:Key="ActiveNavForegroundConverter"/>
-        </ResourceDictionary>
+            <conv:CountToVisibilityConverter x:Key="CountToVisibility"/>
+</ResourceDictionary>
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />
