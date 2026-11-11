@@ -141,7 +141,7 @@
 - [x] **T9.2** Geliştirici rehberi eklendi.
 - [ ] **T9.3** Ekran görüntüleri/GIF'ler.
 - [x] **T9.4** CHANGELOG eklendi.
-- [ ] **T9.5** Lisans ve katkı rehberi güncellemesi.
+- [x] **T9.5** Katkı rehberi branch stratejisi ile güncellendi.
 
 ---
 

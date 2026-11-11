@@ -17,6 +17,12 @@ Thanks for your interest in contributing! Here's how you can help.
 - Open the solution in your preferred editor (Rider, VS Code, Visual Studio)
 - Run with `dotnet run --project AvaloniaAppCrypto`
 
+## Branch Strategy
+- `main`: stable
+- `develop`: integration
+- `feature/<task-id>-short-name`
+- `fix/<task-id>-short-name`
+
 ## Code Style
 
 - Follow existing patterns in the codebase
