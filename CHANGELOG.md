@@ -17,6 +17,10 @@
   per-request, API keys travel with the request, and period commands parse
   their argument. Candlestick and comparison charts load at startup.
 - Dashboard no longer opens scrolled down; sidebar highlights the active page.
+- Lazy page instantiation: only the active page is built, cutting startup and
+  idle render cost.
+- Chart render paths no longer allocate brushes/gradients/pens each frame
+  (static shared instances cached).
 
 ### Changed
 - Coins update in place instead of being rebuilt every refresh; auto-refresh no

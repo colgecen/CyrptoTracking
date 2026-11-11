@@ -13,6 +13,7 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class MultiLineChart : Control
     {
+        private static readonly Pen s_guidePen = new Pen(new SolidColorBrush(Color.FromArgb(80, 255, 255, 255)), 1, dashStyle: new DashStyle(new[] { 4.0, 4.0 }, 0));
         public static readonly StyledProperty<IList<ChartSeries>> SeriesProperty =
             AvaloniaProperty.Register<MultiLineChart, IList<ChartSeries>>(nameof(Series), new List<ChartSeries>());
 
@@ -111,8 +112,7 @@ namespace AvaloniaAppCrypto.Controls
             if (_hoverIndex >= 0 && _hoverIndex < _pointCount)
             {
                 var x = (_hoverIndex / (double)(_pointCount - 1)) * w;
-                var guidePen = new Pen(new SolidColorBrush(Color.FromArgb(80, 255, 255, 255)), 1, dashStyle: new DashStyle(new[] { 4.0, 4.0 }, 0));
-                context.DrawLine(guidePen, new Point(x, 0), new Point(x, h));
+                context.DrawLine(s_guidePen, new Point(x, 0), new Point(x, h));
 
                 var lines = new List<string>();
                 foreach (var series in seriesList)

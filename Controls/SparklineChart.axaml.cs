@@ -11,6 +11,32 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class SparklineChart : Control
     {
+        private static readonly SolidColorBrush s_positiveLineBrush = new SolidColorBrush(Color.Parse("#0ECB81"));
+        private static readonly SolidColorBrush s_negativeLineBrush = new SolidColorBrush(Color.Parse("#F6465D"));
+        private static readonly LinearGradientBrush s_positiveFillBrush = CreateFill(Color.Parse("#0ECB81"));
+        private static readonly LinearGradientBrush s_negativeFillBrush = CreateFill(Color.Parse("#F6465D"));
+        private static readonly Pen s_guidePen = CreateGuidePen();
+        private static readonly DashStyle s_dash = new DashStyle(new double[] { 4, 4 }, 0);
+
+        private static LinearGradientBrush CreateFill(Color color)
+        {
+            return new LinearGradientBrush
+            {
+                StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+                EndPoint = new RelativePoint(0, 1, RelativeUnit.Relative),
+                GradientStops = new GradientStops
+                {
+                    new GradientStop(Color.FromArgb(80, color.R, color.G, color.B), 0),
+                    new GradientStop(Color.FromArgb(10, color.R, color.G, color.B), 1)
+                }
+            };
+        }
+
+        private static Pen CreateGuidePen()
+        {
+            return new Pen(new SolidColorBrush(Color.FromArgb(80, 255, 255, 255)), 1, dashStyle: s_dash);
+        }
+
         public static readonly StyledProperty<IList<double>> ValuesProperty =
             AvaloniaProperty.Register<SparklineChart, IList<double>>(nameof(Values), new List<double>());
 
@@ -98,18 +124,9 @@ namespace AvaloniaAppCrypto.Controls
             }
 
             bool isPositive = list.Last() >= list.First();
-            var baseColor = isPositive ? Color.Parse("#0ECB81") : Color.Parse("#F6465D");
-            var lineBrush = new SolidColorBrush(baseColor);
-            var fillBrush = new LinearGradientBrush
-            {
-                StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
-                EndPoint = new RelativePoint(0, 1, RelativeUnit.Relative),
-                GradientStops = new GradientStops
-                {
-                    new GradientStop(Color.FromArgb(80, baseColor.R, baseColor.G, baseColor.B), 0),
-                    new GradientStop(Color.FromArgb(10, baseColor.R, baseColor.G, baseColor.B), 1)
-                }
-            };
+            var lineBrush = isPositive ? s_positiveLineBrush : s_negativeLineBrush;
+            var fillBrush = isPositive ? s_positiveFillBrush : s_negativeFillBrush;
+            var accent = isPositive ? Color.Parse("#0ECB81") : Color.Parse("#F6465D");
 
             // Fill
             var fillPath = new StreamGeometry();
@@ -138,12 +155,11 @@ namespace AvaloniaAppCrypto.Controls
             {
                 var p = _points[_hoverIndex];
                 var val = _renderData[_hoverIndex];
-                var guidePen = new Pen(new SolidColorBrush(Color.FromArgb(80, 255, 255, 255)), 1, dashStyle: new DashStyle(new[] { 4.0, 4.0 }, 0));
-                context.DrawLine(guidePen, new Point(p.X, 0), new Point(p.X, h));
+                context.DrawLine(s_guidePen, new Point(p.X, 0), new Point(p.X, h));
                 context.DrawEllipse(lineBrush, new Pen(Brushes.White, 2), p, 5, 5);
 
                 var text = $"${val:N2}";
-                DrawTooltip(context, text, p, w, h, baseColor);
+                DrawTooltip(context, text, p, w, h, accent);
             }
         }
 

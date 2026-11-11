@@ -112,17 +112,11 @@
                 </Grid>
             </Border>
 
-            <!-- Page Content -->
+                        <!-- Page Content -->
             <Border Grid.Column="1" Background="#0B0E14" Padding="0">
-                <Grid>
-                    <views:DashboardView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Dashboard}"/>
-                    <views:FavoritesView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Favorites}"/>
-                    <views:PortfolioView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Portfolio}"/>
-                    <views:AlertsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Alerts}"/>
-                    <views:NewsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=News}"/>
-                    <views:SettingsView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Settings}"/>
-                </Grid>
+                <ContentControl x:Name="PageHost" />
             </Border>
+
         </Grid>
     </Grid>
 </Window>

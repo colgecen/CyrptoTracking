@@ -12,6 +12,8 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class CandlestickChart : Control
     {
+        private static readonly SolidColorBrush s_upBrush = new SolidColorBrush(Color.Parse("#0ECB81"));
+        private static readonly SolidColorBrush s_downBrush = new SolidColorBrush(Color.Parse("#F6465D"));
         public static readonly StyledProperty<IList<OhlcPoint>> CandlesProperty =
             AvaloniaProperty.Register<CandlestickChart, IList<OhlcPoint>>(nameof(Candles), new List<OhlcPoint>());
 
@@ -73,8 +75,7 @@ namespace AvaloniaAppCrypto.Controls
                 var yOpen = Y(c.Open); var yClose = Y(c.Close);
 
                 var isUp = c.Close >= c.Open;
-                var color = isUp ? Color.Parse("#0ECB81") : Color.Parse("#F6465D");
-                var brush = new SolidColorBrush(color);
+                var brush = isUp ? s_upBrush : s_downBrush;
                 var pen = new Pen(brush, 1);
 
                 // highlight hover column
