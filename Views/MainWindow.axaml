@@ -20,48 +20,55 @@
         </Grid.RowDefinitions>
 
         <!-- Top Toolbar -->
-        <Border Grid.Row="0" Background="#0F1117" BorderBrush="#1E2233" BorderThickness="0,0,0,1">
-            <Grid ColumnDefinitions="Auto,*,Auto" Margin="12,0" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}" 
-                            FontSize="18" Foreground="#9CA3AF" Content="☰" Width="36" Height="36"/>
-                    <Border CornerRadius="10" 
-                            Width="32" Height="32" VerticalAlignment="Center">
+        <Border Grid.Row="0" Background="#0F1117" BorderBrush="#1E2230" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="16,0" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}"
+                            FontSize="18" Foreground="#9CA3AF" Content="☰" Width="36" Height="36" CornerRadius="8"/>
+                    <Border CornerRadius="10" Width="34" Height="34" VerticalAlignment="Center">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                                 <GradientStop Color="#3B82F6" Offset="0"/>
-                                <GradientStop Color="#2563EB" Offset="1"/>
+                                <GradientStop Color="#8B5CF6" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
-                        <TextBlock Text="₿" FontSize="18" FontWeight="800" 
+                        <TextBlock Text="₿" FontSize="18" FontWeight="800"
                                    Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="CryptoTrack" FontSize="18" FontWeight="700" 
-                               Foreground="White" VerticalAlignment="Center"/>
+                    <StackPanel Spacing="0" VerticalAlignment="Center">
+                        <TextBlock Text="CryptoTrack" FontSize="16" FontWeight="700" Foreground="White"/>
+                        <TextBlock Text="Pro" FontSize="9" FontWeight="700" Foreground="#60A5FA" Margin="0,-2,0,0"/>
+                    </StackPanel>
                 </StackPanel>
 
-                <TextBox Grid.Column="1" Text="{Binding SearchQuery}" 
-                         PlaceholderText="Coin ara..." 
-                         Width="320" HorizontalAlignment="Center"
-                         Background="#252830"
-                         BorderBrush="#2D3041"
-                         Foreground="White"
-                         PlaceholderForeground="#6B7280"
-                         FontSize="13"/>
+                <Border Grid.Column="1" Background="#1A1D23" CornerRadius="10" Padding="12,0" Width="360"
+                        HorizontalAlignment="Center" BorderBrush="#2D3039" BorderThickness="1">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <TextBlock Text="🔍" FontSize="13" Foreground="#6B7280" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Grid.Column="1" Text="{Binding SearchQuery}"
+                                 PlaceholderText="Coin, sembol veya kategori ara..."
+                                 Background="Transparent" BorderThickness="0"
+                                 Foreground="White" FontSize="13" Padding="0,8"/>
+                    </Grid>
+                </Border>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding LastUpdated, StringFormat='Son: {0}'}" FontSize="11" Foreground="#6B7280" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding LastUpdated, StringFormat='Son güncelleme: {0}'}"
+                               FontSize="11" Foreground="#6B7280" VerticalAlignment="Center"/>
                     <Button Content="↻" Command="{Binding RefreshCommand}"
                             Background="#252830" Foreground="#9CA3AF" BorderThickness="0"
-                            CornerRadius="8" Width="36" Height="36" Padding="0" FontSize="16"
-                            ToolTip.Tip="Yenile"/>
-                    <Button Background="#252830" BorderThickness="0" CornerRadius="8" 
-                            FontSize="16" Foreground="#9CA3AF" Content="{Binding CurrentThemeIcon}" 
-                            Command="{Binding ToggleThemeCommand}" Width="36" Height="36" Padding="0"/>
-                    <Border CornerRadius="4" Width="8" Height="8"
-                            Background="{Binding ConnectionStatusColor}"/>
-                    <TextBlock Text="{Binding ConnectionStatusText}" FontSize="12" 
-                               Foreground="#9CA3AF"/>
+                            CornerRadius="8" Width="34" Height="34" Padding="0" FontSize="16"
+                            ToolTip.Tip="Yenile (F5)"/>
+                    <Button Background="#252830" BorderThickness="0" CornerRadius="8"
+                            FontSize="15" Foreground="#9CA3AF" Content="{Binding CurrentThemeIcon}"
+                            Command="{Binding ToggleThemeCommand}" Width="34" Height="34" Padding="0"
+                            ToolTip.Tip="Tema değiştir"/>
+                    <Border Background="#1A1D23" CornerRadius="8" Padding="8,4" BorderBrush="#2D3039" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                            <Border CornerRadius="4" Width="7" Height="7" Background="{Binding ConnectionStatusColor}"/>
+                            <TextBlock Text="{Binding ConnectionStatusText}" FontSize="11" Foreground="#9CA3AF"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
         </Border>
@@ -69,40 +76,61 @@
         <!-- Content Area -->
         <Grid Grid.Row="1" ColumnDefinitions="220,*">
             <!-- Sidebar -->
-            <Border Background="#0F1117" BorderBrush="#1E2233" BorderThickness="0,0,1,0"
+            <Border Background="#0F1117" BorderBrush="#1E2230" BorderThickness="0,0,1,0"
                     IsVisible="{Binding IsSidebarCollapsed, Converter={StaticResource InverseBoolConverter}}">
-                <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding NavigationItems}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Background="Transparent" BorderThickness="0"
-                                    Command="{Binding $parent[ItemsControl].DataContext.NavigateToCommand}"
-                                    CommandParameter="{Binding Page}"
-                                    HorizontalContentAlignment="Left" Padding="16,10" Margin="8,2"
-                                    CornerRadius="8">
-                                <Grid ColumnDefinitions="28,*">
-                                    <TextBlock Text="{Binding Icon}" FontSize="16" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="14"
-                                               VerticalAlignment="Center" Margin="10,0,0,0"
-                                               Classes.active="{Binding IsActive}">
-                                        <TextBlock.Styles>
-                                            <Style Selector="TextBlock">
-                                                <Setter Property="Foreground" Value="#9CA3AF"/>
-                                            </Style>
-                                            <Style Selector="TextBlock.active">
-                                                <Setter Property="Foreground" Value="#60A5FA"/>
-                                                <Setter Property="FontWeight" Value="600"/>
-                                            </Style>
-                                        </TextBlock.Styles>
-                                    </TextBlock>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <StackPanel Margin="16,16,16,8" Spacing="2">
+                        <TextBlock Text="NAVİGASYON" FontSize="10" FontWeight="700"
+                                   Foreground="#4B5058" Margin="10,0,0,6" LetterSpacing="1.2"/>
+                    </StackPanel>
+
+                    <ItemsControl Grid.Row="1" Margin="8,0,8,0" ItemsSource="{Binding NavigationItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="Transparent" BorderThickness="0"
+                                        Command="{Binding DataContext.NavigateToCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding Page}"
+                                        HorizontalContentAlignment="Left" Padding="0" Margin="0,2"
+                                        CornerRadius="10" Height="42">
+                                    <Grid ColumnDefinitions="4,34,*">
+                                        <!-- Active accent bar -->
+                                        <Border Grid.Column="0" Width="3" CornerRadius="2"
+                                                Background="#60A5FA"
+                                                IsVisible="{Binding IsActive}"/>
+                                        <Border Grid.Column="1" Width="30" Height="30" CornerRadius="8"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                    <GradientStop Color="#1E2A40" Offset="0"/>
+                                                    <GradientStop Color="#1A1D23" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <TextBlock Text="{Binding Icon}" FontSize="15"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Grid.Column="2" Text="{Binding Title}" FontSize="13.5"
+                                                   VerticalAlignment="Center" Margin="8,0,0,0"
+                                                   Foreground="{Binding IsActive, Converter={StaticResource ActiveNavForegroundConverter}}"/>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Border Grid.Row="2" Background="#14161C" CornerRadius="12" Margin="12,8,12,12" Padding="12">
+                        <StackPanel Spacing="6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border CornerRadius="4" Width="8" Height="8" Background="{Binding ConnectionStatusColor}"/>
+                                <TextBlock Text="{Binding ConnectionStatusText}" FontSize="12" Foreground="#9CA3AF"/>
+                            </StackPanel>
+                            <TextBlock Text="v1.0.0" FontSize="10" Foreground="#4B5058"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
 
             <!-- Page Content -->
-            <Border Grid.Column="1" Background="#0F1117" Padding="24">
+            <Border Grid.Column="1" Background="#0F1117" Padding="0">
                 <Grid>
                     <views:DashboardView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Dashboard}"/>
                     <views:FavoritesView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Favorites}"/>

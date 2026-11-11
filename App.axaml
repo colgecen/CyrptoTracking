@@ -15,6 +15,7 @@
             <conv:PriceChangeToColorConverter x:Key="PriceChangeToColor"/>
             <conv:NumberFormatConverter x:Key="NumberFormat"/>
             <conv:PercentageFormatConverter x:Key="PercentageFormat"/>
+            <conv:ActiveNavForegroundConverter x:Key="ActiveNavForegroundConverter"/>
         </ResourceDictionary>
     </Application.Resources>
     <Application.Styles>
