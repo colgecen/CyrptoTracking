@@ -12,14 +12,28 @@ namespace AvaloniaAppCrypto.Services
     public class CryptoCompareService : ICryptoCompareService
     {
         private readonly HttpClient _httpClient;
+        private readonly ISettingsService _settingsService;
         private const string BaseUrl = "https://min-api.cryptocompare.com/data";
-        private const string ApiKey = "178dfcdab7b6d31d62bec50e5819cd22aa2f5352a3b1b9dee5949bb928a70c60";
 
-        public CryptoCompareService(HttpClient httpClient)
+        public CryptoCompareService(HttpClient httpClient, ISettingsService settingsService)
         {
             _httpClient = httpClient;
+            _settingsService = settingsService;
             _httpClient.Timeout = TimeSpan.FromSeconds(10);
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Apikey {ApiKey}");
+        }
+
+        private string GetApiKey()
+        {
+            try { return _settingsService.GetSettingsAsync().GetAwaiter().GetResult().CryptoCompareApiKey ?? string.Empty; }
+            catch { return string.Empty; }
+        }
+
+        private void ApplyApiKey()
+        {
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            var key = GetApiKey();
+            if (!string.IsNullOrWhiteSpace(key))
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Apikey {key}");
         }
 
         public async Task<List<NewsArticle>> GetLatestNewsAsync(string categories = "", CancellationToken ct = default)
@@ -31,7 +45,8 @@ namespace AvaloniaAppCrypto.Services
 
             try
             {
-                var response = await _httpClient.GetAsync(url, ct);
+                ApplyApiKey();
+            var response = await _httpClient.GetAsync(url, ct);
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync(ct);
                 return ParseNews(json);

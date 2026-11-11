@@ -24,6 +24,7 @@ namespace AvaloniaAppCrypto
             var services = new ServiceCollection();
 
             // Services
+            services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IConnectivityService>(sp =>
             {
                 var httpClient = new System.Net.Http.HttpClient();
@@ -32,19 +33,18 @@ namespace AvaloniaAppCrypto
             services.AddSingleton<ICoinGeckoService>(sp =>
             {
                 var httpClient = new System.Net.Http.HttpClient();
-                return new CoinGeckoService(httpClient);
+                return new CoinGeckoService(httpClient, sp.GetRequiredService<ISettingsService>());
             });
             services.AddSingleton<IBinanceWsService, BinanceWsService>();
             services.AddSingleton<ICoinCapWsService, CoinCapWsService>();
             services.AddSingleton<ICryptoCompareService>(sp =>
             {
                 var httpClient = new System.Net.Http.HttpClient();
-                return new CryptoCompareService(httpClient);
+                return new CryptoCompareService(httpClient, sp.GetRequiredService<ISettingsService>());
             });
             services.AddSingleton<IFavoriteService, FavoriteService>();
             services.AddSingleton<IPortfolioService, PortfolioService>();
             services.AddSingleton<IAlertService, AlertService>();
-            services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IToastService, ToastService>();
             services.AddSingleton<IThemeService, ThemeService>();
 

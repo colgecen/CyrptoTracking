@@ -12,19 +12,34 @@ namespace AvaloniaAppCrypto.Services
     public class CoinGeckoService : ICoinGeckoService
     {
         private readonly HttpClient _httpClient;
+        private readonly ISettingsService _settingsService;
         private const string BaseUrl = "https://api.coingecko.com/api/v3";
-        private const string ApiKey = "CG-qwNsQdk56GiLdkg6VbwZWNXY";
 
-        public CoinGeckoService(HttpClient httpClient)
+        public CoinGeckoService(HttpClient httpClient, ISettingsService settingsService)
         {
             _httpClient = httpClient;
+            _settingsService = settingsService;
             _httpClient.Timeout = TimeSpan.FromSeconds(10);
-            _httpClient.DefaultRequestHeaders.Add("x-cg-demo-api-key", ApiKey);
+        }
+
+        private string GetApiKey()
+        {
+            try { return _settingsService.GetSettingsAsync().GetAwaiter().GetResult().CoinGeckoApiKey ?? string.Empty; }
+            catch { return string.Empty; }
+        }
+
+        private void ApplyApiKey()
+        {
+            _httpClient.DefaultRequestHeaders.Remove("x-cg-demo-api-key");
+            var key = GetApiKey();
+            if (!string.IsNullOrWhiteSpace(key))
+                _httpClient.DefaultRequestHeaders.Add("x-cg-demo-api-key", key);
         }
 
         public async Task<List<Coin>> GetTopCoinsAsync(int perPage = 100, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page={perPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -34,6 +49,7 @@ namespace AvaloniaAppCrypto.Services
         public async Task<Coin?> GetCoinDetailAsync(string coinId, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/coins/{coinId}?localization=false&tickers=false&market_data=true&community_data=false";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -44,6 +60,7 @@ namespace AvaloniaAppCrypto.Services
         {
             var ids = string.Join(",", coinIds);
             var url = $"{BaseUrl}/simple/price?vs_currencies=usd&ids={ids}";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -53,6 +70,7 @@ namespace AvaloniaAppCrypto.Services
         public async Task<List<Dictionary<string, object>>> GetMarketChartAsync(string coinId, int days = 7, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/coins/{coinId}/market_chart?vs_currency=usd&days={days}";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -76,6 +94,7 @@ namespace AvaloniaAppCrypto.Services
         public async Task<List<Coin>> SearchCoinsAsync(string query, CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/search?query={Uri.EscapeDataString(query)}";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);
@@ -102,6 +121,7 @@ namespace AvaloniaAppCrypto.Services
         public async Task<Dictionary<string, object>> GetGlobalDataAsync(CancellationToken ct = default)
         {
             var url = $"{BaseUrl}/global";
+            ApplyApiKey();
             var response = await _httpClient.GetAsync(url, ct);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync(ct);

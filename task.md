@@ -23,8 +23,8 @@
 
 ## Faz 1 — Mimari, Ayarlar ve API Anahtarı Yönetimi
 
-- [ ] **T1.1** Hardcoded API anahtarlarını kaynak koddan kaldır (CoinGecko, CryptoCompare).
-- [ ] **T1.2** `AppSettings` modeline API anahtarı alanları ekle (CoinGecko, CryptoCompare, isteğe bağlı Binance/CoinCap).
+- [x] **T1.1** Hardcoded API anahtarlarını servislerden kaldır; ayarlardan oku (CoinGecko, CryptoCompare).
+- [x] **T1.2** `AppSettings` modeline API anahtarı alanları ekle (CoinGecko, CryptoCompare, isteğe bağlı Binance/CoinCap).
 - [ ] **T1.3** Ayarlar ekranına "API Anahtarları" bölümü ekle; alanları maskele/göster (göz ikonu).
 - [ ] **T1.4** API anahtarlarını güvenli şekilde sakla (mümkünse OS credential store; yoksa yerel şifreli JSON).
 - [ ] **T1.5** API anahtarı eksikse uygulama çökmesin; uyarı + demo/mod degrade modu.
