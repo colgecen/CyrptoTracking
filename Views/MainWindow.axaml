@@ -46,6 +46,10 @@
                          FontSize="13"/>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <Button Content="↻" Command="{Binding RefreshCommand}"
+                            Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0"
+                            CornerRadius="8" Width="36" Height="36" Padding="0" FontSize="16"
+                            ToolTip.Tip="Yenile"/>
                     <Button Background="#1E2233" BorderThickness="0" CornerRadius="8" 
                             FontSize="16" Foreground="#8B8FA3" Content="{Binding CurrentThemeIcon}" 
                             Command="{Binding ToggleThemeCommand}" Width="36" Height="36" Padding="0"/>

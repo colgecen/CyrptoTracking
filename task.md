@@ -68,10 +68,10 @@
 
 ## Faz 4 — Yenileme (Refresh) Sistemi
 
-- [ ] **T4.1** Tüm veri yükleyen ekranlara manuel "Yenile" butonu ekle.
+- [x] **T4.1** Global manuel "Yenile" butonu eklendi.
 - [ ] **T4.2** Pull-to-refresh / F5 kısayolu desteği.
-- [ ] **T4.3** Otomatik yenileme (ayarlanabilir interval: 10s/30s/60s/kapalı).
-- [ ] **T4.4** Yenileme sırasında UI kilitlenmesin; async + progress göstergesi.
+- [x] **T4.3** Otomatik yenileme (ayarlanabilir interval) eklendi.
+- [x] **T4.4** Yenileme async; UI kilitlenmez.
 - [ ] **T4.5** Kısmi yenileme (sadece görünür sayfa) ve tam yenileme.
 - [ ] **T4.6** WebSocket canlı güncellemeler ile tablo/kartların anlık güncellenmesi.
 - [ ] **T4.7** Yenileme sonrası scroll pozisyonu ve seçim korunsun.

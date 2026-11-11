@@ -25,6 +25,7 @@ namespace AvaloniaAppCrypto.ViewModels
         private readonly IPortfolioService _portfolioService;
         private readonly ISettingsService _settingsService;
         private AppSettings _settings = new();
+        private DispatcherTimer? _autoRefreshTimer;
 
         [ObservableProperty] private bool _isSidebarCollapsed;
         [ObservableProperty] private string _currentPage = "Dashboard";
@@ -121,6 +122,8 @@ namespace AvaloniaAppCrypto.ViewModels
             CoinGeckoApiKey = _settings.CoinGeckoApiKey ?? string.Empty;
             CryptoCompareApiKey = _settings.CryptoCompareApiKey ?? string.Empty;
 
+            StartAutoRefresh();
+
             var favs = await _favoriteService.GetFavoritesAsync();
             foreach (var f in favs) FavoriteIds.Add(f);
 
@@ -170,6 +173,22 @@ namespace AvaloniaAppCrypto.ViewModels
                 PortfolioProfitLossPercent = totalCost > 0 ? $"{(pnl / totalCost) * 100:F2}%" : "0%";
             }
             catch { }
+        }
+
+        [RelayCommand]
+        private async Task Refresh()
+        {
+            await RefreshDataAsync(true);
+        }
+
+        private async Task RefreshDataAsync(bool showToast = false)
+        {
+            await LoadCoinsAsync();
+            await LoadGlobalDataAsync();
+            await LoadPortfolioAsync();
+            await LoadAlertsAsync();
+            if (showToast)
+                _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
         }
 
         [RelayCommand]
@@ -260,7 +279,18 @@ namespace AvaloniaAppCrypto.ViewModels
             _settings.CoinGeckoApiKey = CoinGeckoApiKey;
             _settings.CryptoCompareApiKey = CryptoCompareApiKey;
             await _settingsService.SaveSettingsAsync(_settings);
+            StartAutoRefresh();
             _toastService.Show("Ayarlar kaydedildi", ToastType.Success, 3000);
+        }
+
+        private void StartAutoRefresh()
+        {
+            _autoRefreshTimer?.Stop();
+            var seconds = _settings.RefreshIntervalSeconds;
+            if (seconds <= 0) return;
+            _autoRefreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(seconds) };
+            _autoRefreshTimer.Tick += async (_, _) => await RefreshDataAsync(false);
+            _autoRefreshTimer.Start();
         }
 
         [RelayCommand]
