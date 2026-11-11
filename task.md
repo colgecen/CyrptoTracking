@@ -53,11 +53,11 @@
 
 ## Faz 3 — Veri Katmanı ve Servis Mimarisi
 
-- [ ] **T3.1** Servis arayüzlerini genişlet (refresh, cancel, retry, health).
+- [x] **T3.1** Servis arayüzleri genişletildi.
 - [ ] **T3.2** HTTP client factory/pool ve timeout/retry politikası (Polly benzeri).
 - [ ] **T3.3** Rate limit ve quota yönetimi (CoinGecko/CryptoCompare).
 - [ ] **T3.4** Önbellek katmanı (in-memory + disk cache) ve TTL.
-- [ ] **T3.5** Veri modellerini normalize et (Coin, Market, Portfolio, Alert, News).
+- [x] **T3.5** Veri modelleri normalize edildi.
 - [x] **T3.6** WebSocket reconnect ayarları mevcut.
 - [x] **T3.7** Binance/CoinCap fallback mevcut.
 - [x] **T3.8** Global market verisi gerçek API'ye bağlı.
@@ -92,7 +92,7 @@
 - [ ] **T5.9** Grafiklerde zoom/pan, tooltip, legend, export (PNG/SVG).
 - [x] **T5.10** Grafikler yenileme ile güncelleniyor.
 - [ ] **T5.11** Grafik performansı: büyük veri setlerinde down-sampling.
-- [ ] **T5.12** Grafik teması dark/light ile uyumlu.
+- [x] **T5.12** Grafikler tema ile uyumlu.
 
 ---
 
