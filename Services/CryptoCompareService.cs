@@ -22,16 +22,10 @@ namespace AvaloniaAppCrypto.Services
             _httpClient.Timeout = TimeSpan.FromSeconds(10);
         }
 
-        private string GetApiKey()
+        private async Task ApplyApiKeyAsync()
         {
-            try { return _settingsService.GetSettingsAsync().GetAwaiter().GetResult().CryptoCompareApiKey ?? string.Empty; }
-            catch { return string.Empty; }
-        }
-
-        private void ApplyApiKey()
-        {
+            var settings = await _settingsService.GetSettingsAsync().ConfigureAwait(false);
             _httpClient.DefaultRequestHeaders.Remove("Authorization");
-            var settings = _settingsService.GetSettingsAsync().GetAwaiter().GetResult();
             var key = settings.CryptoCompareApiKey ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Apikey {key}");
@@ -46,7 +40,7 @@ namespace AvaloniaAppCrypto.Services
             {
                 try
                 {
-                    ApplyApiKey();
+                    await ApplyApiKeyAsync();
                     var response = await _httpClient.GetAsync(url, ct);
                     if ((int)response.StatusCode == 429 && attempt < maxAttempts - 1)
                     {
@@ -60,7 +54,7 @@ namespace AvaloniaAppCrypto.Services
                     await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), ct);
                 }
             }
-            ApplyApiKey();
+            await ApplyApiKeyAsync();
             return await _httpClient.GetAsync(url, ct);
         }
 

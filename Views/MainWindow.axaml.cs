@@ -1,6 +1,5 @@
-using System;
+using Avalonia;
 using Avalonia.Controls;
-using AvaloniaAppCrypto.ViewModels;
 
 namespace AvaloniaAppCrypto.Views
 {
@@ -10,15 +9,7 @@ namespace AvaloniaAppCrypto.Views
         {
             Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#0F1117"));
             TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                System.IO.File.WriteAllText("/tmp/opencode/mainwindow_error.txt", ex.ToString());
-                throw;
-            }
+            InitializeComponent();
         }
     }
 }
