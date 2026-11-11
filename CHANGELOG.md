@@ -17,6 +17,9 @@
   per-request, API keys travel with the request, and period commands parse
   their argument. Candlestick and comparison charts load at startup.
 - Dashboard no longer opens scrolled down; sidebar highlights the active page.
+- Sidebar redesign: proper hamburger toggle, rounded navigation items with
+  vector icons, equal icon tiles, active accent bar and status footer. Sidebar
+  now collapses fully (column width 0).
 - Lazy page instantiation: only the active page is built, cutting startup and
   idle render cost.
 - Chart render paths no longer allocate brushes/gradients/pens each frame

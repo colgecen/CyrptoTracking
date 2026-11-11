@@ -141,12 +141,18 @@ namespace AvaloniaAppCrypto.ViewModels
 
         public ObservableCollection<Models.NavigationItem> NavigationItems { get; } = new()
         {
-            new Models.NavigationItem { Page = "Dashboard", Icon = "📊", Title = "Dashboard", IsActive = true },
-            new Models.NavigationItem { Page = "Favorites", Icon = "⭐", Title = "Favoriler" },
-            new Models.NavigationItem { Page = "Portfolio", Icon = "💼", Title = "Portföy" },
-            new Models.NavigationItem { Page = "Alerts", Icon = "🔔", Title = "Alarmlar" },
-            new Models.NavigationItem { Page = "News", Icon = "📰", Title = "Haberler" },
-            new Models.NavigationItem { Page = "Settings", Icon = "⚙️", Title = "Ayarlar" }
+            new Models.NavigationItem { Page = "Dashboard", Icon = "📊", Title = "Dashboard", IsActive = true,
+                IconData = "M22 12h-4l-3 9L9 3l-3 9H2" },
+            new Models.NavigationItem { Page = "Favorites", Icon = "⭐", Title = "Favoriler",
+                IconData = "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" },
+            new Models.NavigationItem { Page = "Portfolio", Icon = "💼", Title = "Portföy",
+                IconData = "M20 7h-3V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM9 5h6v2H9V5z" },
+            new Models.NavigationItem { Page = "Alerts", Icon = "🔔", Title = "Alarmlar",
+                IconData = "M12 2c-2.76 0-5 2.24-5 5v5l-2 4h14l-2-4V7c0-2.76-2.24-5-5-5zm0 18c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" },
+            new Models.NavigationItem { Page = "News", Icon = "📰", Title = "Haberler",
+                IconData = "M4 6h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm2 4h10v2H6V10zm0 4h12v2H6v-2z" },
+            new Models.NavigationItem { Page = "Settings", Icon = "⚙️", Title = "Ayarlar",
+                IconData = "M19.14 12.94c.04-.3.06-.62.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" }
         };
 
         private void RefreshFavorites()

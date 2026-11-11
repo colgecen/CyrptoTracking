@@ -10,8 +10,8 @@ namespace AvaloniaAppCrypto.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is true)
-                return new SolidColorBrush(Color.Parse("#60A5FA"));
-            return new SolidColorBrush(Color.Parse("#9CA3AF"));
+                return new SolidColorBrush(Color.Parse("#00D1FF"));
+            return new SolidColorBrush(Color.Parse("#A7B0BF"));
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

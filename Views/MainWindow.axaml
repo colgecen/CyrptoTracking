@@ -23,8 +23,14 @@
         <Border Grid.Row="0" Background="#0B0E14" BorderBrush="#1F2532" BorderThickness="0,0,0,1">
             <Grid ColumnDefinitions="Auto,*,Auto" Margin="16,0" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                    <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}"
-                            FontSize="18" Foreground="#A7B0BF" Content="☰" Width="36" Height="36" CornerRadius="8"/>
+                    <Button Width="40" Height="40" Padding="0" CornerRadius="10"
+                            Background="#12161F" BorderBrush="#1F2532" BorderThickness="1"
+                            Command="{Binding ToggleSidebarCommand}"
+                            ToolTip.Tip="Menüyü aç / kapat">
+                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path Data="M4 7h16M4 12h16M4 17h16" Stroke="#A7B0BF" StrokeThickness="1.8" StrokeLineCap="Round"/>
+                        </Viewbox>
+                    </Button>
                     <Border CornerRadius="10" Width="34" Height="34" VerticalAlignment="Center">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
@@ -57,42 +63,50 @@
         </Border>
 
         <!-- Content Area -->
-        <Grid Grid.Row="1" ColumnDefinitions="220,*">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding IsSidebarCollapsed, Converter={StaticResource SidebarWidth}}"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <!-- Sidebar -->
             <Border Background="#0B0E14" BorderBrush="#1F2532" BorderThickness="0,0,1,0"
                     IsVisible="{Binding IsSidebarCollapsed, Converter={StaticResource InverseBoolConverter}}">
                 <Grid RowDefinitions="Auto,*,Auto">
-                    <StackPanel Margin="16,16,16,8" Spacing="2">
-                        <TextBlock Text="NAVİGASYON" FontSize="10" FontWeight="700"
-                                   Foreground="#4B5058" Margin="10,0,0,6" LetterSpacing="1.2"/>
-                    </StackPanel>
+                    <!-- Section label -->
+                    <TextBlock Margin="18,18,18,10" Text="NAVİGASYON" FontSize="10" FontWeight="800"
+                               Foreground="#3A414F" LetterSpacing="1.4"/>
 
-                    <ItemsControl Grid.Row="1" Margin="8,0,8,0" ItemsSource="{Binding NavigationItems}">
+                    <!-- Items -->
+                    <ItemsControl Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding NavigationItems}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Background="Transparent" BorderThickness="0"
+                                <Button Height="46" Padding="0" HorizontalContentAlignment="Stretch"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="12" Margin="0,2"
                                         Command="{Binding DataContext.NavigateToCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding Page}"
-                                        HorizontalContentAlignment="Left" Padding="0" Margin="0,2"
-                                        CornerRadius="10" Height="42">
-                                    <Grid ColumnDefinitions="4,34,*">
+                                        Classes.active="{Binding IsActive}">
+                                    <Button.Styles>
+                                        <Style Selector="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                        <Style Selector="Button.active">
+                                            <Setter Property="Background" Value="#12161F"/>
+                                        </Style>
+                                    </Button.Styles>
+                                    <Grid ColumnDefinitions="3,36,*" Margin="10,0">
                                         <!-- Active accent bar -->
-                                        <Border Grid.Column="0" Width="3" CornerRadius="2"
-                                                Background="#00D1FF"
-                                                IsVisible="{Binding IsActive}"/>
-                                        <Border Grid.Column="1" Width="30" Height="30" CornerRadius="8"
-                                                HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                                                    <GradientStop Color="#14202E" Offset="0"/>
-                                                    <GradientStop Color="#12161F" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                            <TextBlock Text="{Binding Icon}" FontSize="15"
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Border Grid.Column="0" Width="3" Height="22" CornerRadius="2"
+                                                Background="{Binding IsActive, Converter={StaticResource ActiveNavAccentConverter}}"
+                                                VerticalAlignment="Center"/>
+                                        <Border Grid.Column="1" Width="36" Height="36" CornerRadius="10"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Background="#0B0E14">
+                                            <PathIcon Data="{Binding IconData}"
+                                                      Width="18" Height="18"
+                                                      Foreground="{Binding IsActive, Converter={StaticResource ActiveNavForegroundConverter}}"/>
                                         </Border>
                                         <TextBlock Grid.Column="2" Text="{Binding Title}" FontSize="13.5"
-                                                   VerticalAlignment="Center" Margin="8,0,0,0"
+                                                   VerticalAlignment="Center" Margin="12,0,0,0"
                                                    Foreground="{Binding IsActive, Converter={StaticResource ActiveNavForegroundConverter}}"/>
                                     </Grid>
                                 </Button>
@@ -100,13 +114,15 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <Border Grid.Row="2" Background="#0B0E14" CornerRadius="12" Margin="12,8,12,12" Padding="12">
-                        <StackPanel Spacing="6">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
+                    <!-- Bottom status -->
+                    <Border Grid.Row="2" Margin="10,10,10,12" CornerRadius="12" Padding="12"
+                            BorderBrush="#1A1F2B" BorderThickness="1" Background="#12161F">
+                        <StackPanel Spacing="4">
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                                 <Border CornerRadius="4" Width="8" Height="8" Background="{Binding ConnectionStatusColor}"/>
-                                <TextBlock Text="{Binding ConnectionStatusText}" FontSize="12" Foreground="#A7B0BF"/>
+                                <TextBlock Text="{Binding ConnectionStatusText}" FontSize="11" Foreground="#A7B0BF" FontWeight="600"/>
                             </StackPanel>
-                            <TextBlock Text="v1.0.0" FontSize="10" Foreground="#4B5058"/>
+                            <TextBlock Text="v1.0.0 • Local" FontSize="10" Foreground="#3A414F" Margin="16,0,0,0"/>
                         </StackPanel>
                     </Border>
                 </Grid>

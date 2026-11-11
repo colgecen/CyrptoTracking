@@ -21,9 +21,10 @@
             <Border IsVisible="{Binding FavoriteIds.Count, Converter={StaticResource InverseBoolConverter}}"
                     Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,32">
                 <StackPanel Spacing="16" HorizontalAlignment="Center">
-                    <TextBlock Text="⭐" FontSize="64" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Henüz favori eklemediniz" FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Coin listesinden yıldıza tıklayarak favorilere ekleyin"
+                    <PathIcon Data="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                              Width="72" Height="72" Foreground="{DynamicResource AccentBlueBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Favoriler boş" FontSize="18" FontWeight="600" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Takip etmek istediğiniz coinleri listeden yıldıza tıklayarak ekleyin."
                                Foreground="{DynamicResource TextMutedBrush}" FontSize="13" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
