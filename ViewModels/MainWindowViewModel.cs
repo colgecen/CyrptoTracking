@@ -45,6 +45,7 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _btcDominance = "0%";
         [ObservableProperty] private string _marketCapChange = "0%";
         [ObservableProperty] private string _fearGreedIndex = "72 (Açgözlük)";
+        [ObservableProperty] private double _fearGreedValue = 50;
 
         // Chart Data
         [ObservableProperty]
@@ -204,7 +205,10 @@ namespace AvaloniaAppCrypto.ViewModels
 
                 var (fgValue, fgLabel) = await _coinGeckoService.GetFearGreedIndexAsync();
                 if (fgValue > 0)
+                {
                     FearGreedIndex = $"{fgValue} ({fgLabel})";
+                    FearGreedValue = fgValue;
+                }
             }
             catch { }
         }

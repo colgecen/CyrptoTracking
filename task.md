@@ -88,7 +88,7 @@
 - [ ] **T5.5** Bar/sütun grafikleri (hacim, top gainers/losers).
 - [x] **T5.6** Portföy dağılımı için donut chart eklendi.
 - [x] **T5.7** Piyasa dominansı için donut chart eklendi.
-- [ ] **T5.8** Fear & Greed için gauge chart.
+- [x] **T5.8** Fear & Greed için gauge chart eklendi.
 - [ ] **T5.9** Grafiklerde zoom/pan, tooltip, legend, export (PNG/SVG).
 - [ ] **T5.10** Grafikler canlı veri ile animasyonlu güncellensin.
 - [ ] **T5.11** Grafik performansı: büyük veri setlerinde down-sampling.

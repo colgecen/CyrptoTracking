@@ -91,6 +91,15 @@
                 </StackPanel>
             </Border>
 
+            <!-- Fear & Greed -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="8" HorizontalAlignment="Center">
+                    <TextBlock Text="Korku &amp; Açgözlülük" FontSize="18" FontWeight="700" Foreground="White" HorizontalAlignment="Center"/>
+                    <controls:GaugeChart Value="{Binding FearGreedValue}" Height="160" Width="240"/>
+                    <TextBlock Text="{Binding FearGreedIndex}" FontSize="14" Foreground="#8B8FA3" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
             <!-- Coin Table -->
             <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="16">
