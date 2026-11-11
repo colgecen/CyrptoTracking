@@ -11,6 +11,13 @@ namespace AvaloniaAppCrypto
         [STAThread]
         public static void Main(string[] args)
     {
+        var tracePath = System.IO.Path.Combine(
+            System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
+            "CryptoTrack", "trace.log");
+        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(tracePath)!);
+        System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener(tracePath));
+        System.Diagnostics.Trace.AutoFlush = true;
+
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
         {
             try
