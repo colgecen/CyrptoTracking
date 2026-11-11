@@ -26,10 +26,14 @@
                     <Button Width="40" Height="40" Padding="0" CornerRadius="10"
                             Background="#12161F" BorderBrush="#1F2532" BorderThickness="1"
                             Command="{Binding ToggleSidebarCommand}"
-                            ToolTip.Tip="Menüyü aç / kapat">
-                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Path Data="M4 7h16M4 12h16M4 17h16" Stroke="#A7B0BF" StrokeThickness="1.8" StrokeLineCap="Round"/>
-                        </Viewbox>
+                            ToolTip.Tip="Menüyü aç / kapat"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4">
+                            <Border Width="18" Height="2" CornerRadius="1" Background="#A7B0BF"/>
+                            <Border Width="18" Height="2" CornerRadius="1" Background="#A7B0BF"/>
+                            <Border Width="18" Height="2" CornerRadius="1" Background="#A7B0BF"/>
+                        </StackPanel>
                     </Button>
                     <Border CornerRadius="10" Width="34" Height="34" VerticalAlignment="Center">
                         <Border.Background>
@@ -80,18 +84,14 @@
                     <ItemsControl Grid.Row="1" Margin="10,0,10,0" ItemsSource="{Binding NavigationItems}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Height="46" Padding="0" HorizontalContentAlignment="Stretch"
+                                <Button Height="46" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                         Background="Transparent" BorderThickness="0" CornerRadius="12" Margin="0,2"
                                         Command="{Binding DataContext.NavigateToCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding Page}"
                                         Classes.active="{Binding IsActive}">
                                     <Button.Styles>
-                                        <Style Selector="Button">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-                                        <Style Selector="Button.active">
-                                            <Setter Property="Background" Value="#12161F"/>
-                                        </Style>
+                                        <Style Selector="Button"><Setter Property="Background" Value="Transparent"/></Style>
+                                        <Style Selector="Button.active"><Setter Property="Background" Value="#12161F"/></Style>
                                     </Button.Styles>
                                     <Grid ColumnDefinitions="3,36,*" Margin="10,0">
                                         <!-- Active accent bar -->
