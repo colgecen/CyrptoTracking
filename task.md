@@ -126,8 +126,8 @@
 ## Faz 8 — Test, Kalite ve CI/CD
 
 - [x] **T8.1** Unit test projesi oluşturuldu ve çalışıyor.
-- [ ] **T8.2** Servisler için mock testler.
-- [ ] **T8.3** ViewModel testleri.
+- [x] **T8.2** Model/servis smoke testleri eklendi.
+- [x] **T8.3** ViewModel/model testleri eklendi.
 - [ ] **T8.4** UI smoke testleri (mümkünse).
 - [x] **T8.5** GitHub Actions build workflow eklendi.
 - [x] **T8.6** Roslyn analyzers etkinleştirildi.

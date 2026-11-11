@@ -20,5 +20,21 @@ namespace AvaloniaAppCrypto.Tests
             Assert.Equal("BTC", seg.Label);
             Assert.Equal(42, seg.Value);
         }
+
+        [Fact]
+        public void PriceAlert_Defaults_AreValid()
+        {
+            var alert = new PriceAlert { CoinId = "bitcoin", TargetPrice = 100, Condition = "Above" };
+            Assert.True(alert.IsActive);
+            Assert.Equal("Above", alert.Condition);
+        }
+
+        [Fact]
+        public void PortfolioEntry_StoresValues()
+        {
+            var entry = new PortfolioEntry { CoinId = "bitcoin", Amount = 2, AverageBuyPrice = 50000 };
+            Assert.Equal(2, entry.Amount);
+            Assert.Equal(50000, entry.AverageBuyPrice);
+        }
     }
 }
