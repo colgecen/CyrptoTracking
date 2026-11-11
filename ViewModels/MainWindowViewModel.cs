@@ -84,6 +84,14 @@ namespace AvaloniaAppCrypto.ViewModels
         // Alert filter
         [ObservableProperty] private string _alertFilter = "Tümü";
 
+        public System.Collections.ObjectModel.ObservableCollection<string> AlertConditions { get; } = new() { "Above", "Below" };
+
+        // New alert form
+        [ObservableProperty] private bool _isAddAlertOpen;
+        [ObservableProperty] private Coin? _newAlertCoin;
+        [ObservableProperty] private decimal _newAlertTargetPrice;
+        [ObservableProperty] private string _newAlertCondition = "Above";
+
         public MainWindowViewModel(
             ICoinGeckoService coinGeckoService,
             IBinanceWsService binanceWsService,
@@ -237,6 +245,12 @@ namespace AvaloniaAppCrypto.ViewModels
 
         partial void OnSearchQueryChanged(string value) => ApplyFilter();
 
+        partial void OnNewAlertCoinChanged(Coin? value)
+        {
+            if (value == null) return;
+            NewAlertTargetPrice = value.CurrentPrice;
+        }
+
         [RelayCommand]
         private async Task ToggleFavorite(string coinId)
         {
@@ -387,6 +401,34 @@ namespace AvaloniaAppCrypto.ViewModels
         // Alert commands
         [RelayCommand]
         private async Task RemoveAlert(string id) { await _alertService.RemoveAlertAsync(id); await LoadAlertsAsync(); }
+
+        [RelayCommand]
+        private void OpenAddAlert() => IsAddAlertOpen = true;
+
+        [RelayCommand]
+        private void CloseAddAlert() => IsAddAlertOpen = false;
+
+        [RelayCommand]
+        private async Task AddAlert()
+        {
+            if (NewAlertCoin == null) { _toastService.Show("Coin seçin", ToastType.Error, 2000); return; }
+            if (NewAlertTargetPrice <= 0) { _toastService.Show("Hedef fiyat girin", ToastType.Error, 2000); return; }
+            var alert = new PriceAlert
+            {
+                CoinId = NewAlertCoin.Id,
+                CoinName = NewAlertCoin.Name,
+                CoinSymbol = NewAlertCoin.Symbol,
+                CoinImage = NewAlertCoin.Image,
+                TargetPrice = NewAlertTargetPrice,
+                Condition = NewAlertCondition,
+                CurrentPriceAtCreation = NewAlertCoin.CurrentPrice,
+                IsActive = true
+            };
+            await _alertService.AddAlertAsync(alert);
+            await LoadAlertsAsync();
+            IsAddAlertOpen = false;
+            _toastService.Show("Alarm eklendi", ToastType.Success, 2000);
+        }
 
         [RelayCommand]
         private async Task ToggleAlert(PriceAlert alert)

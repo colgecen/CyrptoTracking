@@ -101,7 +101,7 @@
 - [ ] **T6.1** Portföy ekleme/düzenleme/silme formları tamamla.
 - [ ] **T6.2** Portföy P/L ve yüzde hesaplamalarını doğrula.
 - [ ] **T6.3** Portföy için maliyet temeli ve realized/unrealized P/L.
-- [ ] **T6.4** Alarm oluşturma (üst/alt eşik, yüzde değişim) tamamla.
+- [x] **T6.4** Alarm oluşturma (üst/alt eşik) formu eklendi.
 - [ ] **T6.5** Alarm tetikleme ve bildirim (toast + ses/OS notification).
 - [ ] **T6.6** Tetiklenen alarmların arşivlenmesi.
 - [ ] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma.

@@ -7,8 +7,38 @@
             <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="Alarmlar" FontSize="22" FontWeight="700" Foreground="White"/>
                 <Button Grid.Column="1" Content="+ Alarm Ekle" Background="#3B82F6" Foreground="White" 
-                        BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
+                        BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"
+                        Command="{Binding OpenAddAlertCommand}"/>
             </Grid>
+
+            <!-- Add Alert Form -->
+            <Border IsVisible="{Binding IsAddAlertOpen}" Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Yeni Alarm" FontSize="16" FontWeight="600" Foreground="White"/>
+                    <Grid ColumnDefinitions="120,*">
+                        <TextBlock Text="Coin" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Coins}" SelectedItem="{Binding NewAlertCoin}"
+                                  DisplayMemberBinding="{Binding Name}" Background="#1E2233" Foreground="White"
+                                  BorderBrush="#2D3041" CornerRadius="8"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="120,*">
+                        <TextBlock Text="Koşul" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding AlertConditions}" SelectedItem="{Binding NewAlertCondition}" Background="#1E2233" Foreground="White"
+                                  BorderBrush="#2D3041" CornerRadius="8"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="120,*">
+                        <TextBlock Text="Hedef Fiyat" FontSize="13" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding NewAlertTargetPrice}" Background="#1E2233" Foreground="White"
+                                 BorderBrush="#2D3041" CornerRadius="8"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Ekle" Command="{Binding AddAlertCommand}" Background="#3B82F6" Foreground="White"
+                                BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
+                        <Button Content="İptal" Command="{Binding CloseAddAlertCommand}" Background="#1E2233" Foreground="#8B8FA3"
+                                BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
             <!-- Empty -->
             <Border IsVisible="{Binding Alerts.Count, Converter={StaticResource InverseBoolConverter}}" 
