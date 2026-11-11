@@ -130,7 +130,7 @@
 - [ ] **T8.3** ViewModel testleri.
 - [ ] **T8.4** UI smoke testleri (mümkünse).
 - [x] **T8.5** GitHub Actions build workflow eklendi.
-- [ ] **T8.6** Kod analizi/lint (Roslyn analyzers).
+- [x] **T8.6** Roslyn analyzers etkinleştirildi.
 - [x] **T8.7** Release pipeline eklendi.
 
 ---
