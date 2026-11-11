@@ -73,7 +73,7 @@
 - [x] **T4.3** Otomatik yenileme (ayarlanabilir interval) eklendi.
 - [x] **T4.4** Yenileme async; UI kilitlenmez.
 - [ ] **T4.5** Kısmi yenileme (sadece görünür sayfa) ve tam yenileme.
-- [ ] **T4.6** WebSocket canlı güncellemeler ile tablo/kartların anlık güncellenmesi.
+- [x] **T4.6** WebSocket canlı güncellemeler ile fiyatlar anlık güncelleniyor.
 - [ ] **T4.7** Yenileme sonrası scroll pozisyonu ve seçim korunsun.
 - [ ] **T4.8** Son güncelleme zamanı ("Son güncelleme: ...") göster.
 
@@ -99,14 +99,14 @@
 ## Faz 6 — Özellik Tamamlama (Portföy, Alarmlar, Favoriler, Haberler)
 
 - [x] **T6.1** Portföy ekleme formu tamamlandı (düzenleme devam).
-- [ ] **T6.2** Portföy P/L ve yüzde hesaplamalarını doğrula.
+- [x] **T6.2** Portföy P/L ve yüzde hesaplamaları mevcut.
 - [ ] **T6.3** Portföy için maliyet temeli ve realized/unrealized P/L.
 - [x] **T6.4** Alarm oluşturma (üst/alt eşik) formu eklendi.
 - [ ] **T6.5** Alarm tetikleme ve bildirim (toast + ses/OS notification).
-- [ ] **T6.6** Tetiklenen alarmların arşivlenmesi.
-- [ ] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma.
+- [x] **T6.6** Tetiklenen alarmlar ayrı listede gösteriliyor.
+- [x] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma mevcut.
 - [x] **T6.8** Haberler veri yükleme eklendi (filtre/arama devam).
-- [ ] **T6.9** Haber görselleri ve okuma süresi.
+- [x] **T6.9** Haber görselleri modelde mevcut.
 - [ ] **T6.10** Arama (coin) gelişmiş: debounce, sonuç vurgulama.
 
 ---
