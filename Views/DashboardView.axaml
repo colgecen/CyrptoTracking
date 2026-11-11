@@ -4,7 +4,7 @@
              xmlns:controls="using:AvaloniaAppCrypto.Controls"
              x:Class="AvaloniaAppCrypto.Views.DashboardView">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AllowAutoHide="True">
         <StackPanel Spacing="24" Margin="28,24,28,32">
 
             <!-- Page Header -->
@@ -23,7 +23,7 @@
             <!-- Summary Cards -->
             <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="14">
                 <!-- Market Cap -->
-                <Border CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
+                <Border CornerRadius="16" Padding="20">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                             <GradientStop Color="#14202E" Offset="0"/>
@@ -48,7 +48,7 @@
                 </Border>
 
                 <!-- 24h Volume -->
-                <Border Grid.Column="1" CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
+                <Border Grid.Column="1" CornerRadius="16" Padding="20">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                             <GradientStop Color="#1E2A2E" Offset="0"/>
@@ -73,7 +73,7 @@
                 </Border>
 
                 <!-- BTC Dominance -->
-                <Border Grid.Column="2" CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
+                <Border Grid.Column="2" CornerRadius="16" Padding="20">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                             <GradientStop Color="#2A241A" Offset="0"/>
@@ -98,7 +98,7 @@
                 </Border>
 
                 <!-- Fear & Greed -->
-                <Border Grid.Column="3" CornerRadius="16" Padding="20" BoxShadow="0 8 24 0 #1A000000">
+                <Border Grid.Column="3" CornerRadius="16" Padding="20">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                             <GradientStop Color="#241A2A" Offset="0"/>
@@ -121,7 +121,7 @@
             </Grid>
 
             <!-- Chart Section -->
-            <Border CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+            <Border CornerRadius="16" Padding="24"
                     Background="{DynamicResource BackgroundSecondaryBrush}">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
@@ -156,7 +156,7 @@
             <!-- Candlestick + Dominance row -->
             <Grid ColumnDefinitions="2*,*" ColumnSpacing="14">
                 <!-- Candlestick -->
-                <Border CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+                <Border CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="16">
                         <Grid ColumnDefinitions="Auto,*,Auto">
@@ -183,7 +183,7 @@
                 </Border>
 
                 <!-- Dominance Donut -->
-                <Border Grid.Column="1" CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+                <Border Grid.Column="1" CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
                         <TextBlock Text="Piyasa Dominansı" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
@@ -215,7 +215,7 @@
             </Grid>
 
             <!-- Comparison Chart -->
-            <Border CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+            <Border CornerRadius="16" Padding="24"
                     Background="{DynamicResource BackgroundSecondaryBrush}">
                 <StackPanel Spacing="16">
                     <Grid ColumnDefinitions="Auto,*,Auto">
@@ -243,7 +243,7 @@
 
             <!-- Fear & Greed + Top Gainers row -->
             <Grid ColumnDefinitions="*,*" ColumnSpacing="14">
-                <Border CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+                <Border CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
                         <TextBlock Text="Korku &amp; Açgözlülük Endeksi" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
@@ -254,7 +254,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Column="1" CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+                <Border Grid.Column="1" CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12">
                         <TextBlock Text="En Çok Yükselenler (24s)" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -264,7 +264,7 @@
             </Grid>
 
             <!-- Coin Table -->
-            <Border CornerRadius="16" Padding="24" BoxShadow="0 8 24 0 #1A000000"
+            <Border CornerRadius="16" Padding="24"
                     Background="{DynamicResource BackgroundSecondaryBrush}">
                 <StackPanel Spacing="14">
                     <Grid ColumnDefinitions="*,Auto">

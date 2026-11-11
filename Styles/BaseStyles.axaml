@@ -59,4 +59,28 @@
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="12,8"/>
     </Style>
+
+    <!-- Modern thin scrollbars -->
+    <Style Selector="ScrollBar">
+        <Setter Property="AllowAutoHide" Value="True"/>
+    </Style>
+    <Style Selector="ScrollBar:vertical">
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="MinWidth" Value="8"/>
+        <Setter Property="Margin" Value="2,4"/>
+    </Style>
+    <Style Selector="ScrollBar:horizontal">
+        <Setter Property="Height" Value="8"/>
+        <Setter Property="MinHeight" Value="8"/>
+        <Setter Property="Margin" Value="4,2"/>
+    </Style>
+    <Style Selector="ScrollBar /template/ Thumb">
+        <Setter Property="Background" Value="#2A3244"/>
+    </Style>
+    <Style Selector="ScrollBar /template/ Thumb:pointerover">
+        <Setter Property="Background" Value="#00D1FF"/>
+    </Style>
+    <Style Selector="ScrollBar /template/ Thumb Border">
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
 </Styles>

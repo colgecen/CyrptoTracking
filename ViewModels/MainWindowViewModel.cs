@@ -30,6 +30,7 @@ namespace AvaloniaAppCrypto.ViewModels
         private DateTime _lastNewsRefresh = DateTime.MinValue;
         private DateTime _lastBtcChartRefresh = DateTime.MinValue;
         private DateTime _lastAlertCheck = DateTime.MinValue;
+        private readonly Dictionary<string, DateTime> _lastWsUpdate = new(StringComparer.OrdinalIgnoreCase);
 
         [ObservableProperty] private bool _isSidebarCollapsed;
         [ObservableProperty] private string _currentPage = "Dashboard";
@@ -643,6 +644,12 @@ namespace AvaloniaAppCrypto.ViewModels
                 string.Equals(c.Symbol, coinId, StringComparison.OrdinalIgnoreCase));
             if (coin == null) return;
 
+            // Throttle UI updates to reduce stutter from high-frequency ticks.
+            var now = DateTime.UtcNow;
+            if (_lastWsUpdate.TryGetValue(coin.Id, out var last) && (now - last).TotalMilliseconds < 500)
+                return;
+            _lastWsUpdate[coin.Id] = now;
+
             coin.PriceDirection = price > coin.CurrentPrice ? 1 : price < coin.CurrentPrice ? -1 : 0;
             coin.CurrentPrice = price;
             coin.PriceChangePercentage24H = (double)changePct;
@@ -674,6 +681,11 @@ namespace AvaloniaAppCrypto.ViewModels
                 string.Equals(c.Id, coinId, StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(c.Symbol, coinId, StringComparison.OrdinalIgnoreCase));
             if (coin == null) return;
+
+            var now = DateTime.UtcNow;
+            if (_lastWsUpdate.TryGetValue(coin.Id, out var last) && (now - last).TotalMilliseconds < 500)
+                return;
+            _lastWsUpdate[coin.Id] = now;
 
             coin.PriceDirection = price > coin.CurrentPrice ? 1 : price < coin.CurrentPrice ? -1 : 0;
             coin.CurrentPrice = price;
