@@ -48,8 +48,18 @@ namespace AvaloniaAppCrypto.Controls
             }
 
             bool isPositive = data.Last() >= data.First();
-            var lineColor = new SolidColorBrush(isPositive ? Color.Parse("#10B981") : Color.Parse("#EF4444"));
-            var fillColor = new SolidColorBrush(isPositive ? Color.Parse("#10B981") : Color.Parse("#EF4444"), 0.15);
+            var baseColor = isPositive ? Color.Parse("#10B981") : Color.Parse("#EF4444");
+            var lineColor = new SolidColorBrush(baseColor);
+            var fillColor = new LinearGradientBrush
+            {
+                StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+                EndPoint = new RelativePoint(0, 1, RelativeUnit.Relative),
+                GradientStops = new GradientStops
+                {
+                    new GradientStop(baseColor, 0),
+                    new GradientStop(Color.FromArgb(40, baseColor.R, baseColor.G, baseColor.B), 1)
+                }
+            };
 
             // Draw fill
             var fillPath = new StreamGeometry();

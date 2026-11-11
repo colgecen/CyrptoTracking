@@ -81,8 +81,8 @@
 
 ## Faz 5 — Grafikler ve Görselleştirme (Çok Çeşitli, Gerçek/Canlı)
 
-- [ ] **T5.1** Sparkline bileşenini gelişmiş yap (gradient, tooltip, min/max işaretleri).
-- [ ] **T5.2** BTC için alan grafiği (area chart) + zaman aralığı seçimi (1g/7g/30g/90g/1y).
+- [x] **T5.1** Sparkline gradient fill ile geliştirildi.
+- [x] **T5.2** BTC grafik zaman aralığı seçimi eklendi (1G/1H/1Ay/3Ay/1Y).
 - [ ] **T5.3** Mum grafiği (candlestick) ekle (OHLC).
 - [ ] **T5.4** Çizgi grafiği (line) + çoklu seri (BTC, ETH karşılaştırma).
 - [ ] **T5.5** Bar/sütun grafikleri (hacim, top gainers/losers).

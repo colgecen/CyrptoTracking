@@ -50,6 +50,26 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty]
         private List<double> _btcChartData = new();
 
+        [ObservableProperty]
+        private int _btcChartDays = 7;
+
+        [RelayCommand]
+        private async Task LoadBtcChart(int days)
+        {
+            BtcChartDays = days <= 0 ? 7 : days;
+            try
+            {
+                var data = await _coinGeckoService.GetMarketChartAsync("bitcoin", BtcChartDays);
+                var prices = data.Select(d => Convert.ToDouble(d["price"])).ToList();
+                if (prices.Count > 0)
+                    BtcChartData = prices;
+            }
+            catch (Exception ex)
+            {
+                _toastService.Show($"Grafik yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+            }
+        }
+
         // Favorited Coins (filtered)
         public ObservableCollection<Coin> FavoritedCoins { get; } = new();
 
@@ -229,11 +249,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         private void UpdateBtcChart()
         {
-            var btc = Coins.FirstOrDefault(c => c.Id == "bitcoin");
-            if (btc?.Sparkline != null && btc.Sparkline.Count > 0)
-            {
-                BtcChartData = new List<double>(btc.Sparkline);
-            }
+            _ = LoadBtcChart(BtcChartDays);
         }
 
         [RelayCommand]

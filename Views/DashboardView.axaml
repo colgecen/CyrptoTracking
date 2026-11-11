@@ -46,14 +46,18 @@
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <TextBlock Text="Bitcoin" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1" FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center" Margin="8,0,0,0">BTC / 7 Günlük Grafik</TextBlock>
-                        <Border Grid.Column="2" Background="#2D3041" CornerRadius="8" Padding="12,6">
-                            <StackPanel Orientation="Horizontal" Spacing="16">
-                                <TextBlock Text="1G" FontSize="12" Foreground="#8B8FA3"/>
-                                <TextBlock Text="1H" FontSize="12" Foreground="#8B8FA3"/>
-                                <TextBlock Text="1Hafta" FontSize="12" FontWeight="600" Foreground="#60A5FA"/>
-                                <TextBlock Text="1Ay" FontSize="12" Foreground="#8B8FA3"/>
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                            <Button Content="1G" Command="{Binding LoadBtcChartCommand}" CommandParameter="1"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                            <Button Content="1H" Command="{Binding LoadBtcChartCommand}" CommandParameter="7"
+                                    Background="#2D3041" Foreground="#60A5FA" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12" FontWeight="600"/>
+                            <Button Content="1Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="30"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                            <Button Content="3Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="90"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                            <Button Content="1Y" Command="{Binding LoadBtcChartCommand}" CommandParameter="365"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                        </StackPanel>
                     </Grid>
                     <Border Background="#141724" CornerRadius="12" Height="280" HorizontalAlignment="Stretch" Padding="8">
                         <controls:SparklineChart Values="{Binding BtcChartData}"/>
