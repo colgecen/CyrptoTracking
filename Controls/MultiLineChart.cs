@@ -10,10 +10,10 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class MultiLineChart : Control
     {
-        public static readonly StyledProperty<List<ChartSeries>> SeriesProperty =
-            AvaloniaProperty.Register<MultiLineChart, List<ChartSeries>>(nameof(Series), new List<ChartSeries>());
+        public static readonly StyledProperty<IList<ChartSeries>> SeriesProperty =
+            AvaloniaProperty.Register<MultiLineChart, IList<ChartSeries>>(nameof(Series), new List<ChartSeries>());
 
-        public List<ChartSeries> Series
+        public IList<ChartSeries> Series
         {
             get => GetValue(SeriesProperty);
             set => SetValue(SeriesProperty, value);

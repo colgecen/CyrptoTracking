@@ -56,6 +56,7 @@ namespace AvaloniaAppCrypto
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 var mainVm = Services.GetRequiredService<MainWindowViewModel>();
+
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = mainVm

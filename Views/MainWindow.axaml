@@ -6,13 +6,13 @@
         x:Class="AvaloniaAppCrypto.Views.MainWindow"
         Title="CryptoTrack"
         Width="1440" Height="900"
-        Background="{DynamicResource BackgroundPrimaryBrush}"
+        Background="#0F1117"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="Full">
     <Window.KeyBindings>
         <KeyBinding Gesture="F5" Command="{Binding RefreshCommand}"/>
     </Window.KeyBindings>
-    <Grid>
+    <Grid Background="#0F1117">
         <Grid.RowDefinitions>
             <RowDefinition Height="56"/>
             <RowDefinition Height="*"/>

@@ -10,10 +10,10 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class DonutChart : Control
     {
-        public static readonly StyledProperty<List<ChartSegment>> SegmentsProperty =
-            AvaloniaProperty.Register<DonutChart, List<ChartSegment>>(nameof(Segments), new List<ChartSegment>());
+        public static readonly StyledProperty<IList<ChartSegment>> SegmentsProperty =
+            AvaloniaProperty.Register<DonutChart, IList<ChartSegment>>(nameof(Segments), new List<ChartSegment>());
 
-        public List<ChartSegment> Segments
+        public IList<ChartSegment> Segments
         {
             get => GetValue(SegmentsProperty);
             set => SetValue(SegmentsProperty, value);

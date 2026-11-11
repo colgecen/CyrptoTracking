@@ -10,10 +10,10 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class CandlestickChart : Control
     {
-        public static readonly StyledProperty<List<OhlcPoint>> CandlesProperty =
-            AvaloniaProperty.Register<CandlestickChart, List<OhlcPoint>>(nameof(Candles), new List<OhlcPoint>());
+        public static readonly StyledProperty<IList<OhlcPoint>> CandlesProperty =
+            AvaloniaProperty.Register<CandlestickChart, IList<OhlcPoint>>(nameof(Candles), new List<OhlcPoint>());
 
-        public List<OhlcPoint> Candles
+        public IList<OhlcPoint> Candles
         {
             get => GetValue(CandlesProperty);
             set => SetValue(CandlesProperty, value);

@@ -5,10 +5,10 @@
              RequestedThemeVariant="Dark">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceInclude x:Key="Light" Source="avares://AvaloniaAppCrypto/Styles/LightTheme.axaml"/>
-                <ResourceInclude x:Key="Dark" Source="avares://AvaloniaAppCrypto/Styles/DarkTheme.axaml"/>
-            </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://AvaloniaAppCrypto/Styles/LightTheme.axaml"/>
+                <ResourceInclude Source="avares://AvaloniaAppCrypto/Styles/DarkTheme.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <conv:StringEqualsConverter x:Key="StringEqualsConverter"/>
             <conv:BoolToStarConverter x:Key="BoolToStar"/>

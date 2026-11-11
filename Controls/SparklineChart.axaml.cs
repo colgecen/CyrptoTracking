@@ -9,10 +9,10 @@ namespace AvaloniaAppCrypto.Controls
 {
     public class SparklineChart : Control
     {
-        public static readonly StyledProperty<List<double>> ValuesProperty =
-            AvaloniaProperty.Register<SparklineChart, List<double>>(nameof(Values), new List<double>());
+        public static readonly StyledProperty<IList<double>> ValuesProperty =
+            AvaloniaProperty.Register<SparklineChart, IList<double>>(nameof(Values), new List<double>());
 
-        public List<double> Values
+        public IList<double> Values
         {
             get => GetValue(ValuesProperty);
             set => SetValue(ValuesProperty, value);
