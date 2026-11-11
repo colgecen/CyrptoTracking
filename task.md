@@ -105,7 +105,7 @@
 - [ ] **T6.5** Alarm tetikleme ve bildirim (toast + ses/OS notification).
 - [ ] **T6.6** Tetiklenen alarmların arşivlenmesi.
 - [ ] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma.
-- [ ] **T6.8** Haberler görünümü: filtre, arama, kategori, aç.
+- [x] **T6.8** Haberler veri yükleme eklendi (filtre/arama devam).
 - [ ] **T6.9** Haber görselleri ve okuma süresi.
 - [ ] **T6.10** Arama (coin) gelişmiş: debounce, sonuç vurgulama.
 

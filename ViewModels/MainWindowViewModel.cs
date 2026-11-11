@@ -15,6 +15,7 @@ namespace AvaloniaAppCrypto.ViewModels
     public partial class MainWindowViewModel : ViewModelBase
     {
         private readonly ICoinGeckoService _coinGeckoService;
+        private readonly ICryptoCompareService _cryptoCompareService;
         private readonly IBinanceWsService _binanceWsService;
         private readonly ICoinCapWsService _coinCapWsService;
         private readonly IConnectivityService _connectivityService;
@@ -141,6 +142,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         public MainWindowViewModel(
             ICoinGeckoService coinGeckoService,
+            ICryptoCompareService cryptoCompareService,
             IBinanceWsService binanceWsService,
             ICoinCapWsService coinCapWsService,
             IConnectivityService connectivityService,
@@ -152,6 +154,7 @@ namespace AvaloniaAppCrypto.ViewModels
             ISettingsService settingsService)
         {
             _coinGeckoService = coinGeckoService;
+            _cryptoCompareService = cryptoCompareService;
             _binanceWsService = binanceWsService;
             _coinCapWsService = coinCapWsService;
             _connectivityService = connectivityService;
@@ -186,6 +189,7 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadGlobalDataAsync();
             await LoadPortfolioAsync();
             await LoadAlertsAsync();
+            await LoadNewsAsync();
             await ConnectWebSocketsAsync();
         }
 
@@ -260,6 +264,7 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadGlobalDataAsync();
             await LoadPortfolioAsync();
             await LoadAlertsAsync();
+            await LoadNewsAsync();
             if (showToast)
                 _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
         }
@@ -510,6 +515,19 @@ namespace AvaloniaAppCrypto.ViewModels
                 {
                     if (a.IsActive) Alerts.Add(a); else TriggeredAlerts.Add(a);
                 }
+            }
+            catch { }
+        }
+
+        private async Task LoadNewsAsync()
+        {
+            try
+            {
+                var articles = await _cryptoCompareService.GetLatestNewsAsync();
+                NewsArticles.Clear();
+                foreach (var article in articles)
+                    NewsArticles.Add(article);
+                NewsLastUpdate = DateTime.Now.ToString("HH:mm");
             }
             catch { }
         }
