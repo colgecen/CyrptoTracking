@@ -20,11 +20,11 @@
         </Grid.RowDefinitions>
 
         <!-- Top Toolbar -->
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundPrimaryBrush}" BorderBrush="#1E2233" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0" Background="#0F1117" BorderBrush="#1E2233" BorderThickness="0,0,0,1">
             <Grid ColumnDefinitions="Auto,*,Auto" Margin="12,0" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <Button Background="Transparent" BorderThickness="0" Command="{Binding ToggleSidebarCommand}" 
-                            FontSize="18" Foreground="{DynamicResource TextSecondaryBrush}" Content="☰" Width="36" Height="36"/>
+                            FontSize="18" Foreground="#9CA3AF" Content="☰" Width="36" Height="36"/>
                     <Border CornerRadius="10" 
                             Width="32" Height="32" VerticalAlignment="Center">
                         <Border.Background>
@@ -34,34 +34,34 @@
                             </LinearGradientBrush>
                         </Border.Background>
                         <TextBlock Text="₿" FontSize="18" FontWeight="800" 
-                                   Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <TextBlock Text="CryptoTrack" FontSize="18" FontWeight="700" 
-                               Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                               Foreground="White" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <TextBox Grid.Column="1" Text="{Binding SearchQuery}" 
                          PlaceholderText="Coin ara..." 
                          Width="320" HorizontalAlignment="Center"
-                         Background="{DynamicResource BackgroundTertiaryBrush}"
+                         Background="#252830"
                          BorderBrush="#2D3041"
-                         Foreground="{DynamicResource TextPrimaryBrush}"
-                         PlaceholderForeground="{DynamicResource TextMutedBrush}"
+                         Foreground="White"
+                         PlaceholderForeground="#6B7280"
                          FontSize="13"/>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding LastUpdated, StringFormat='Son: {0}'}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding LastUpdated, StringFormat='Son: {0}'}" FontSize="11" Foreground="#6B7280" VerticalAlignment="Center"/>
                     <Button Content="↻" Command="{Binding RefreshCommand}"
-                            Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0"
+                            Background="#252830" Foreground="#9CA3AF" BorderThickness="0"
                             CornerRadius="8" Width="36" Height="36" Padding="0" FontSize="16"
                             ToolTip.Tip="Yenile"/>
-                    <Button Background="{DynamicResource BackgroundTertiaryBrush}" BorderThickness="0" CornerRadius="8" 
-                            FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" Content="{Binding CurrentThemeIcon}" 
+                    <Button Background="#252830" BorderThickness="0" CornerRadius="8" 
+                            FontSize="16" Foreground="#9CA3AF" Content="{Binding CurrentThemeIcon}" 
                             Command="{Binding ToggleThemeCommand}" Width="36" Height="36" Padding="0"/>
                     <Border CornerRadius="4" Width="8" Height="8"
                             Background="{Binding ConnectionStatusColor}"/>
                     <TextBlock Text="{Binding ConnectionStatusText}" FontSize="12" 
-                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                               Foreground="#9CA3AF"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -69,7 +69,7 @@
         <!-- Content Area -->
         <Grid Grid.Row="1" ColumnDefinitions="220,*">
             <!-- Sidebar -->
-            <Border Background="{DynamicResource BackgroundPrimaryBrush}" BorderBrush="#1E2233" BorderThickness="0,0,1,0"
+            <Border Background="#0F1117" BorderBrush="#1E2233" BorderThickness="0,0,1,0"
                     IsVisible="{Binding IsSidebarCollapsed, Converter={StaticResource InverseBoolConverter}}">
                 <StackPanel Margin="0,12,0,0">
                     <Button Background="Transparent" BorderThickness="0" 
@@ -89,7 +89,7 @@
                         <Grid ColumnDefinitions="28,*">
                             <TextBlock Text="⭐" FontSize="16" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="Favoriler" FontSize="14" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                       Foreground="#9CA3AF" VerticalAlignment="Center" Margin="10,0,0,0"/>
                         </Grid>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0" 
@@ -99,7 +99,7 @@
                         <Grid ColumnDefinitions="28,*">
                             <TextBlock Text="💼" FontSize="16" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="Portföy" FontSize="14" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                       Foreground="#9CA3AF" VerticalAlignment="Center" Margin="10,0,0,0"/>
                         </Grid>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0" 
@@ -109,7 +109,7 @@
                         <Grid ColumnDefinitions="28,*">
                             <TextBlock Text="🔔" FontSize="16" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="Alarmlar" FontSize="14" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                       Foreground="#9CA3AF" VerticalAlignment="Center" Margin="10,0,0,0"/>
                         </Grid>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0" 
@@ -119,7 +119,7 @@
                         <Grid ColumnDefinitions="28,*">
                             <TextBlock Text="📰" FontSize="16" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="Haberler" FontSize="14" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                       Foreground="#9CA3AF" VerticalAlignment="Center" Margin="10,0,0,0"/>
                         </Grid>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0" 
@@ -129,14 +129,14 @@
                         <Grid ColumnDefinitions="28,*">
                             <TextBlock Text="⚙️" FontSize="16" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="Ayarlar" FontSize="14" 
-                                       Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                       Foreground="#9CA3AF" VerticalAlignment="Center" Margin="10,0,0,0"/>
                         </Grid>
                     </Button>
                 </StackPanel>
             </Border>
 
             <!-- Page Content -->
-            <Border Grid.Column="1" Background="{DynamicResource BackgroundPrimaryBrush}" Padding="24">
+            <Border Grid.Column="1" Background="#0F1117" Padding="24">
                 <Grid>
                     <views:DashboardView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Dashboard}"/>
                     <views:FavoritesView IsVisible="{Binding CurrentPage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Favorites}"/>
