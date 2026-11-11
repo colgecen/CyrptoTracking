@@ -47,6 +47,22 @@ _Coming soon_
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
+Linux (Fedora/Ubuntu) için ek paketler:
+```bash
+# Fedora
+sudo dnf install libX11 libICE libSM fontconfig
+# Ubuntu/Debian
+sudo apt install libx11-6 libice6 libsm6 fontconfig
+```
+
+Linux'ta .NET 8 runtime yoksa:
+```bash
+curl -fsSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
+chmod +x dotnet-install.sh
+./dotnet-install.sh --channel 8.0
+export PATH="$HOME/.dotnet:$PATH"
+```
+
 ### Run
 
 ```bash

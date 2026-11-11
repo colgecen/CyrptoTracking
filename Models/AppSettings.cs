@@ -15,5 +15,6 @@ namespace AvaloniaAppCrypto.Models
         public string SelectedWebSocketSource { get; set; } = "Automatic"; // "Automatic", "Binance", "CoinCap"
         public string CoinGeckoApiKey { get; set; } = "CG-qwNsQdk56GiLdkg6VbwZWNXY";
         public string CryptoCompareApiKey { get; set; } = "178dfcdab7b6d31d62bec50e5819cd22aa2f5352a3b1b9dee5949bb928a70c60";
+        public int ApiTimeoutSeconds { get; set; } = 10;
     }
 }

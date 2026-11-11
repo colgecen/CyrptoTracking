@@ -213,6 +213,9 @@ namespace AvaloniaAppCrypto.ViewModels
             CoinGeckoApiKey = _settings.CoinGeckoApiKey ?? string.Empty;
             CryptoCompareApiKey = _settings.CryptoCompareApiKey ?? string.Empty;
 
+            if (string.IsNullOrWhiteSpace(CoinGeckoApiKey) || string.IsNullOrWhiteSpace(CryptoCompareApiKey))
+                _toastService.Show("API anahtarı eksik. Ayarlar ekranından girin.", ToastType.Warning, 0);
+
             StartAutoRefresh();
 
             var favs = await _favoriteService.GetFavoritesAsync();
@@ -421,7 +424,19 @@ namespace AvaloniaAppCrypto.ViewModels
                 FilteredCoins.Add(coin);
         }
 
-        partial void OnSearchQueryChanged(string value) => ApplyFilter();
+        private DispatcherTimer? _searchDebounceTimer;
+
+        partial void OnSearchQueryChanged(string value)
+        {
+            _searchDebounceTimer?.Stop();
+            _searchDebounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            _searchDebounceTimer.Tick += (_, _) =>
+            {
+                _searchDebounceTimer?.Stop();
+                ApplyFilter();
+            };
+            _searchDebounceTimer.Start();
+        }
 
         partial void OnNewAlertCoinChanged(Coin? value)
         {

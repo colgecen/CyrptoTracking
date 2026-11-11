@@ -31,9 +31,12 @@ namespace AvaloniaAppCrypto.Services
         private void ApplyApiKey()
         {
             _httpClient.DefaultRequestHeaders.Remove("x-cg-demo-api-key");
-            var key = GetApiKey();
+            var settings = _settingsService.GetSettingsAsync().GetAwaiter().GetResult();
+            var key = settings.CoinGeckoApiKey ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
                 _httpClient.DefaultRequestHeaders.Add("x-cg-demo-api-key", key);
+            if (settings.ApiTimeoutSeconds > 0)
+                _httpClient.Timeout = TimeSpan.FromSeconds(settings.ApiTimeoutSeconds);
         }
 
         public async Task<List<Coin>> GetTopCoinsAsync(int perPage = 100, CancellationToken ct = default)

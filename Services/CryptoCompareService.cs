@@ -31,9 +31,12 @@ namespace AvaloniaAppCrypto.Services
         private void ApplyApiKey()
         {
             _httpClient.DefaultRequestHeaders.Remove("Authorization");
-            var key = GetApiKey();
+            var settings = _settingsService.GetSettingsAsync().GetAwaiter().GetResult();
+            var key = settings.CryptoCompareApiKey ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Apikey {key}");
+            if (settings.ApiTimeoutSeconds > 0)
+                _httpClient.Timeout = TimeSpan.FromSeconds(settings.ApiTimeoutSeconds);
         }
 
         public async Task<List<NewsArticle>> GetLatestNewsAsync(string categories = "", CancellationToken ct = default)

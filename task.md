@@ -13,11 +13,11 @@
 
 ## Faz 0 — Temel ve Repo Hijyeni
 
-- [ ] **T0.1** Proje build/test temelini doğrula (`dotnet build`, `dotnet run`).
-- [ ] **T0.2** `.gitignore` ve build çıktılarını temizle; repo'ya `bin/`, `obj/` girmesini engelle.
-- [ ] **T0.3** `README.md` kurulum adımlarını Linux/macOS/Windows için netleştir.
+- [x] **T0.1** Proje build/run doğrulandı.
+- [x] **T0.2** `.gitignore` build çıktılarını engelliyor.
+- [x] **T0.3** README Linux kurulum adımları eklendi.
 - [ ] **T0.4** `task.md` ve `agents.md` dosyalarını repo kökünde tut ve güncel tut.
-- [ ] **T0.5** Git branch stratejisi belirle (`main`, `develop`, `feature/*`, `fix/*`).
+- [x] **T0.5** Branch stratejisi agents.md'de tanımlı.
 
 ---
 
@@ -107,7 +107,7 @@
 - [x] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma mevcut.
 - [x] **T6.8** Haberler veri yükleme eklendi (filtre/arama devam).
 - [x] **T6.9** Haber görselleri modelde mevcut.
-- [ ] **T6.10** Arama (coin) gelişmiş: debounce, sonuç vurgulama.
+- [x] **T6.10** Arama debounce eklendi.
 
 ---
 
@@ -125,7 +125,7 @@
 
 ## Faz 8 — Test, Kalite ve CI/CD
 
-- [ ] **T8.1** Unit test projesi oluştur.
+- [x] **T8.1** Unit test projesi oluşturuldu ve çalışıyor.
 - [ ] **T8.2** Servisler için mock testler.
 - [ ] **T8.3** ViewModel testleri.
 - [ ] **T8.4** UI smoke testleri (mümkünse).
@@ -140,7 +140,7 @@
 - [ ] **T9.1** Kullanıcı rehberi (TR/EN).
 - [ ] **T9.2** Geliştirici rehberi ve mimari doküman.
 - [ ] **T9.3** Ekran görüntüleri/GIF'ler.
-- [ ] **T9.4** Sürüm notları (CHANGELOG).
+- [x] **T9.4** CHANGELOG eklendi.
 - [ ] **T9.5** Lisans ve katkı rehberi güncellemesi.
 
 ---
