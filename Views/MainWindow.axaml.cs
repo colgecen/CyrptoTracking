@@ -8,6 +8,8 @@ namespace AvaloniaAppCrypto.Views
     {
         public MainWindow()
         {
+            Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#0F1117"));
+            TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
             try
             {
                 InitializeComponent();
@@ -17,8 +19,6 @@ namespace AvaloniaAppCrypto.Views
                 System.IO.File.WriteAllText("/tmp/opencode/mainwindow_error.txt", ex.ToString());
                 throw;
             }
-            Background = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#0F1117"));
-            TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
         }
     }
 }
