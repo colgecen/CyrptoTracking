@@ -22,7 +22,7 @@
                         <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="12" Padding="16,12" Margin="0,3">
                             <Grid ColumnDefinitions="40,*,120,100,40" ColumnSpacing="12">
                                 <Border CornerRadius="16" Width="36" Height="36" Background="{DynamicResource BackgroundPrimaryBrush}">
-                                    <Image Source="{Binding Image}" Width="32" Height="32"/>
+                                    <Image Source="{Binding ImageSource}" Width="32" Height="32"/>
                                 </Border>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>

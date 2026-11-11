@@ -404,6 +404,10 @@ namespace AvaloniaAppCrypto.ViewModels
 
                 // Always refresh derived views: prices/percentages change even
                 // when the coin set itself hasn't changed.
+                // Kick off icon downloads in parallel; images are cached and
+                // setting the same cached bitmap is a no-op for bindings.
+                _ = LoadImageSourcesAsync();
+
                 if (listChanged)
                 {
                     ApplyFilter();
@@ -427,6 +431,19 @@ namespace AvaloniaAppCrypto.ViewModels
             _lastBtcChartRefresh = DateTime.UtcNow;
             _ = LoadBtcChart(BtcChartDays.ToString());
         }
+        private async Task LoadImageSourcesAsync()
+        {
+            var coins = Coins.ToList();
+            var tasks = coins.Select(async coin =>
+            {
+                var img = await Services.ImageLoader.GetAsync(coin.Image).ConfigureAwait(false);
+                if (img is not null && !ReferenceEquals(coin.ImageSource, img))
+                    coin.ImageSource = img;
+            });
+            await Task.WhenAll(tasks);
+        }
+
+
 
         private void BuildMarketSegments()
         {
@@ -508,6 +525,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 "Change24h" => SortAscending ? filtered.OrderBy(c => c.PriceChangePercentage24H) : filtered.OrderByDescending(c => c.PriceChangePercentage24H),
                 "Change7d" => SortAscending ? filtered.OrderBy(c => c.PriceChangePercentage7D) : filtered.OrderByDescending(c => c.PriceChangePercentage7D),
                 "Volume" => SortAscending ? filtered.OrderBy(c => c.TotalVolume) : filtered.OrderByDescending(c => c.TotalVolume),
+                "MarketCap" => SortAscending ? filtered.OrderBy(c => c.MarketCap) : filtered.OrderByDescending(c => c.MarketCap),
                 _ => SortAscending ? filtered.OrderBy(c => c.MarketCapRank) : filtered.OrderByDescending(c => c.MarketCapRank)
             };
 

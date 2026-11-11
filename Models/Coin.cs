@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaAppCrypto.Models
@@ -77,5 +78,8 @@ namespace AvaloniaAppCrypto.Models
         // 0: static, 1: up, -1: down
         [ObservableProperty]
         private int _priceDirection;
+
+        [ObservableProperty]
+        private IImage? _imageSource;
     }
 }
