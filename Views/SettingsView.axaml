@@ -32,6 +32,29 @@
 
             <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="20">
+                    <TextBlock Text="API Anahtarları" FontSize="16" FontWeight="600" Foreground="White"/>
+                    <Grid ColumnDefinitions="160,*">
+                        <TextBlock Text="CoinGecko" FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding CoinGeckoApiKey}" PasswordChar="•"
+                                 PlaceholderText="CoinGecko API anahtarı" Background="#1E2233" Foreground="White"
+                                 BorderBrush="#2D3041" CornerRadius="8"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="160,*">
+                        <TextBlock Text="CryptoCompare" FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding CryptoCompareApiKey}" PasswordChar="•"
+                                 PlaceholderText="CryptoCompare API anahtarı" Background="#1E2233" Foreground="White"
+                                 BorderBrush="#2D3041" CornerRadius="8"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="API Anahtarlarını Test Et" Command="{Binding TestApiKeysCommand}"
+                                Background="#1E2233" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="8"
+                                Padding="14,8" FontSize="13"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="20">
                     <TextBlock Text="Bağlantı" FontSize="16" FontWeight="600" Foreground="White"/>
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="WebSocket" FontSize="14" Foreground="#8B8FA3" VerticalAlignment="Center"/>
@@ -56,7 +79,7 @@
 
             <Button Content="Ayarları Kaydet" Background="#3B82F6" Foreground="White" 
                     BorderThickness="0" CornerRadius="8" Padding="16,10" FontSize="14" FontWeight="600"
-                    HorizontalAlignment="Left" Command="{Binding ToggleThemeCommand}"/>
+                    HorizontalAlignment="Left" Command="{Binding SaveSettingsCommand}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

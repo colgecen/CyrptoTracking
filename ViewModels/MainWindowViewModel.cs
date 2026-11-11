@@ -34,6 +34,10 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _searchQuery = string.Empty;
         [ObservableProperty] private string _currentThemeIcon = "🌙";
 
+        // API keys (settings UI)
+        [ObservableProperty] private string _coinGeckoApiKey = string.Empty;
+        [ObservableProperty] private string _cryptoCompareApiKey = string.Empty;
+
         // Dashboard Global Data
         [ObservableProperty] private string _totalMarketCap = "$0";
         [ObservableProperty] private string _totalVolume24h = "$0";
@@ -114,6 +118,8 @@ namespace AvaloniaAppCrypto.ViewModels
             _settings = await _settingsService.GetSettingsAsync();
             _themeService.SetTheme(_settings.Theme);
             CurrentThemeIcon = _settings.Theme == "Light" ? "☀️" : "🌙";
+            CoinGeckoApiKey = _settings.CoinGeckoApiKey ?? string.Empty;
+            CryptoCompareApiKey = _settings.CryptoCompareApiKey ?? string.Empty;
 
             var favs = await _favoriteService.GetFavoritesAsync();
             foreach (var f in favs) FavoriteIds.Add(f);
@@ -245,6 +251,30 @@ namespace AvaloniaAppCrypto.ViewModels
             _themeService.SetTheme(newTheme);
             CurrentThemeIcon = newTheme == "Light" ? "☀️" : "🌙";
             _ = _settingsService.SaveSettingsAsync(_settings);
+        }
+
+        [RelayCommand]
+        private async Task SaveSettings()
+        {
+            _settings.Theme = _themeService.CurrentTheme;
+            _settings.CoinGeckoApiKey = CoinGeckoApiKey;
+            _settings.CryptoCompareApiKey = CryptoCompareApiKey;
+            await _settingsService.SaveSettingsAsync(_settings);
+            _toastService.Show("Ayarlar kaydedildi", ToastType.Success, 3000);
+        }
+
+        [RelayCommand]
+        private async Task TestApiKeys()
+        {
+            try
+            {
+                await _coinGeckoService.GetTopCoinsAsync(1);
+                _toastService.Show("CoinGecko API anahtarı geçerli", ToastType.Success, 3000);
+            }
+            catch (Exception ex)
+            {
+                _toastService.Show($"CoinGecko API hatası: {ex.Message}", ToastType.Error, 0);
+            }
         }
 
         private async Task ConnectWebSocketsAsync()
