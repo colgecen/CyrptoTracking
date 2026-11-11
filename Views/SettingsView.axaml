@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="AvaloniaAppCrypto.Views.SettingsView">
     <ScrollViewer>
-        <StackPanel Spacing="24" MaxWidth="640">
+        <StackPanel Spacing="24" Margin="28,24,28,32" MaxWidth="640">
             <TextBlock Text="Ayarlar" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
 
             <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">

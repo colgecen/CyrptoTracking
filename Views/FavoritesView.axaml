@@ -3,7 +3,7 @@
              xmlns:models="using:AvaloniaAppCrypto.Models"
              x:Class="AvaloniaAppCrypto.Views.FavoritesView">
     <ScrollViewer>
-        <StackPanel Spacing="16">
+        <StackPanel Spacing="20" Margin="28,24,28,32">
             <TextBlock Text="Favoriler" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
 
             <Border IsVisible="{Binding FavoriteIds.Count, Converter={StaticResource InverseBoolConverter}}" 

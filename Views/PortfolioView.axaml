@@ -4,7 +4,7 @@
              xmlns:controls="using:AvaloniaAppCrypto.Controls"
              x:Class="AvaloniaAppCrypto.Views.PortfolioView">
     <ScrollViewer>
-        <StackPanel Spacing="16">
+        <StackPanel Spacing="20" Margin="28,24,28,32">
             <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="Portföy" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                 <Button Grid.Column="1" Content="+ Giriş Ekle" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}"
