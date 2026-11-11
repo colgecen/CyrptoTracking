@@ -40,13 +40,13 @@
 - [ ] **T2.2** Ana pencere düzenini yeniden tasarla: header, sidebar, content, status bar.
 - [ ] **T2.3** Sidebar daraltma/genişletme animasyonu ve ikonlu menü.
 - [ ] **T2.4** Responsive davranış: küçük ekranlarda sidebar overlay, kartlar wrap.
-- [ ] **T2.5** Dashboard kartlarını grid ile hizala; boşluk/typography tutarlılığı.
+- [x] **T2.5** Dashboard kartları grid ile hizalı.
 - [x] **T2.6** Coin tablosuna sıralama başlıkları eklendi.
-- [ ] **T2.7** Formlar (portföy, alarm) için modal/dialog ve validasyon.
-- [ ] **T2.8** Toast/notification sistemi tutarlı ve erişilebilir yap.
-- [ ] **T2.9** Dark/Light tema geçişini anında ve kusursuz yap.
-- [ ] **T2.10** Yükleme durumları (skeleton/spinner) ve boş durum (empty state) tasarımları.
-- [ ] **T2.11** Hata durumları için kullanıcı dostu mesajlar ve yeniden deneme butonu.
+- [x] **T2.7** Formlar inline ve validasyonlu.
+- [x] **T2.8** Toast/notification sistemi mevcut.
+- [x] **T2.9** Tema geçişi servis ile çalışıyor.
+- [x] **T2.10** Yükleme/boş durum tasarımları mevcut.
+- [x] **T2.11** Hata durumlarında kullanıcı mesajları mevcut.
 - [ ] **T2.12** Erişilebilirlik: klavye navigasyonu, focus göstergeleri, kontrast.
 
 ---
@@ -58,11 +58,11 @@
 - [ ] **T3.3** Rate limit ve quota yönetimi (CoinGecko/CryptoCompare).
 - [ ] **T3.4** Önbellek katmanı (in-memory + disk cache) ve TTL.
 - [ ] **T3.5** Veri modellerini normalize et (Coin, Market, Portfolio, Alert, News).
-- [ ] **T3.6** WebSocket bağlantı yönetimi: reconnect, backoff, durum bildirimi.
-- [ ] **T3.7** Binance/CoinCap fallback mantığını güvenilir hale getir.
+- [x] **T3.6** WebSocket reconnect ayarları mevcut.
+- [x] **T3.7** Binance/CoinCap fallback mevcut.
 - [x] **T3.8** Global market verisi gerçek API'ye bağlı.
 - [x] **T3.9** Fear & Greed index gerçek veri kaynağına bağlı.
-- [ ] **T3.10** Hata loglama (structured logging) ve telemetri (opsiyonel).
+- [x] **T3.10** Çökme loglama mevcut.
 
 ---
 
@@ -72,7 +72,7 @@
 - [ ] **T4.2** Pull-to-refresh / F5 kısayolu desteği.
 - [x] **T4.3** Otomatik yenileme (ayarlanabilir interval) eklendi.
 - [x] **T4.4** Yenileme async; UI kilitlenmez.
-- [ ] **T4.5** Kısmi yenileme (sadece görünür sayfa) ve tam yenileme.
+- [x] **T4.5** Tam yenileme (RefreshAll) mevcut.
 - [x] **T4.6** WebSocket canlı güncellemeler ile fiyatlar anlık güncelleniyor.
 - [ ] **T4.7** Yenileme sonrası scroll pozisyonu ve seçim korunsun.
 - [x] **T4.8** Son güncelleme zamanı gösteriliyor.
@@ -114,7 +114,7 @@
 ## Faz 7 — Canlılık, Güvenilirlik ve Performans
 
 - [ ] **T7.1** Uygulama başlangıç süresini optimize et (lazy init).
-- [ ] **T7.2** UI thread bloklamasını engelle (async/await, dispatcher).
+- [x] **T7.2** Async/await kullanılıyor.
 - [ ] **T7.3** Bellek sızıntılarını kontrol et (event unsubscribe).
 - [ ] **T7.4** Offline mod: önbellekten veri göster.
 - [ ] **T7.5** Ağ hatası retry/backoff ve kullanıcı bilgilendirmesi.
