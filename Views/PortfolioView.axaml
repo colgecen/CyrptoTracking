@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:AvaloniaAppCrypto.Models"
+             xmlns:controls="using:AvaloniaAppCrypto.Controls"
              x:Class="AvaloniaAppCrypto.Views.PortfolioView">
     <ScrollViewer>
         <StackPanel Spacing="16">
@@ -55,6 +56,14 @@
                         <Button Content="İptal" Command="{Binding CloseAddPortfolioCommand}" Background="#1E2233" Foreground="#8B8FA3"
                                 BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13"/>
                     </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Allocation Chart -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Portföy Dağılımı" FontSize="16" FontWeight="600" Foreground="White"/>
+                    <controls:DonutChart Segments="{Binding PortfolioSegments}" Height="200" Width="200" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 

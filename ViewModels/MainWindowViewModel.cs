@@ -89,6 +89,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         // Portfolio
         public ObservableCollection<PortfolioEntry> PortfolioEntries { get; } = new();
+        public ObservableCollection<Models.ChartSegment> PortfolioSegments { get; } = new();
         public ObservableCollection<PriceAlert> Alerts { get; } = new();
         public ObservableCollection<PriceAlert> TriggeredAlerts { get; } = new();
         public ObservableCollection<NewsArticle> NewsArticles { get; } = new();
@@ -191,7 +192,10 @@ namespace AvaloniaAppCrypto.ViewModels
             {
                 var entries = await _portfolioService.GetPortfolioAsync();
                 PortfolioEntries.Clear();
+                PortfolioSegments.Clear();
                 decimal totalVal = 0, totalCost = 0;
+                var palette = new[] { "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899", "#14B8A6" };
+                int colorIndex = 0;
                 foreach (var entry in entries)
                 {
                     var coin = Coins.FirstOrDefault(c => c.Id == entry.CoinId);
@@ -200,6 +204,13 @@ namespace AvaloniaAppCrypto.ViewModels
                     var cost = entry.Amount * entry.AverageBuyPrice;
                     totalVal += value; totalCost += cost;
                     PortfolioEntries.Add(entry);
+                    PortfolioSegments.Add(new Models.ChartSegment
+                    {
+                        Label = entry.CoinSymbol,
+                        Value = (double)value,
+                        Color = palette[colorIndex % palette.Length]
+                    });
+                    colorIndex++;
                 }
                 var pnl = totalVal - totalCost;
                 PortfolioTotalValue = $"${totalVal:N2}";
