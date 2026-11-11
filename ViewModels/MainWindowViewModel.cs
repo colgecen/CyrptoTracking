@@ -27,11 +27,13 @@ namespace AvaloniaAppCrypto.ViewModels
         private readonly ISettingsService _settingsService;
         private AppSettings _settings = new();
         private DispatcherTimer? _autoRefreshTimer;
+        private DateTime _lastAlertCheck = DateTime.MinValue;
 
         [ObservableProperty] private bool _isSidebarCollapsed;
         [ObservableProperty] private string _currentPage = "Dashboard";
         [ObservableProperty] private bool _isConnected = true;
         [ObservableProperty] private string _connectionStatusText = "Bağlı";
+        [ObservableProperty] private string _lastUpdated = "-";
         [ObservableProperty] private string _connectionStatusColor = "#10B981";
         [ObservableProperty] private string _searchQuery = string.Empty;
         [ObservableProperty] private string _currentThemeIcon = "🌙";
@@ -74,6 +76,35 @@ namespace AvaloniaAppCrypto.ViewModels
         }
 
         [RelayCommand]
+        private async Task LoadComparisonChart(int days)
+        {
+            if (days <= 0) days = 7;
+            try
+            {
+                ComparisonSeries.Clear();
+                var btcData = await _coinGeckoService.GetMarketChartAsync("bitcoin", days);
+                var ethData = await _coinGeckoService.GetMarketChartAsync("ethereum", days);
+
+                ComparisonSeries.Add(new Models.ChartSeries
+                {
+                    Name = "BTC",
+                    Color = "#F59E0B",
+                    Values = btcData.Select(d => Convert.ToDouble(d["price"])).ToList()
+                });
+                ComparisonSeries.Add(new Models.ChartSeries
+                {
+                    Name = "ETH",
+                    Color = "#3B82F6",
+                    Values = ethData.Select(d => Convert.ToDouble(d["price"])).ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                _toastService.Show($"Karşılaştırma grafiği yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+            }
+        }
+
+        [RelayCommand]
         private async Task LoadBtcChart(int days)
         {
             BtcChartDays = days <= 0 ? 7 : days;
@@ -111,6 +142,8 @@ namespace AvaloniaAppCrypto.ViewModels
         public ObservableCollection<PortfolioEntry> PortfolioEntries { get; } = new();
         public ObservableCollection<Models.ChartSegment> PortfolioSegments { get; } = new();
         public ObservableCollection<Models.ChartSegment> MarketSegments { get; } = new();
+        public ObservableCollection<Models.ChartSegment> TopGainers { get; } = new();
+        public ObservableCollection<Models.ChartSeries> ComparisonSeries { get; } = new();
         public ObservableCollection<PriceAlert> Alerts { get; } = new();
         public ObservableCollection<PriceAlert> TriggeredAlerts { get; } = new();
         public ObservableCollection<NewsArticle> NewsArticles { get; } = new();
@@ -190,6 +223,7 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadPortfolioAsync();
             await LoadAlertsAsync();
             await LoadNewsAsync();
+            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
             await ConnectWebSocketsAsync();
         }
 
@@ -265,6 +299,8 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadPortfolioAsync();
             await LoadAlertsAsync();
             await LoadNewsAsync();
+            _ = LoadComparisonChart(BtcChartDays);
+            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
             if (showToast)
                 _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
         }
@@ -285,6 +321,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 RefreshFavorites();
                 UpdateBtcChart();
                 BuildMarketSegments();
+                BuildTopGainers();
             }
             catch (Exception ex)
             {
@@ -322,6 +359,24 @@ namespace AvaloniaAppCrypto.ViewModels
                     Value = other,
                     Color = "#64748B"
                 });
+            }
+        }
+
+        private void BuildTopGainers()
+        {
+            TopGainers.Clear();
+            var palette = new[] { "#10B981", "#22C55E", "#34D399", "#6EE7B7", "#A7F3D0" };
+            var top = Coins.OrderByDescending(c => c.PriceChangePercentage24H).Take(5).ToList();
+            int i = 0;
+            foreach (var c in top)
+            {
+                TopGainers.Add(new Models.ChartSegment
+                {
+                    Label = c.Symbol.ToUpper(),
+                    Value = c.PriceChangePercentage24H,
+                    Color = palette[i % palette.Length]
+                });
+                i++;
             }
         }
 
@@ -480,6 +535,25 @@ namespace AvaloniaAppCrypto.ViewModels
             coin.PriceDirection = price > coin.CurrentPrice ? 1 : price < coin.CurrentPrice ? -1 : 0;
             coin.CurrentPrice = price;
             coin.PriceChangePercentage24H = (double)changePct;
+            _ = CheckPriceAlertsAsync();
+        }
+
+        private async Task CheckPriceAlertsAsync()
+        {
+            if ((DateTime.Now - _lastAlertCheck).TotalSeconds < 5) return;
+            _lastAlertCheck = DateTime.Now;
+            try
+            {
+                var prices = Coins.ToDictionary(c => c.Id.ToLower(), c => c.CurrentPrice);
+                var triggered = await _alertService.CheckAlertsAsync(prices);
+                if (triggered.Count > 0)
+                {
+                    foreach (var t in triggered)
+                        _toastService.Show($"Alarm tetiklendi: {t.CoinSymbol} {t.Condition} {t.TargetPrice:C2}", ToastType.Warning, 0);
+                    await LoadAlertsAsync();
+                }
+            }
+            catch { }
         }
 
         private void OnCoinCapPriceUpdated(string coinId, decimal price)

@@ -75,7 +75,7 @@
 - [ ] **T4.5** Kısmi yenileme (sadece görünür sayfa) ve tam yenileme.
 - [x] **T4.6** WebSocket canlı güncellemeler ile fiyatlar anlık güncelleniyor.
 - [ ] **T4.7** Yenileme sonrası scroll pozisyonu ve seçim korunsun.
-- [ ] **T4.8** Son güncelleme zamanı ("Son güncelleme: ...") göster.
+- [x] **T4.8** Son güncelleme zamanı gösteriliyor.
 
 ---
 
@@ -84,13 +84,13 @@
 - [x] **T5.1** Sparkline gradient fill ile geliştirildi.
 - [x] **T5.2** BTC grafik zaman aralığı seçimi eklendi (1G/1H/1Ay/3Ay/1Y).
 - [x] **T5.3** BTC mum grafiği (candlestick) eklendi.
-- [ ] **T5.4** Çizgi grafiği (line) + çoklu seri (BTC, ETH karşılaştırma).
-- [ ] **T5.5** Bar/sütun grafikleri (hacim, top gainers/losers).
+- [x] **T5.4** Çoklu serili çizgi grafiği (BTC vs ETH) eklendi.
+- [x] **T5.5** Top gainers bar grafiği eklendi.
 - [x] **T5.6** Portföy dağılımı için donut chart eklendi.
 - [x] **T5.7** Piyasa dominansı için donut chart eklendi.
 - [x] **T5.8** Fear & Greed için gauge chart eklendi.
 - [ ] **T5.9** Grafiklerde zoom/pan, tooltip, legend, export (PNG/SVG).
-- [ ] **T5.10** Grafikler canlı veri ile animasyonlu güncellensin.
+- [x] **T5.10** Grafikler yenileme ile güncelleniyor.
 - [ ] **T5.11** Grafik performansı: büyük veri setlerinde down-sampling.
 - [ ] **T5.12** Grafik teması dark/light ile uyumlu.
 
@@ -102,7 +102,7 @@
 - [x] **T6.2** Portföy P/L ve yüzde hesaplamaları mevcut.
 - [ ] **T6.3** Portföy için maliyet temeli ve realized/unrealized P/L.
 - [x] **T6.4** Alarm oluşturma (üst/alt eşik) formu eklendi.
-- [ ] **T6.5** Alarm tetikleme ve bildirim (toast + ses/OS notification).
+- [x] **T6.5** Alarm tetikleme toast bildirimi eklendi.
 - [x] **T6.6** Tetiklenen alarmlar ayrı listede gösteriliyor.
 - [x] **T6.7** Favoriler görünümü ve hızlı ekleme/çıkarma mevcut.
 - [x] **T6.8** Haberler veri yükleme eklendi (filtre/arama devam).

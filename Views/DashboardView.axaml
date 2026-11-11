@@ -91,12 +91,38 @@
                 </StackPanel>
             </Border>
 
+            <!-- Comparison Chart -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="16">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <TextBlock Text="BTC vs ETH" FontSize="18" FontWeight="700" Foreground="White" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                            <Button Content="7G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="7"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                            <Button Content="30G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="30"
+                                    Background="#2D3041" Foreground="#8B8FA3" BorderThickness="0" CornerRadius="6" Padding="10,4" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                    <Border Background="#141724" CornerRadius="12" Height="220" HorizontalAlignment="Stretch" Padding="8">
+                        <controls:MultiLineChart Series="{Binding ComparisonSeries}"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
             <!-- Fear & Greed -->
             <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="8" HorizontalAlignment="Center">
                     <TextBlock Text="Korku &amp; Açgözlülük" FontSize="18" FontWeight="700" Foreground="White" HorizontalAlignment="Center"/>
                     <controls:GaugeChart Value="{Binding FearGreedValue}" Height="160" Width="240"/>
                     <TextBlock Text="{Binding FearGreedIndex}" FontSize="14" Foreground="#8B8FA3" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Top Gainers -->
+            <Border Background="#1C1F2A" CornerRadius="16" Padding="24">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="En Çok Yükselenler (24s)" FontSize="18" FontWeight="700" Foreground="White"/>
+                    <controls:BarChart Segments="{Binding TopGainers}" Height="180"/>
                 </StackPanel>
             </Border>
 
