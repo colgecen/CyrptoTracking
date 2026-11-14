@@ -56,7 +56,8 @@ namespace AvaloniaAppCrypto.Tests
             {
                 Article("Bitcoin news", "BTC"),
                 Article("Ethereum news", "ETH"),
-                Article("Solana news", "SOL")
+                Article("Solana news", "SOL"),
+                Article("Bitcoin ETF inflows grow", "")
             };
 
             var result = NewsFilter.Apply(articles, "Altcoin", "");

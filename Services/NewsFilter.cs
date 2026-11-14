@@ -24,11 +24,8 @@ namespace AvaloniaAppCrypto.Services
 
             if (string.Equals(category, "Altcoin", StringComparison.OrdinalIgnoreCase))
             {
-                var cats = article.Categories ?? string.Empty;
-                return !cats.Contains("BTC", StringComparison.OrdinalIgnoreCase) &&
-                       !cats.Contains("Bitcoin", StringComparison.OrdinalIgnoreCase) &&
-                       !cats.Contains("ETH", StringComparison.OrdinalIgnoreCase) &&
-                       !cats.Contains("Ethereum", StringComparison.OrdinalIgnoreCase);
+                // Altcoin: BTC/ETH ile ilgili olmayan haberler (kategori ya da başlık).
+                return !Has("BTC", "Bitcoin", "ETH", "Ethereum", "Ether");
             }
 
             return category switch
