@@ -179,6 +179,9 @@ namespace AvaloniaAppCrypto.ViewModels
         public ObservableCollection<PriceAlert> Alerts { get; } = new();
         public ObservableCollection<PriceAlert> TriggeredAlerts { get; } = new();
         public ObservableCollection<NewsArticle> NewsArticles { get; } = new();
+        public ObservableCollection<NewsArticle> FilteredNewsArticles { get; } = new();
+
+        [ObservableProperty] private string _newsSearchQuery = string.Empty;
 
         // Portfolio add form
         [ObservableProperty] private bool _isAddPortfolioOpen;
@@ -768,8 +771,29 @@ namespace AvaloniaAppCrypto.ViewModels
                     NewsArticles.Add(article);
                 NewsLastUpdate = DateTime.Now.ToString("HH:mm");
                 _lastNewsRefresh = DateTime.UtcNow;
+                ApplyNewsFilter();
             }
             catch { }
+        }
+
+        private void ApplyNewsFilter()
+        {
+            var query = NewsSearchQuery?.Trim() ?? string.Empty;
+            FilteredNewsArticles.Clear();
+            foreach (var article in NewsArticles)
+            {
+                if (string.IsNullOrEmpty(query) ||
+                    (article.Title?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (article.Source?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false))
+                {
+                    FilteredNewsArticles.Add(article);
+                }
+            }
+        }
+
+        partial void OnNewsSearchQueryChanged(string value)
+        {
+            ApplyNewsFilter();
         }
 
         // Portfolio commands
