@@ -50,14 +50,15 @@ namespace AvaloniaAppCrypto.Tests
         }
 
         [Fact]
-        public void Altcoin_ExcludesBtcAndEth()
+        public void Altcoin_ExcludesBtcEthAndNonCryptoStories()
         {
             var articles = new List<NewsArticle>
             {
                 Article("Bitcoin news", "BTC"),
                 Article("Ethereum news", "ETH"),
                 Article("Solana news", "SOL"),
-                Article("Bitcoin ETF inflows grow", "")
+                Article("Bitcoin ETF inflows grow", ""),
+                Article("Microsoft confirms global outage", "")
             };
 
             var result = NewsFilter.Apply(articles, "Altcoin", "");

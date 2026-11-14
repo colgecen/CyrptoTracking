@@ -11,6 +11,21 @@ namespace AvaloniaAppCrypto.Services
     /// </summary>
     public static class NewsFilter
     {
+        private static readonly string[] CryptoKeywords =
+        {
+            "crypto", "blockchain", "token", "coin", "defi", "nft", "web3", "wallet",
+            "exchange", "stablecoin", "solana", "xrp", "cardano", "dogecoin", "shiba",
+            "chainlink", "polkadot", "avalanche", "polygon", "tron", "litecoin", "bnb",
+            "binance", "coinbase", "kraken", "uniswap", "aave", "tether", "usdt", "usdc",
+            "mining", "miner", "ledger", "halving", "layer 2", "l2", "dapp", "dao", "airdrop"
+        };
+
+        private static bool IsCryptoRelated(NewsArticle article)
+        {
+            var haystack = $"{article.Title} {article.Categories}";
+            return CryptoKeywords.Any(k => haystack.Contains(k, StringComparison.OrdinalIgnoreCase));
+        }
+
         public static bool MatchesCategory(NewsArticle article, string? category)
         {
             if (article is null) return false;
@@ -24,8 +39,9 @@ namespace AvaloniaAppCrypto.Services
 
             if (string.Equals(category, "Altcoin", StringComparison.OrdinalIgnoreCase))
             {
-                // Altcoin: BTC/ETH ile ilgili olmayan haberler (kategori ya da başlık).
-                return !Has("BTC", "Bitcoin", "ETH", "Ethereum", "Ether");
+                // Altcoin: kripto ile ilgili ama BTC/ETH olmayan haberler.
+                return IsCryptoRelated(article) &&
+                       !Has("BTC", "Bitcoin", "ETH", "Ethereum", "Ether");
             }
 
             return category switch
