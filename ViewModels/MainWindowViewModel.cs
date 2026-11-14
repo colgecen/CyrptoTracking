@@ -39,6 +39,7 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _lastUpdated = "-";
         [ObservableProperty] private string _connectionStatusColor = "#10B981";
         [ObservableProperty] private string _searchQuery = string.Empty;
+        [ObservableProperty] private bool _hasSearchQuery;
         [ObservableProperty] private bool _isGridView;
         [ObservableProperty] private bool _isListView = true;
 
@@ -548,6 +549,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
         partial void OnSearchQueryChanged(string value)
         {
+            HasSearchQuery = !string.IsNullOrWhiteSpace(value);
             _searchDebounceTimer?.Stop();
             _searchDebounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
             _searchDebounceTimer.Tick += (_, _) =>
@@ -556,6 +558,12 @@ namespace AvaloniaAppCrypto.ViewModels
                 ApplyFilter();
             };
             _searchDebounceTimer.Start();
+        }
+
+        [RelayCommand]
+        private void ClearSearch()
+        {
+            SearchQuery = string.Empty;
         }
 
         partial void OnNewAlertCoinChanged(Coin? value)
