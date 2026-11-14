@@ -2,70 +2,206 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:models="using:AvaloniaAppCrypto.Models"
              x:Class="AvaloniaAppCrypto.Views.NewsView">
-    <ScrollViewer AllowAutoHide="True">
-        <StackPanel Spacing="20" Margin="28,24,28,32">
-            <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Text="Haberler" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                <Button Grid.Column="1" Content="Yenile" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" 
-                        BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="13"/>
-            </Grid>
+    <UserControl.Styles>
+        <Style Selector="Button.chip">
+            <Setter Property="Background" Value="{DynamicResource BackgroundTertiaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Padding" Value="14,7"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="600"/>
+        </Style>
+        <Style Selector="Button.chip.active">
+            <Setter Property="Background" Value="#00D1FF"/>
+            <Setter Property="Foreground" Value="#08111C"/>
+        </Style>
 
-            <!-- Search -->
-            <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="10" Padding="14,8" Height="40"
-                    BorderBrush="{DynamicResource BackgroundTertiaryBrush}" BorderThickness="1">
-                <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
-                    <PathIcon Grid.Column="0"
-                              Data="M10 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm8.32-2.68l4.18 4.18-1.41 1.41-4.18-4.18a9 9 0 1 1 1.41-1.41z"
-                              Width="15" Height="15" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Grid.Column="1" Text="{Binding NewsSearchQuery}"
-                             PlaceholderText="Haberlerde ara…"
-                             Background="Transparent" BorderThickness="0"
-                             Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" Padding="0"
-                             HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
-                             CaretBrush="#00D1FF"/>
+        <Style Selector="Button.news-card">
+            <Setter Property="Background" Value="{DynamicResource BackgroundSecondaryBrush}"/>
+            <Setter Property="BorderBrush" Value="#1F2532"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="352"/>
+            <Setter Property="Margin" Value="0,0,18,18"/>
+        </Style>
+        <Style Selector="Button.news-card:pointerover">
+            <Setter Property="BorderBrush" Value="#00D1FF"/>
+        </Style>
+        <Style Selector="Button.news-card:pressed">
+            <Setter Property="BorderBrush" Value="#00D1FF"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <!-- ===================== LİSTE ===================== -->
+        <ScrollViewer x:Name="NewsListScroll" AllowAutoHide="True"
+                      IsVisible="{Binding IsNewsDetailOpen, Converter={StaticResource InverseBoolConverter}}">
+            <StackPanel Spacing="18" Margin="40,26,28,36">
+
+                <!-- Başlık -->
+                <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="Haberler" FontSize="24" FontWeight="800"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        <TextBlock Text="{Binding NewsLastUpdate, StringFormat='Son güncelleme: {0}'}"
+                                   FontSize="12" Foreground="{DynamicResource TextMutedBrush}"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="Yenile"
+                            Command="{Binding RefreshCommand}"
+                            Background="{DynamicResource BackgroundTertiaryBrush}"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderThickness="0" CornerRadius="8" Padding="16,8"
+                            FontSize="13" FontWeight="600" VerticalAlignment="Center"/>
                 </Grid>
-            </Border>
 
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Content="Tümü" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" 
-                        CornerRadius="20" Padding="14,7" FontSize="13" FontWeight="600"/>
-                <Button Content="BTC" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" 
-                        CornerRadius="20" Padding="14,7" FontSize="13"/>
-                <Button Content="ETH" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" 
-                        CornerRadius="20" Padding="14,7" FontSize="13"/>
-                <Button Content="DeFi" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" 
-                        CornerRadius="20" Padding="14,7" FontSize="13"/>
-                <Button Content="Altcoin" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" 
-                        CornerRadius="20" Padding="14,7" FontSize="13"/>
-            </StackPanel>
+                <!-- Arama -->
+                <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="10"
+                        Padding="16,9" Height="42" BorderBrush="#1F2532" BorderThickness="1"
+                        MaxWidth="560" HorizontalAlignment="Left">
+                    <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+                        <PathIcon Grid.Column="0"
+                                  Data="M10 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm8.32-2.68l4.18 4.18-1.41 1.41-4.18-4.18a9 9 0 1 1 1.41-1.41z"
+                                  Width="15" Height="15" Foreground="{DynamicResource TextMutedBrush}"
+                                  VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <TextBox Grid.Column="1" Text="{Binding NewsSearchQuery}"
+                                 PlaceholderText="Haber başlığı, kaynak veya kategori ara…"
+                                 Background="Transparent" BorderThickness="0"
+                                 Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5" Padding="0"
+                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
+                                 CaretBrush="#00D1FF"/>
+                    </Grid>
+                </Border>
 
-            <ItemsControl ItemsSource="{Binding FilteredNewsArticles}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.DataTemplates>
-                    <DataTemplate DataType="models:NewsArticle">
-                        <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="12" Padding="16" Width="420" Margin="4">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                                <Border CornerRadius="8" Width="60" Height="60" Background="{DynamicResource BackgroundPrimaryBrush}">
-                                    <TextBlock Text="📰" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <StackPanel Grid.Column="1" Spacing="4">
-                                    <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" 
-                                               TextWrapping="Wrap" MaxHeight="40"/>
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <TextBlock Text="{Binding Source}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
-                                        <TextBlock Text="·" FontSize="12" Foreground="{DynamicResource TextMutedBrush}"/>
-                                        <TextBlock Text="{Binding PublishedOn}" FontSize="12" Foreground="{DynamicResource TextMutedBrush}"/>
+                <!-- Kategori filtreleri -->
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Classes="chip" Content="Tümü"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="Tümü"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Tümü}"/>
+                    <Button Classes="chip" Content="BTC"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="BTC"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=BTC}"/>
+                    <Button Classes="chip" Content="ETH"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="ETH"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=ETH}"/>
+                    <Button Classes="chip" Content="DeFi"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="DeFi"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=DeFi}"/>
+                    <Button Classes="chip" Content="Altcoin"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="Altcoin"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Altcoin}"/>
+                </StackPanel>
+
+                <!-- Haber kartları -->
+                <Panel>
+                    <TextBlock Text="Aramanıza uygun haber bulunamadı."
+                               FontSize="14" Foreground="{DynamicResource TextMutedBrush}"
+                               Margin="4,30,0,0"
+                               IsVisible="{Binding IsEmptyNewsList}"
+                               HorizontalAlignment="Left"/>
+
+                    <ItemsControl ItemsSource="{Binding FilteredNewsArticles}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="models:NewsArticle">
+                            <Button Classes="news-card"
+                                    Command="{Binding DataContext.OpenNewsArticleCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip.Tip="Haberi aç">
+                                <Border CornerRadius="13" ClipToBounds="True"
+                                        Background="{DynamicResource BackgroundSecondaryBrush}">
+                                    <StackPanel>
+                                        <!-- Kapak fotoğrafı -->
+                                        <Border Height="156" Background="#141A24" ClipToBounds="True">
+                                            <Panel>
+                                                <TextBlock Text="📰" FontSize="34" Opacity="0.35"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Image Source="{Binding CoverImage}"
+                                                       Stretch="UniformToFill"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch"/>
+                                            </Panel>
+                                        </Border>
+
+                                        <StackPanel Margin="14,12,14,14" Spacing="9">
+                                            <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="700"
+                                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                                       TextWrapping="Wrap" MaxHeight="58" LineHeight="19"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <Border Background="#1A1F2B" CornerRadius="6" Padding="7,2">
+                                                    <TextBlock Text="{Binding Source}" FontSize="10.5" FontWeight="600"
+                                                               Foreground="#00D1FF" MaxWidth="150"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding PublishedOnText}" FontSize="10.5"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextMutedBrush}"/>
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.DataTemplates>
-            </ItemsControl>
-        </StackPanel>
-    </ScrollViewer>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Panel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ===================== DETAY ===================== -->
+        <ScrollViewer AllowAutoHide="True"
+                      IsVisible="{Binding IsNewsDetailOpen}">
+            <StackPanel Spacing="18" Margin="40,22,40,44" MaxWidth="880" HorizontalAlignment="Center">
+                <Button Command="{Binding CloseNewsArticleCommand}"
+                        Background="Transparent" BorderThickness="0" Padding="0,4"
+                        HorizontalAlignment="Left" Cursor="Hand">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="M15 18l-6-6 6-6"
+                                  Width="14" Height="14" Foreground="#00D1FF" VerticalAlignment="Center"/>
+                        <TextBlock Text="Haberler'e dön" FontSize="13" FontWeight="600" Foreground="#00D1FF"/>
+                    </StackPanel>
+                </Button>
+
+                <Border CornerRadius="16" Height="320" Background="#141A24" ClipToBounds="True">
+                    <Panel>
+                        <TextBlock Text="📰" FontSize="46" Opacity="0.3"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="{Binding SelectedNewsArticle.CoverImage}" Stretch="UniformToFill"/>
+                    </Panel>
+                </Border>
+
+                <TextBlock Text="{Binding SelectedNewsArticle.Title}" FontSize="26" FontWeight="800"
+                           LineHeight="34" TextWrapping="Wrap"
+                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Border Background="#1A1F2B" CornerRadius="6" Padding="9,3">
+                        <TextBlock Text="{Binding SelectedNewsArticle.Source}" FontSize="11" FontWeight="700"
+                                   Foreground="#00D1FF"/>
+                    </Border>
+                    <TextBlock Text="{Binding SelectedNewsArticle.PublishedOnText}" FontSize="12"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMutedBrush}"/>
+                </StackPanel>
+
+                <Border Height="1" Background="#1F2532"/>
+
+                <TextBlock Text="{Binding SelectedNewsArticle.PlainBody}" FontSize="15" LineHeight="25"
+                           TextWrapping="Wrap" Foreground="#C7CFDB"/>
+
+                <Button Content="Haberin kaynağında aç"
+                        Command="{Binding OpenNewsInBrowserCommand}"
+                        Background="#00D1FF" Foreground="#08111C" BorderThickness="0"
+                        CornerRadius="10" Padding="18,10" FontSize="13" FontWeight="700"
+                        HorizontalAlignment="Left" Cursor="Hand"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
 </UserControl>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
@@ -182,6 +183,10 @@ namespace AvaloniaAppCrypto.ViewModels
         public ObservableCollection<NewsArticle> FilteredNewsArticles { get; } = new();
 
         [ObservableProperty] private string _newsSearchQuery = string.Empty;
+        [ObservableProperty] private string _newsCategory = "Tümü";
+        [ObservableProperty] private bool _isEmptyNewsList;
+        [ObservableProperty] private NewsArticle? _selectedNewsArticle;
+        [ObservableProperty] private bool _isNewsDetailOpen;
 
         // Portfolio add form
         [ObservableProperty] private bool _isAddPortfolioOpen;
@@ -604,6 +609,8 @@ namespace AvaloniaAppCrypto.ViewModels
         private void NavigateTo(string page)
         {
             CurrentPage = page;
+            if (!string.Equals(page, "News", StringComparison.Ordinal))
+                CloseNewsArticle();
             foreach (var item in NavigationItems)
                 item.IsActive = string.Equals(item.Page, page, StringComparison.Ordinal);
         }
@@ -772,28 +779,78 @@ namespace AvaloniaAppCrypto.ViewModels
                 NewsLastUpdate = DateTime.Now.ToString("HH:mm");
                 _lastNewsRefresh = DateTime.UtcNow;
                 ApplyNewsFilter();
+                _ = LoadNewsCoversAsync();
             }
             catch { }
         }
 
         private void ApplyNewsFilter()
         {
-            var query = NewsSearchQuery?.Trim() ?? string.Empty;
             FilteredNewsArticles.Clear();
-            foreach (var article in NewsArticles)
+            foreach (var article in Services.NewsFilter.Apply(NewsArticles, NewsCategory, NewsSearchQuery))
+                FilteredNewsArticles.Add(article);
+
+            IsEmptyNewsList = FilteredNewsArticles.Count == 0;
+        }
+
+        private async Task LoadNewsCoversAsync()
+        {
+            foreach (var article in NewsArticles.ToList())
             {
-                if (string.IsNullOrEmpty(query) ||
-                    (article.Title?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                    (article.Source?.Contains(query, StringComparison.OrdinalIgnoreCase) ?? false))
-                {
-                    FilteredNewsArticles.Add(article);
-                }
+                if (article.CoverImage is not null || string.IsNullOrWhiteSpace(article.ImageUrl))
+                    continue;
+
+                var image = await Services.ImageLoader.GetAsync(article.ImageUrl).ConfigureAwait(false);
+                if (image is not null)
+                    article.CoverImage = image;
             }
         }
 
         partial void OnNewsSearchQueryChanged(string value)
         {
             ApplyNewsFilter();
+        }
+
+        partial void OnNewsCategoryChanged(string value)
+        {
+            ApplyNewsFilter();
+        }
+
+        [RelayCommand]
+        private void SetNewsCategory(string? category)
+        {
+            NewsCategory = string.IsNullOrWhiteSpace(category) ? "Tümü" : category;
+        }
+
+        [RelayCommand]
+        private void OpenNewsArticle(NewsArticle? article)
+        {
+            if (article is null) return;
+            SelectedNewsArticle = article;
+            IsNewsDetailOpen = true;
+        }
+
+        [RelayCommand]
+        private void CloseNewsArticle()
+        {
+            IsNewsDetailOpen = false;
+            SelectedNewsArticle = null;
+        }
+
+        [RelayCommand]
+        private void OpenNewsInBrowser()
+        {
+            var url = SelectedNewsArticle?.Url;
+            if (string.IsNullOrWhiteSpace(url)) return;
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch
+            {
+                _toastService.Show("Haber bağlantısı açılamadı", ToastType.Error, 3000);
+            }
         }
 
         // Portfolio commands

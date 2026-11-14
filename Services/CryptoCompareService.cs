@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using AvaloniaAppCrypto.Interfaces;
 using AvaloniaAppCrypto.Models;
 
@@ -71,14 +76,121 @@ namespace AvaloniaAppCrypto.Services
             try
             {
                 var response = await GetWithRetryAsync(url, ct);
-                response.EnsureSuccessStatusCode();
-                var json = await response.Content.ReadAsStringAsync(ct);
-                return ParseNews(json);
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync(ct);
+                    var parsed = ParseNews(json);
+                    if (parsed.Count > 0)
+                        return parsed;
+                }
             }
-            catch
+            catch { }
+
+            // CryptoCompare haber API'si artık anahtar istiyor (401). Anahtar
+            // yoksa/başarısızsa herkese açık RSS kaynaklarına düş.
+            return await GetLatestNewsFromRssAsync(ct);
+        }
+
+        private static readonly string[] RssFeeds =
+        {
+            "https://cointelegraph.com/rss",
+            "https://decrypt.co/feed",
+            "https://cryptoslate.com/feed/"
+        };
+
+        private async Task<List<NewsArticle>> GetLatestNewsFromRssAsync(CancellationToken ct)
+        {
+            var articles = new List<NewsArticle>();
+            foreach (var feed in RssFeeds)
             {
-                return new List<NewsArticle>();
+                try
+                {
+                    using var request = new HttpRequestMessage(HttpMethod.Get, feed);
+                    request.Headers.TryAddWithoutValidation(
+                        "User-Agent", "Mozilla/5.0 (compatible; CryptoTrack/1.0)");
+                    request.Headers.TryAddWithoutValidation(
+                        "Accept", "application/rss+xml, application/xml, text/xml, */*");
+
+                    using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+                    cts.CancelAfter(TimeSpan.FromSeconds(12));
+                    using var response = await _httpClient.SendAsync(request, cts.Token).ConfigureAwait(false);
+                    if (!response.IsSuccessStatusCode) continue;
+
+                    var xml = await response.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false);
+                    articles.AddRange(ParseRss(xml));
+                }
+                catch { }
             }
+
+            return articles
+                .GroupBy(a => a.Title, StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
+                .OrderByDescending(a => a.PublishedOn)
+                .ToList();
+        }
+
+        private static List<NewsArticle> ParseRss(string xml)
+        {
+            var articles = new List<NewsArticle>();
+            try
+            {
+                var doc = XDocument.Parse(xml);
+                var channelTitle = doc.Root?.Element("channel")?.Element("title")?.Value?.Trim();
+
+                foreach (var item in doc.Descendants("item"))
+                {
+                    try
+                    {
+                        var title = item.Element("title")?.Value?.Trim() ?? "";
+                        var link = item.Element("link")?.Value?.Trim() ?? "";
+                        if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(link))
+                            continue;
+
+                        var description = item.Element("description")?.Value ?? "";
+                        var content = item.Elements()
+                            .FirstOrDefault(e => e.Name.LocalName == "encoded")?.Value ?? "";
+                        var image = item.Elements()
+                                        .FirstOrDefault(e => e.Name.LocalName == "content")?.Attribute("url")?.Value
+                                    ?? item.Elements()
+                                        .FirstOrDefault(e => e.Name.LocalName == "thumbnail")?.Attribute("url")?.Value
+                                    ?? item.Elements()
+                                        .FirstOrDefault(e => e.Name.LocalName == "enclosure")?.Attribute("url")?.Value
+                                    ?? ExtractFirstImage(content) 
+                                    ?? ExtractFirstImage(description)
+                                    ?? "";
+
+                        var categories = string.Join(",", item.Elements("category").Select(c => c.Value.Trim()));
+
+                        var pubText = item.Element("pubDate")?.Value;
+                        var published = DateTime.TryParse(pubText, CultureInfo.InvariantCulture,
+                            DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var dt)
+                            ? dt
+                            : DateTime.UtcNow;
+
+                        articles.Add(new NewsArticle
+                        {
+                            Title = WebUtility.HtmlDecode(title),
+                            Url = link,
+                            Source = channelTitle ?? new Uri(link).Host,
+                            ImageUrl = image,
+                            Body = string.IsNullOrWhiteSpace(description) ? content : description,
+                            Categories = WebUtility.HtmlDecode(categories),
+                            PublishedOn = published
+                        });
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+            return articles;
+        }
+
+        private static string? ExtractFirstImage(string? html)
+        {
+            if (string.IsNullOrEmpty(html)) return null;
+            var match = Regex.Match(html,
+                @"<img[^>]+src\s*=\s*[""']([^""']+)[""']", RegexOptions.IgnoreCase);
+            return match.Success ? match.Groups[1].Value : null;
         }
 
         private List<NewsArticle> ParseNews(string json)
